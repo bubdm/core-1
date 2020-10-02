@@ -5,8 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="400" Width="600">
     <Grid>
-
+        <TextBox HorizontalAlignment="Left" Margin="50,40,0,0" 
+                 VerticalAlignment="Top" Width="100" 
+                 Text="{Binding X, ElementName=EllipseTranslator, StringFormat=f1}"/>
+        <Slider HorizontalAlignment="Left" 
+                Value="{Binding X, ElementName=EllipseTranslator}" Margin="200,40,0,0" Minimum="-100" Maximum="400" VerticalAlignment="Top" Width="200"/>
+        <Ellipse HorizontalAlignment="Left" Margin="70,110,0,0" Height="100" Stroke="Red" Fill="Green" Width="100" VerticalAlignment="Top" StrokeThickness="5">
+            <Ellipse.RenderTransform>
+                <TranslateTransform x:Name="EllipseTranslator" X="0" Y="0"/>
+            </Ellipse.RenderTransform>
+        </Ellipse>
     </Grid>
 </Window>

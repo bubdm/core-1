@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Printing;
 using System.Timers;
 using System.Windows;
 using System.Windows.Input;
@@ -39,8 +38,7 @@ namespace WpfApp1.ViewModels
         private void OnShowDialogCommandExecuted(object p)
         {
             var message = p as string ?? "Hello World!";
-            var one = (IDialogService)App.Services.GetService(typeof(IDialogService));
-            one.ShowInfo(message);
+            ((IDialogService)App.Hosting.Services.GetService(typeof(IDialogService))).ShowInfo(message);
             //MessageBox.Show(message, "Сообщение от тестовой команды");
         }
         #endregion

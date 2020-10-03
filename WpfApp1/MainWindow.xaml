@@ -7,10 +7,8 @@
         xmlns:cmd="clr-namespace:WpfApp1.Infrastructure.Commands"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
+        DataContext="{Binding Path=MainWindowModel, Source={StaticResource Locator}}"
         Title="{Binding Title}" Height="400" Width="600">
-    <Window.DataContext>
-        <vm:MainWindowViewModel/>
-    </Window.DataContext>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Файл">
@@ -24,9 +22,9 @@
         <Grid>
             <TextBox HorizontalAlignment="Left" Margin="50,40,0,0" 
                      VerticalAlignment="Top" Width="200" 
-                     Text="{Binding Title}"/>
+                     Text="{Binding Path=Title}"/>
             <Slider HorizontalAlignment="Left" 
-                    Value="{Binding X, ElementName=EllipseTranslator}" 
+                    Value="{Binding Path=X, ElementName=EllipseTranslator}" 
                     Margin="300,40,0,0" Minimum="-100" Maximum="400" VerticalAlignment="Top" Width="200"/>
             <Ellipse HorizontalAlignment="Left" Margin="70,110,0,0" Height="100" Stroke="Red" Fill="Green" Width="100" VerticalAlignment="Top" StrokeThickness="5">
                 <Ellipse.RenderTransform>
@@ -36,9 +34,9 @@
 
             <Button Margin="20,10"
                     VerticalAlignment="Top" HorizontalAlignment="Left"
-                    Command="{Binding ShowDialogCommand}" CommandParameter="Сообщение"
+                    Command="{Binding Path=ShowDialogCommand}" CommandParameter="Сообщение"
                     Content="Привет!"/>
-            <TextBlock Text="{Binding CurrentTime, ConverterCulture=ru-RU, StringFormat=HH:mm:ss.ff}" Margin="100,5,0,0" FontSize="20" FontWeight="Bold"/>
+            <TextBlock Text="{Binding Path=CurrentTime, ConverterCulture=ru-RU, StringFormat=HH:mm:ss.ff}" Margin="100,5,0,0" FontSize="20" FontWeight="Bold"/>
         </Grid>
     </DockPanel>
 </Window>

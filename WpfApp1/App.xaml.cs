@@ -1,11 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
+using WpfApp1.ViewModels;
 
 namespace WpfApp1
 {
@@ -14,17 +11,22 @@ namespace WpfApp1
     /// </summary>
     public partial class App : Application
     {
-        private static IServiceProvider _services;
-        public static IServiceProvider Services => _services ??= GetServices().BuildServiceProvider();
-        private static IServiceCollection GetServices()
+        private static IHost __hosting;
+        public static IHost Hosting
         {
-            var services = new ServiceCollection();
-            InitializeServices(services);
-            return services;
+            get
+            {
+                if (__hosting != null) return __hosting;
+                var host_builder = Host.CreateDefaultBuilder(Environment.GetCommandLineArgs());
+                host_builder.ConfigureServices(ConfigureServices);
+                return __hosting = host_builder.Build();
+            }
         }
-        private static void InitializeServices(IServiceCollection services)
+        public static IServiceProvider Services => Hosting.Services;
+        private static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
         {
-            services.AddTransient<IDialogService, WindowDialog>();
+            services.AddSingleton<IDialogService, WindowDialog>();
+            services.AddSingleton<MainWindowViewModel>();
         }
     }
     #region Тестовый сервис

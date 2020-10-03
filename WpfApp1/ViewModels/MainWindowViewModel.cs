@@ -39,7 +39,9 @@ namespace WpfApp1.ViewModels
         private void OnShowDialogCommandExecuted(object p)
         {
             var message = p as string ?? "Hello World!";
-            MessageBox.Show(message, "Сообщение от тестовой команды");
+            var one = (IDialogService)App.Services.GetService(typeof(IDialogService));
+            one.ShowInfo(message);
+            //MessageBox.Show(message, "Сообщение от тестовой команды");
         }
         #endregion
     }

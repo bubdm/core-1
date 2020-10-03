@@ -4,23 +4,40 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:WpfApp1.ViewModels"
+        xmlns:cmd="clr-namespace:WpfApp1.Infrastructure.Commands"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
         Title="{Binding Title}" Height="400" Width="600">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
-    <Grid>
-        <TextBox HorizontalAlignment="Left" Margin="50,40,0,0" 
-                 VerticalAlignment="Top" Width="200" 
-                 Text="{Binding Title}"/>
-        <Slider HorizontalAlignment="Left" 
-                Value="{Binding X, ElementName=EllipseTranslator}" 
-                Margin="300,40,0,0" Minimum="-100" Maximum="400" VerticalAlignment="Top" Width="200"/>
-        <Ellipse HorizontalAlignment="Left" Margin="70,110,0,0" Height="100" Stroke="Red" Fill="Green" Width="100" VerticalAlignment="Top" StrokeThickness="5">
-            <Ellipse.RenderTransform>
-                <TranslateTransform x:Name="EllipseTranslator" X="0" Y="0"/>
-            </Ellipse.RenderTransform>
-        </Ellipse>
-    </Grid>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Файл">
+                <MenuItem Header="Выход" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+                    <MenuItem.Command>
+                        <cmd:CloseWindowCommand/>
+                    </MenuItem.Command>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <Grid>
+            <TextBox HorizontalAlignment="Left" Margin="50,40,0,0" 
+                     VerticalAlignment="Top" Width="200" 
+                     Text="{Binding Title}"/>
+            <Slider HorizontalAlignment="Left" 
+                    Value="{Binding X, ElementName=EllipseTranslator}" 
+                    Margin="300,40,0,0" Minimum="-100" Maximum="400" VerticalAlignment="Top" Width="200"/>
+            <Ellipse HorizontalAlignment="Left" Margin="70,110,0,0" Height="100" Stroke="Red" Fill="Green" Width="100" VerticalAlignment="Top" StrokeThickness="5">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform x:Name="EllipseTranslator" X="0" Y="0"/>
+                </Ellipse.RenderTransform>
+            </Ellipse>
+
+            <Button Margin="20,10"
+                    VerticalAlignment="Top" HorizontalAlignment="Left"
+                    Command="{Binding ShowDialogCommand}" CommandParameter="Сообщение"
+                    Content="Привет!"/>
+        </Grid>
+    </DockPanel>
 </Window>

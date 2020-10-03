@@ -7,6 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Button Content="Отправить" HorizontalAlignment="Left" Margin="306,236,0,0" VerticalAlignment="Top" Height="66" Width="168"/>
+        <TextBlock HorizontalAlignment="Left" Margin="186,139,0,0" Text="Пользователь" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="502,139,0,0" Text="Пароль" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="165,176,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <PasswordBox HorizontalAlignment="Left" Margin="483,176,0,0" VerticalAlignment="Top" Width="120"/>
 
     </Grid>
 </Window>

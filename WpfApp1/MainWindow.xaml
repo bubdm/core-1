@@ -8,10 +8,14 @@
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
         DataContext="{Binding Path=MainWindowModel, Source={StaticResource Locator}}"
-        Title="{Binding Title}" Height="400" Width="600">
+        Title="{Binding Title}" Height="400" Width="600" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Файл">
+                <MenuItem Header="Создать"/>
+                <MenuItem Header="Открыть"/>
+                <MenuItem Header="Сохранить"/>
+                <Separator/>
                 <MenuItem Header="Выход" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
                     <MenuItem.Command>
                         <cmd:CloseWindowCommand/>
@@ -19,8 +23,15 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock>
+                    Состояние приложения
+                </TextBlock>
+            </StatusBarItem>
+        </StatusBar>
         <Grid>
-            <TextBox HorizontalAlignment="Left" Margin="50,40,0,0" 
+            <TextBox HorizontalAlignment="Left" Margin="50,60,0,0" 
                      VerticalAlignment="Top" Width="200" 
                      Text="{Binding Path=Title}"/>
             <Slider HorizontalAlignment="Left" 
@@ -36,7 +47,7 @@
                     VerticalAlignment="Top" HorizontalAlignment="Left"
                     Command="{Binding Path=ShowDialogCommand}" CommandParameter="Сообщение"
                     Content="Привет!"/>
-            <TextBlock Text="{Binding Path=CurrentTime, ConverterCulture=ru-RU, StringFormat=HH:mm:ss.ff}" Margin="100,5,0,0" FontSize="20" FontWeight="Bold"/>
+            <TextBlock Text="{Binding Path=CurrentTime, ConverterCulture=ru-RU, StringFormat=HH:mm:ss.ff}" Margin="132,5,-32,0" FontSize="20" FontWeight="Bold"/>
         </Grid>
     </DockPanel>
 </Window>

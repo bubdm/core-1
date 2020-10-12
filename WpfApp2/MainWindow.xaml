@@ -4,12 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp2"
+        xmlns:views="clr-namespace:WpfApp2.Views"
         mc:Ignorable="d"
         DataContext="{Binding Path=MainWindowModel, Source={StaticResource Locator}}"
         Title="{Binding Title}" Height="400" Width="700">
     <Grid>
         <Button Content="Привет!" Width="200" Height="100"
                 Command="{Binding Path=ShowDialogCommand}" CommandParameter="Привет всем!"/>
-
+        <views:UserControl1/>
     </Grid>
 </Window>

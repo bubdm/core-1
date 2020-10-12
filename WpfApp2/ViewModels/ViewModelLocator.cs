@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace WpfApp1.ViewModels
+namespace WpfApp2.ViewModels
 {
     class ViewModelLocator
     {

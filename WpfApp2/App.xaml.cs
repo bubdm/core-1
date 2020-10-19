@@ -1,11 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System;
+﻿using System;
 using System.Windows;
-using WpfApp1.Services;
-using WpfApp1.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using WpfApp2.ViewModels;
 
-namespace WpfApp1
+namespace WpfApp2
 {
     /// <summary>
     /// Interaction logic for App.xaml
@@ -13,7 +12,8 @@ namespace WpfApp1
     public partial class App : Application
     {
         private static IHost __hosting;
-        public static IHost Hosting
+
+        public static IHost __Hosting
         {
             get
             {
@@ -23,16 +23,14 @@ namespace WpfApp1
                 return __hosting = hostBuilder.Build();
             }
         }
-        public static IServiceProvider Services => Hosting.Services;
+        public static IServiceProvider Services => __Hosting.Services;
         private static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
         {
             services.AddSingleton<IDialogService, WindowDialog>();
             services.AddSingleton<MainWindowViewModel>();
-
-            services.AddSingleton<IEmailSender, EmailSender>();
         }
     }
-    #region Тестовый сервис
+    #region Тестовый сервис показа сообщения
     interface IDialogService
     {
         void ShowInfo(string msg);

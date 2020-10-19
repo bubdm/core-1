@@ -1,7 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text;
 
-namespace WpfApp1.ViewModels.Base
+namespace WpfApp2.ViewModels.Base
 {
     abstract class ViewModel : INotifyPropertyChanged
     {

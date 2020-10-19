@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Windows;
+using WpfApp1.Services;
 using WpfApp1.ViewModels;
 
 namespace WpfApp1
@@ -27,6 +28,8 @@ namespace WpfApp1
         {
             services.AddSingleton<IDialogService, WindowDialog>();
             services.AddSingleton<MainWindowViewModel>();
+
+            services.AddSingleton<IEmailSender, EmailSender>();
         }
     }
     #region Тестовый сервис

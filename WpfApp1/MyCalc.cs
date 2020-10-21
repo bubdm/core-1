@@ -16,12 +16,21 @@ namespace WpfApp1
         {
             Items.RemoveAt(index);
         }
-        public int Count { get => Items.Count; }
+        public int Count => Items.Count;
         public void Dispose() { }
         public int Sum(int a, int b)
         {
             return a + b;
         }
-
+        public static double GetSqrt(double x)
+        {
+            return Math.Sqrt(x);
+        }
+        public string SayHello(string name)
+        {
+            if (name == null)
+                throw new ArgumentNullException("Null parameter " + nameof(name));
+            return $"Привет {name}!";
+        }
     }
 }

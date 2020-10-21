@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Text.RegularExpressions;
 
 namespace WpfApp1.Tests
@@ -9,6 +10,7 @@ namespace WpfApp1.Tests
     [TestClass]
     public class MyCalcTests
     {
+        public TestContext Context { get; set; }
         private MyCalc myCalc;
         private int item;
         static ICollection<string> employees;
@@ -126,10 +128,12 @@ namespace WpfApp1.Tests
 
             CollectionAssert.IsSubsetOf(expected, (System.Collections.ICollection)employees, "Облом!");
         }
-        [TestMethod]
-        public void TestMaches()
+        [DataTestMethod]
+        [DataRow("1234567890", @"\d3")]
+        [DataRow("123", @"\d3")]
+        public void TestMaches(string value, string mask)
         {
-            StringAssert.Matches("1234567890", new Regex(@"\d3"));
+            StringAssert.Matches(value, new Regex(mask));
         }
         [TestMethod]
         public void TestSayHello_Hello()
@@ -140,5 +144,6 @@ namespace WpfApp1.Tests
 
             StringAssert.Equals(expected, actual);
         }
+
     }
 }

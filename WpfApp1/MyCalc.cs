@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace WpfApp1
@@ -31,6 +32,14 @@ namespace WpfApp1
             if (name == null)
                 throw new ArgumentNullException("Null parameter " + nameof(name));
             return $"Привет {name}!";
+        }
+        public string MakeTemplate(string name, string level)
+        {
+            string path = Path.Combine(".","Template.tmpl");
+            string template = File.ReadAllText(path);
+            template = template.Replace("{Name}", name);
+            template = template.Replace("{Level}", level);
+            return template;
         }
     }
 }

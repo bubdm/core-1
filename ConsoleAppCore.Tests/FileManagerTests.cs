@@ -13,8 +13,8 @@ namespace ConsoleAppCore.Tests
         [DataRow("file3.txt")]
         public void FindFile_Files_True(string name)
         {
-            IDataAccess access = new StubFileData();
-            var manager = new FileManager(access);
+            IDataAccess stub = new StubFileData();
+            var manager = new FileManager(stub);
             var filename = name;
 
             bool actual = manager.FindFile(filename);
@@ -24,8 +24,8 @@ namespace ConsoleAppCore.Tests
         [TestMethod]
         public void FindFile_Other_False()
         {
-            IDataAccess access = new StubFileData();
-            var manager = new FileManager(access);
+            IDataAccess stub = new StubFileData();
+            var manager = new FileManager(stub);
             var filename = "other.oth";
 
             bool actual = manager.FindFile(filename);

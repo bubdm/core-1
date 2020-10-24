@@ -43,5 +43,32 @@ namespace ConsoleAppCore.Tests
                 return list;
             }
         }
+        ////////////////////////////////////////////////////////////////////
+        private FileManager _manager2;
+        private MockFileData _mockFileData;
+        [TestInitialize]
+        public void Init()
+        {
+            _mockFileData = new MockFileData();
+            _manager2 = new FileManager(_mockFileData);
+        }
+        [TestMethod]
+        public void FindFile_GetFilesCalled()
+        {
+            _manager2.FindFile("file1.txt");
+
+            Assert.IsTrue(_mockFileData.GetFilesCalled);
+        }
+        public class MockFileData : IDataAccess
+        {
+            public bool GetFilesCalled { get; private set; }
+            public List<string> GetFiles()
+            {
+                GetFilesCalled = true;
+                return new List<string>{"file1.txt", "file2.txt", "file3.txt"};
+            }
+        }
+
+
     }
 }

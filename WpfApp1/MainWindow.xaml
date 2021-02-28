@@ -11,6 +11,12 @@
         <vm:MainWindowViewModel/>
     </Window.DataContext>
     <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <Button Name="ButtonOpenFile" Content="Открыть файл" Click="ButtonOpenFile_OnClick"/>
+        </StackPanel>
+        <Grid>
+            <DataGrid Name="DataGridData"/>
+        </Grid>
 
     </DockPanel>
 </Window>

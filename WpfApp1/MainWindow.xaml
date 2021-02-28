@@ -15,7 +15,8 @@
             <Button Name="ButtonOpenFile" Content="Открыть файл" Click="ButtonOpenFile_OnClick"/>
         </StackPanel>
         <Grid>
-            <DataGrid Name="DataGridData"/>
+            <TextBlock Name="TextBlockTest" Text="test"/>
+            <TextBlock Name="TextBlockTest2" VerticalAlignment="Center" Text="test"/>
         </Grid>
 
     </DockPanel>

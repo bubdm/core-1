@@ -6,6 +6,7 @@ namespace WpfApp1.ViewModels
     {
         public MainWindowViewModel()
         {
+            
         }
         private string _title = "Тестовое приложение";
         public string Title
@@ -16,6 +17,7 @@ namespace WpfApp1.ViewModels
                 Set(ref _title, value);
             }
         }
+
 
     }
 }

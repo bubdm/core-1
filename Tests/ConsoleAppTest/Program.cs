@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Linq;
+using System.Threading;
 
 namespace ConsoleAppTest
 {
@@ -39,6 +41,20 @@ namespace ConsoleAppTest
             }
         }
 
-    }
+        private static void Printer(string Message, EventWaitHandle EventWait)
+        {
+            var th_id = Thread.CurrentThread.ManagedThreadId;
+            Console.WriteLine($"Поток id:{th_id} начал наботу");
 
+            EventWait.WaitOne();
+
+            for (int i = 0; i < 10; i++)
+            {
+                Console.WriteLine($"Id: {th_id}\t{Message}");
+                Thread.Sleep(10);
+            }
+
+            Console.WriteLine($"Поток id:{th_id} завершил работу");
+        }
+    }
 }

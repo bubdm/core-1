@@ -11,6 +11,13 @@
         <vm:MainWindowViewModel/>
     </Window.DataContext>
     <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <Button Name="ButtonOpenFile" Content="Открыть файл" Click="ButtonOpenFile_OnClick"/>
+        </StackPanel>
+        <Grid>
+            <TextBlock Name="TextBlockTest" Text="test"/>
+            <TextBlock Name="TextBlockTest2" VerticalAlignment="Center" Text="test"/>
+        </Grid>
 
     </DockPanel>
 </Window>

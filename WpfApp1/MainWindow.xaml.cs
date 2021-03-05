@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace WpfApp1
 {
@@ -20,9 +11,38 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
+        private int valueTh1 = default;
+        private int valueth2 = default;
+
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void ButtonOpenFile_OnClick(object sender, RoutedEventArgs e)
+        {
+            ThreadPool.QueueUserWorkItem(_ =>
+            {
+                Thread.Sleep(4000);
+                valueTh1 = valueTh1 * valueth2 + 1;
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    TextBlockTest.Text = valueTh1.ToString();
+                });
+            });
+            ThreadPool.QueueUserWorkItem(_ =>
+            {
+                Thread.Sleep(10000);
+                valueth2 = valueTh1 * valueth2 + 1;
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    TextBlockTest2.Text = valueth2.ToString();
+                });
+            });
+
+            
+
+            
         }
     }
 }

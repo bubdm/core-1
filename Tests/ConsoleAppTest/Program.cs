@@ -1,7 +1,9 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace ConsoleAppTest
 {
@@ -44,7 +46,18 @@ namespace ConsoleAppTest
             //    var y = get_factorial.EndInvoke(result);
             //    Console.WriteLine("Результат: {0}", y);
             //}, null);
-            
+            //BackgroundWorker worker = new();
+            //worker.DoWork += (s, e) =>
+            //{
+            //    if (e.Cancel == true) 
+            //        return;
+            //    var w = (BackgroundWorker)s;
+            //    //w.ReportProgress(100);
+            //    e.Result = Factorial((long)e.Argument);
+            //};
+            //worker.ProgressChanged += (_, e) => Console.WriteLine($"Прогресс: {e.ProgressPercentage}");
+            //worker.RunWorkerCompleted += (_, e) => Console.WriteLine($"Завершена операция, результат: {e.Result}");
+            //worker.RunWorkerAsync(10l);
 
             Console.WriteLine("Приложение завершило свою работу");
             Console.ReadKey();

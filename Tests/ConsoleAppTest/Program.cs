@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
+using System.Threading.Tasks;
 
 namespace ConsoleAppTest
 {
@@ -29,12 +30,7 @@ namespace ConsoleAppTest
             
             
 
-            //Action<string> printer = str =>
-            //{
-            //    Console.WriteLine($"Поток: {Thread.CurrentThread.ManagedThreadId} - {str}");
-            //    Thread.Sleep(3000);
-            //    Console.WriteLine($"Завершение в {Thread.CurrentThread.ManagedThreadId}");
-            //};
+
             //printer("Параметер"); //синх
             //printer.BeginInvoke("Параметер асинх", result =>
             //{
@@ -59,19 +55,38 @@ namespace ConsoleAppTest
             //worker.RunWorkerCompleted += (_, e) => Console.WriteLine($"Завершена операция, результат: {e.Result}");
             //worker.RunWorkerAsync(10l);
 
+            var task_factorial = Task.Run(() => Factorial(10)); //сам правильный вариант
+
+
+            Action<string> _printer = str =>
+            {
+                Console.WriteLine($"1 Поток: {Thread.CurrentThread.ManagedThreadId} - {str}");
+                Thread.Sleep(3000);
+                Console.WriteLine($"1 Завершение в {Thread.CurrentThread.ManagedThreadId}");
+            };
+            var print_task = new Task(() => _printer("печать"));
+            print_task.Start();
+            print_task.Wait(); //неправильно
+
+
+
             Console.WriteLine("Приложение завершило свою работу");
             Console.ReadKey();
+
+
         }
 
         private static long Factorial(long x)
         {
+            Console.WriteLine($"2 Факториал в потоке {Thread.CurrentThread.ManagedThreadId}");
             var result = 1l;
             while (x > 1)
             {
                 result *= x;
                 x--;
-                Thread.Sleep(10);
+                Thread.Sleep(100);
             }
+            Console.WriteLine($"2 Завершение вычисления в потоке {Thread.CurrentThread.ManagedThreadId}");
             return result;
         }
     }

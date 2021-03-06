@@ -14,47 +14,52 @@ namespace ConsoleAppTest
             SetConsoleCP(65001);        //установка кодовой страницы utf-8 (Unicode) для вводного потока
             SetConsoleOutputCP(65001);  //установка кодовой страницы utf-8 (Unicode) для выводного потока
 
-            ThreadManagement.Start();
 
+            new Thread(() =>
+                {
+                while (true)
+                {
+                    Console.Title = $"Время: {DateTime.Now.ToLongTimeString()}";
+                    Thread.Sleep(100);
+                }
+                })
+                {IsBackground = true};
+            
+            
 
-            Console.WriteLine("Test Program");
-
-
-            var myThread = new Thread(PrintMessages) {IsBackground = true, Priority = ThreadPriority.Lowest};
-            myThread.Start();
-
-            Console.WriteLine("Введите свое имя:");
-            var name = Console.ReadLine();
-            Console.WriteLine($"Привет, {name}!");
-
+            //Action<string> printer = str =>
+            //{
+            //    Console.WriteLine($"Поток: {Thread.CurrentThread.ManagedThreadId} - {str}");
+            //    Thread.Sleep(3000);
+            //    Console.WriteLine($"Завершение в {Thread.CurrentThread.ManagedThreadId}");
+            //};
+            //printer("Параметер"); //синх
+            //printer.BeginInvoke("Параметер асинх", result =>
+            //{
+            //    Console.WriteLine("Завершено!");
+            //}, null);
+            //Func<long, long> get_factorial = Factorial;
+            //get_factorial.BeginInvoke(30, result =>
+            //{
+            //    var y = get_factorial.EndInvoke(result);
+            //    Console.WriteLine("Результат: {0}", y);
+            //}, null);
+            
 
             Console.WriteLine("Приложение завершило свою работу");
             Console.ReadKey();
         }
 
-        private static void PrintMessages()
+        private static long Factorial(long x)
         {
-            while (true)
+            var result = 1l;
+            while (x > 1)
             {
-                Console.Title = $"Текущее время: {DateTime.Now.TimeOfDay}";
-                Thread.Sleep(100);
-            }
-        }
-
-        private static void Printer(string Message, EventWaitHandle EventWait)
-        {
-            var th_id = Thread.CurrentThread.ManagedThreadId;
-            Console.WriteLine($"Поток id:{th_id} начал наботу");
-
-            EventWait.WaitOne();
-
-            for (int i = 0; i < 10; i++)
-            {
-                Console.WriteLine($"Id: {th_id}\t{Message}");
+                result *= x;
+                x--;
                 Thread.Sleep(10);
             }
-
-            Console.WriteLine($"Поток id:{th_id} завершил работу");
+            return result;
         }
     }
 }

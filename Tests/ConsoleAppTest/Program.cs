@@ -14,11 +14,11 @@ namespace ConsoleAppTest
             SetConsoleCP(65001);        //установка кодовой страницы utf-8 (Unicode) для вводного потока
             SetConsoleOutputCP(65001);  //установка кодовой страницы utf-8 (Unicode) для выводного потока
 
+            //Test_TPL.TestOldVariantTask();
+            //Test_TPL.TestTPLFunctions();
 
-            Test_TPL.TestTPLFunctions();
 
-
-            Console.WriteLine("Приложение завершило свою работу");
+            Console.WriteLine("Главный поток завершил работу свою");
             Console.ReadKey();
         }
     }

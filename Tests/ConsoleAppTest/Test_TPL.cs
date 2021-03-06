@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -7,6 +9,12 @@ namespace ConsoleAppTest
 {
     static class Test_TPL
     {
+        public static async void TestAsync()
+        {
+
+        }
+
+
         public static void TestOldVariantTask()
         {
             new Thread(() =>
@@ -43,8 +51,9 @@ namespace ConsoleAppTest
             worker.RunWorkerCompleted += (_, e) => Console.WriteLine($"Завершена операция, результат: {e.Result}");
             worker.RunWorkerAsync(10l);
 
-            var task_factorial = Task.Run(() => Factorial(10)); //сам правильный вариант
-
+            var taskFactorial = Task.Run(() => Factorial(20)); //сам правильный вариант
+            Console.WriteLine("3 Ожидание результата расчета:");
+            Console.WriteLine("3 результат: " + taskFactorial.Result);
 
             Action<string> _printer = str =>
             {
@@ -60,11 +69,63 @@ namespace ConsoleAppTest
 
         public static void TestTPLFunctions()
         {
+            var messages = Enumerable.Range(1, 100).Select(i => $"Сообщение № {i}");
+
+            var cancellation = new CancellationTokenSource();
+            cancellation.Cancel(); //отмена операции параллельной
+            var cancel = cancellation.Token;
+            var messages7 = messages
+                .AsParallel() //параллельно выполнять
+                .WithExecutionMode(ParallelExecutionMode.ForceParallelism) //принудительный параллелизм
+                .WithMergeOptions(ParallelMergeOptions.AutoBuffered) //способ соединения
+                .WithCancellation(cancel) //с отменой операции
+                .Select(Transform)
+                .Where(m => m.EndsWith("7"))
+                .Count();
+            Console.WriteLine($"Сообщений: {messages7}");
 
 
+            Console.WriteLine("Нажать кнопку");
+            Console.ReadKey();
+
+            Parallel.ForEach(messages, PrintMes);
+            Parallel.Invoke(() => PrintThread(-1), () => PrintThread(-2), () => PrintThread(-3), () => PrintThread(-4));
+            Console.WriteLine("Цикл с отменой:");
+            Parallel.For(0, 100, (i, s) =>
+            {
+                if (i > 20)
+                    s.Break();
+                PrintThread(i);
+            });
+            Console.WriteLine("Цикл еще один:");
+            Parallel.For(0, 100, new ParallelOptions
+            {
+                MaxDegreeOfParallelism = 4,
+            }, PrintThread);
 
 
         }
+        
+        private static string Transform(string message)
+        {
+            Thread.Sleep(100);
+            return $"Обработанное {message}";
+        }
+
+        private static void PrintMes(string message)
+        {
+            Console.WriteLine($"Поток {Thread.CurrentThread.ManagedThreadId} запущен - {message}");
+            Thread.Sleep(100);
+            Console.WriteLine($"Поток {Thread.CurrentThread.ManagedThreadId} остановлен - {message}");
+        }
+
+        private static void PrintThread(int i)
+        {
+            Console.WriteLine($"Поток {Thread.CurrentThread.ManagedThreadId} запущен - {i}");
+            Thread.Sleep(100);
+            Console.WriteLine($"Поток {Thread.CurrentThread.ManagedThreadId} остановился - {i}");
+        }
+
         private static long Factorial(long x)
         {
             Console.WriteLine($"2 Факториал в потоке {Thread.CurrentThread.ManagedThreadId}");

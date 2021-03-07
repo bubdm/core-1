@@ -9,10 +9,7 @@ namespace ConsoleAppTest
 {
     static class Test_TPL
     {
-        public static async void TestAsync()
-        {
 
-        }
 
 
         public static void TestOldVariantTask()

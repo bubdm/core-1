@@ -20,13 +20,17 @@
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Результат:" FontSize="20" Margin="10" HorizontalAlignment="Right"/>
-            <TextBlock Grid.Row="0" Grid.Column="1" Name="TextBlockResult" Text="0" FontSize="20" FontWeight="Bold" Margin="10"/>
-            <ProgressBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Name="ProgressBarInformer" Height="20" Margin="10"/>
-            <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Name="TextBlockInformer" Text="100%" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <Button Grid.Row="2" Grid.Column="0" Content="Начать" HorizontalAlignment="Center" Margin="10" Cursor="Hand" Width="100" Height="40" Background="Green"/>
-            <Button Grid.Row="2" Grid.Column="1" Content="Отменить" HorizontalAlignment="Center" Margin="10" Cursor="Hand" Width="100" Height="40" Background="IndianRed"/>
+            <TextBlock Text="Задание:" Margin="10"/>
+            <TextBox Grid.Column="1" Name="TextBoxSets" Text="100" Margin="10" />
+            <ProgressBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Name="ProgressBarInformer" Height="20" Margin="10" Minimum="0" Maximum="1"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Name="TextBlockInformer" Text="0 %" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Button Grid.Row="2" Grid.Column="0" Content="Начать" HorizontalAlignment="Center" Margin="10" Cursor="Hand" Width="100" Height="40" Background="Green" Click="StartButtonClick"/>
+            <Button Grid.Row="2" Grid.Column="1" Name="ButtonCancel" Content="Отменить" HorizontalAlignment="Center" Margin="10" Cursor="Hand" Width="100" Height="40" Background="IndianRed" Click="StopButtonClick" IsEnabled="False"/>
+            <TextBlock Grid.Row="3" Text="Результат:" FontSize="20" Margin="10" HorizontalAlignment="Right"/>
+            <TextBlock Grid.Row="3" Grid.Column="1" Name="TextBlockResult" Text="0" FontSize="20" FontWeight="Bold" Margin="10"/>
+
         </Grid>
         <Grid>
 

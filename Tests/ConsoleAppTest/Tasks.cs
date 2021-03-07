@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -38,22 +37,17 @@ namespace ConsoleAppTest
 
         public static async Task TestGoodAsync()
         {
-            Console.WriteLine("Асинхронные задания начали выполняться");
+            Console.WriteLine($"ВНИМАНИЕ! Поток: {Thread.CurrentThread.ManagedThreadId} Асинхронная задача начала выполняться");
             var messages = Enumerable.Range(1, 10).Select(i => $"Сообщение № {i}");
 
-            var tasks = messages.Select(m => Task.Run(() => MessageTransform(m)));
-            var result = await Task.WhenAll(tasks);
-
-            foreach (var m in result)
-                Console.WriteLine(m);
-
-            Console.WriteLine("Последовательно - асинхронно:");
+            Console.WriteLine($"Поток: {Thread.CurrentThread.ManagedThreadId} Последовательно - асинхронно:");
             foreach (var m in messages)
             {
                 var result2 = await Task.Run(() => MessageTransform(m)).ConfigureAwait(false);
-                Console.WriteLine($"Id: {Thread.CurrentThread.ManagedThreadId} знач: " + result2);
+                Console.WriteLine($"Поток: {Thread.CurrentThread.ManagedThreadId} знач: " + result2);
             }
         }
+
         private static string MessageTransform(string message)
         {
             Thread.Sleep(100);

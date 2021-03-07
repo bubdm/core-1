@@ -20,7 +20,7 @@ namespace ConsoleAppTest
 
 
             var task = Tasks.TestGoodAsync();
-            Console.WriteLine("Задания когда уже начали или не начали выполняться асинхронно!?!?!?");
+            Console.WriteLine("Задания начали или не начали выполняться асинхронно!?!?!?");
             await task;
 
             var val = 0;

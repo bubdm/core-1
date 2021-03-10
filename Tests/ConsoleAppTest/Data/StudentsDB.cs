@@ -1,5 +1,8 @@
-﻿using ConsoleAppTest.Entities;
+﻿using System;
+using System.Linq;
+using ConsoleAppTest.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ConsoleAppTest.Data
 {

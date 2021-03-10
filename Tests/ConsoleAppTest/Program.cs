@@ -36,9 +36,7 @@ namespace ConsoleAppTest
                 var query = db.Students
                     //.Include(s => s.Courses) //энергичная загрузка
                     .Where(s => s.BirthDay >= new DateTime(1995, 1, 1) && s.BirthDay <= new DateTime(2008, 1, 1));
-                
                 var str = query.ToQueryString();
-                Debug.WriteLine(str);
 
                 var students = await query.ToArrayAsync();
 
@@ -57,6 +55,8 @@ namespace ConsoleAppTest
                 }
 
                 Console.WriteLine($"Количество студентов всего: {students.Count()}");
+
+                Console.WriteLine(str);
             }
             Console.WriteLine("Нажмите любую кнопку ...");
             Console.ReadKey();

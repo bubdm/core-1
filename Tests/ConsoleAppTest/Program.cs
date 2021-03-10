@@ -23,6 +23,7 @@ namespace ConsoleAppTest
             #endregion
 
             var options = new DbContextOptionsBuilder<StudentsDb>()
+                .UseLazyLoadingProxies() //для ленивой загрузки
                 .UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Students.DB")
                 .Options;
 
@@ -32,11 +33,11 @@ namespace ConsoleAppTest
             await using (var db = new StudentsDb(options))
             {
                 var query = db.Students
-                    .Include(s => s.Courses) //энергичная загрузка
+                    //.Include(s => s.Courses) //энергичная загрузка
                     .Where(s => s.BirthDay >= new DateTime(1995, 1, 1) && s.BirthDay <= new DateTime(2008, 1, 1));
 
                 var students = await query.ToArrayAsync();
-                var lastNames = await query.Select(s => s.LastName).Distinct().ToArrayAsync();
+
                 
                 StringBuilder sb = new StringBuilder();
                 foreach (var student in students)
@@ -45,12 +46,8 @@ namespace ConsoleAppTest
                     sb.Clear();
                     if (student.Courses.Count > 0)
                     {
-                        sb.Append("Курсы:");
-                        foreach (var c in student.Courses)
-                        {
-                            sb.Append(" " + c.Name);
-                            Debug.WriteLine(c.Name);
-                        }
+                        sb.Append("   Курсы:");
+                        foreach (var c in student.Courses) sb.Append(" " + c.Name);
                         Console.WriteLine(sb.ToString());
                     }
                 }

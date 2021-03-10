@@ -13,6 +13,6 @@ namespace ConsoleAppTest.Entities
         public string Name { get; set; }
         public string Patronymic { get; set; }
         public DateTime BirthDay { get; set; }
-        public ICollection<Course> Courses { get; set; } = new List<Course>();
+        public virtual ICollection<Course> Courses { get; set; } = new List<Course>();
     }
 }

@@ -29,9 +29,13 @@ namespace ConsoleAppTest
 
             await using (var db = new StudentsDb(options))
             {
-                var students = await db.Students
-                    .Where(s => s.BirthDay > new DateTime(1990, 1, 1) && s.BirthDay <= new DateTime(2008, 1, 1))
-                    .ToArrayAsync();
+                var query = db.Students
+                    .Where(s => s.BirthDay >= new DateTime(1995, 1, 1) && s.BirthDay <= new DateTime(2008, 1, 1));
+                var students = await query.ToArrayAsync();
+                var lastNames = await query.Select(s => s.LastName).Distinct().ToArrayAsync();
+                foreach (var ln in students)
+                    Console.WriteLine("{0} {1} {2} - {3:d}", ln.LastName, ln.Name, ln.Patronymic, ln.BirthDay);
+
                 Console.WriteLine($"Количество: {students.Count()}");
             }
 

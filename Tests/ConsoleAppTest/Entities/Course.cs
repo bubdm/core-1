@@ -8,6 +8,7 @@ namespace ConsoleAppTest.Entities
     {
         [Required, MaxLength(100)]
         public string Name { get; set; }
+        public string Description { get; set; }
         public virtual ICollection<Student> Students { get; set; } = new List<Student>();
     }
 }

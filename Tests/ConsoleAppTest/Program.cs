@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Castle.DynamicProxy.Contributors;
 using ConsoleAppTest.Data;
 using ConsoleAppTest.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +36,9 @@ namespace ConsoleAppTest
                 var query = db.Students
                     //.Include(s => s.Courses) //энергичная загрузка
                     .Where(s => s.BirthDay >= new DateTime(1995, 1, 1) && s.BirthDay <= new DateTime(2008, 1, 1));
+                
+                var str = query.ToQueryString();
+                Debug.WriteLine(str);
 
                 var students = await query.ToArrayAsync();
 
@@ -61,8 +65,9 @@ namespace ConsoleAppTest
         private static async Task InitDbAsync(StudentsDb db)
         {
             //await db.Database.EnsureDeletedAsync();
-            if (await db.Database.EnsureCreatedAsync())
-                Console.WriteLine("База данных создана");
+            //if (await db.Database.EnsureCreatedAsync())
+            //    Console.WriteLine("База данных создана");
+            await db.Database.MigrateAsync();
 
             if (!await db.Courses.AnyAsync())
             {
@@ -92,6 +97,8 @@ namespace ConsoleAppTest
                     await db.SaveChangesAsync();
                 }
             }
+
+
         }
     }
 }

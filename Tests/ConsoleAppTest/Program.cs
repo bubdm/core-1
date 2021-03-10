@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading.Tasks;
 using ConsoleAppTest.Data;
 using ConsoleAppTest.Entities;
@@ -30,15 +32,31 @@ namespace ConsoleAppTest
             await using (var db = new StudentsDb(options))
             {
                 var query = db.Students
+                    .Include(s => s.Courses) //энергичная загрузка
                     .Where(s => s.BirthDay >= new DateTime(1995, 1, 1) && s.BirthDay <= new DateTime(2008, 1, 1));
+
                 var students = await query.ToArrayAsync();
                 var lastNames = await query.Select(s => s.LastName).Distinct().ToArrayAsync();
-                foreach (var ln in students)
-                    Console.WriteLine("{0} {1} {2} - {3:d}", ln.LastName, ln.Name, ln.Patronymic, ln.BirthDay);
+                
+                StringBuilder sb = new StringBuilder();
+                foreach (var student in students)
+                {
+                    Console.WriteLine("{0} {1} {2} - {3:d}", student.LastName, student.Name, student.Patronymic, student.BirthDay);
+                    sb.Clear();
+                    if (student.Courses.Count > 0)
+                    {
+                        sb.Append("Курсы:");
+                        foreach (var c in student.Courses)
+                        {
+                            sb.Append(" " + c.Name);
+                            Debug.WriteLine(c.Name);
+                        }
+                        Console.WriteLine(sb.ToString());
+                    }
+                }
 
-                Console.WriteLine($"Количество: {students.Count()}");
+                Console.WriteLine($"Количество студентов всего: {students.Count()}");
             }
-
             Console.WriteLine("Нажмите любую кнопку ...");
             Console.ReadKey();
         }

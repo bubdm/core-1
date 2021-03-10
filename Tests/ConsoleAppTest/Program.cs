@@ -23,7 +23,7 @@ namespace ConsoleAppTest
             #endregion
 
             var options = new DbContextOptionsBuilder<StudentsDb>()
-                .UseLazyLoadingProxies() //для ленивой загрузки
+                //.UseLazyLoadingProxies() //для ленивой загрузки
                 .UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Students.DB")
                 .Options;
 
@@ -44,6 +44,7 @@ namespace ConsoleAppTest
                 {
                     Console.WriteLine("{0} {1} {2} - {3:d}", student.LastName, student.Name, student.Patronymic, student.BirthDay);
                     sb.Clear();
+                    await db.Entry(student).Collection(x => x.Courses).LoadAsync(); //явная загрузка
                     if (student.Courses.Count > 0)
                     {
                         sb.Append("   Курсы:");

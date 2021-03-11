@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -24,7 +27,7 @@ namespace ConsoleAppTest
             #endregion
 
             var options = new DbContextOptionsBuilder<StudentsDb>()
-                .UseLazyLoadingProxies() //для ленивой загрузки
+                //.UseLazyLoadingProxies() //для ленивой загрузки
                 .UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Students.DB")
                 .Options;
 
@@ -33,34 +36,72 @@ namespace ConsoleAppTest
 
             await using (var db = new StudentsDb(options))
             {
-                var query = db.Students
+                var query = db.Students;
                     //.Include(s => s.Courses) //энергичная загрузка
-                    .Where(s => s.BirthDay >= new DateTime(1995, 1, 1) && s.BirthDay <= new DateTime(2008, 1, 1));
+                    //.Where(s => s.BirthDay >= new DateTime(1995, 1, 1) && s.BirthDay <= new DateTime(2008, 1, 1));
                 var str = query.ToQueryString();
-
-                var students = await query.ToArrayAsync();
-
-                StringBuilder sb = new StringBuilder();
-                foreach (var student in students)
+                var list = new ObservableCollection<Student>((IEnumerable<Student>) await query.ToArrayAsync());
+                list.CollectionChanged += (o, eventArgs) =>
                 {
-                    Console.WriteLine("{0} {1} {2} - {3:d}", student.LastName, student.Name, student.Patronymic, student.BirthDay);
-                    sb.Clear();
-                    //await db.Entry(student).Collection(x => x.Courses).LoadAsync(); //явная загрузка
-                    if (student.Courses.Count > 0)
+                    if (eventArgs.Action == NotifyCollectionChangedAction.Add)
                     {
-                        sb.Append("   Курсы:");
-                        foreach (var c in student.Courses) sb.Append(" " + c.Name);
-                        Console.WriteLine(sb.ToString());
+                        db?.Students.AddRange(eventArgs.NewItems.Cast<Student>());
+                        db?.SaveChanges();
                     }
+                    if (eventArgs.Action == NotifyCollectionChangedAction.Remove)
+                    {
+                        db?.Students.RemoveRange(eventArgs.OldItems.Cast<Student>());
+                        db?.SaveChanges();
+                    }
+                };
+                foreach (var s in list)
+                {
+                    Console.WriteLine($"{s.LastName} {s.Name} {s.Patronymic} {s.Courses.Count} шт. курсов");
                 }
+                Console.WriteLine($"\n///\nВсего в набл: {list.Count} в базе: {query.Count()} студентов");
+                
+                Console.WriteLine("\nДобавление нового:\n");
+                var newStud = new Student
+                {
+                    LastName = "Тестов",
+                    Name = "Тест",
+                    Patronymic = "Тестович",
+                    BirthDay = DateTime.Now.AddYears(-20),
+                    Rating = 11.2,
+                };
+                list.Add(newStud);
+                Console.WriteLine($"\n///\nВсего в набл: {list.Count} в базе: {query.Count()} студентов");
+                Console.WriteLine("\nУдаление нового:\n");
+                list.Remove(newStud);
+                Console.WriteLine($"\n///\nВсего в набл: {list.Count} в базе: {query.Count()} студентов");
 
-                Console.WriteLine($"Количество студентов всего: {students.Count()}");
+                #region MyRegion
 
-                Console.WriteLine(str);
+
+                //StringBuilder sb = new StringBuilder();
+                //foreach (var student in students)
+                //{
+                //    Console.WriteLine("{0} {1} {2} - {3:d}", student.LastName, student.Name, student.Patronymic, student.BirthDay);
+                //    sb.Clear();
+                //    //await db.Entry(student).Collection(x => x.Courses).LoadAsync(); //явная загрузка
+                //    if (student.Courses.Count > 0)
+                //    {
+                //        sb.Append("   Курсы:");
+                //        foreach (var c in student.Courses) sb.Append(" " + c.Name);
+                //        Console.WriteLine(sb.ToString());
+                //    }
+                //}
+
+                //Console.WriteLine($"Количество студентов всего: {students.Count()}");
+
+                //Console.WriteLine(str);
+
+                #endregion
             }
             Console.WriteLine("Нажмите любую кнопку ...");
             Console.ReadKey();
         }
+
 
         private static async Task InitDbAsync(StudentsDb db)
         {

@@ -16,7 +16,7 @@ namespace ConsoleAppTest
 {
     static class Program
     {
-        private static Random _rnd = new Random();
+        private static readonly Random _rnd = new ();
         static async Task Main(string[] args)
         {
             #region Русификация консоли обязательная

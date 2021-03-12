@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30517.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp1", "WpfApp1\WpfApp1.csproj", "{428F4FF8-3BB5-4AA6-8B6A-1BC092186817}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfApp1", "WpfApp1\WpfApp1.csproj", "{428F4FF8-3BB5-4AA6-8B6A-1BC092186817}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C6C66AE0-3C42-443D-B394-98651C59DF17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAppTest", "Tests\ConsoleAppTest\ConsoleAppTest.csproj", "{8ACEF50D-591C-48A7-9E3D-DA200B25B0D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleAppTest", "Tests\ConsoleAppTest\ConsoleAppTest.csproj", "{8ACEF50D-591C-48A7-9E3D-DA200B25B0D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassReports", "ClassReports\ClassReports.csproj", "{48B1240E-954F-4DD4-8475-C17A50CDD0A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{8ACEF50D-591C-48A7-9E3D-DA200B25B0D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8ACEF50D-591C-48A7-9E3D-DA200B25B0D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8ACEF50D-591C-48A7-9E3D-DA200B25B0D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48B1240E-954F-4DD4-8475-C17A50CDD0A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48B1240E-954F-4DD4-8475-C17A50CDD0A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48B1240E-954F-4DD4-8475-C17A50CDD0A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48B1240E-954F-4DD4-8475-C17A50CDD0A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

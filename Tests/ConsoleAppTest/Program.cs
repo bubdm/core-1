@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Castle.DynamicProxy.Contributors;
+using ClassReports;
 using ConsoleAppTest.Data;
 using ConsoleAppTest.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -26,19 +27,37 @@ namespace ConsoleAppTest
             SetConsoleOutputCP(65001);  //установка кодовой страницы utf-8 (Unicode) для выводного потока
             #endregion
 
+            var report = new Report()
+            {
+                Title = "Тестирование библиотеки",
+                Value = 9000,
+            };
+
+            report.CreatePackage("test.docx");
+
+            //await Database();
+            
+            Console.WriteLine("Нажмите любую кнопку ...");
+            Console.ReadKey();
+        }
+
+        private static async Task Database()
+        {
+            #region База данных
+
             var options = new DbContextOptionsBuilder<StudentsDb>()
                 //.UseLazyLoadingProxies() //для ленивой загрузки
                 .UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Students.DB")
                 .Options;
 
-            await using (var db = new StudentsDb(options)) 
+            await using (var db = new StudentsDb(options))
                 await InitDbAsync(db);
 
             await using (var db = new StudentsDb(options))
             {
                 var query = db.Students;
-                    //.Include(s => s.Courses) //энергичная загрузка
-                    //.Where(s => s.BirthDay >= new DateTime(1995, 1, 1) && s.BirthDay <= new DateTime(2008, 1, 1));
+                //.Include(s => s.Courses) //энергичная загрузка
+                //.Where(s => s.BirthDay >= new DateTime(1995, 1, 1) && s.BirthDay <= new DateTime(2008, 1, 1));
                 var str = query.ToQueryString();
                 var list = new ObservableCollection<Student>((IEnumerable<Student>) await query.ToArrayAsync());
                 list.CollectionChanged += (o, eventArgs) =>
@@ -48,6 +67,7 @@ namespace ConsoleAppTest
                         db?.Students.AddRange(eventArgs.NewItems.Cast<Student>());
                         db?.SaveChanges();
                     }
+
                     if (eventArgs.Action == NotifyCollectionChangedAction.Remove)
                     {
                         db?.Students.RemoveRange(eventArgs.OldItems.Cast<Student>());
@@ -58,8 +78,9 @@ namespace ConsoleAppTest
                 {
                     Console.WriteLine($"{s.LastName} {s.Name} {s.Patronymic} {s.Courses.Count} шт. курсов");
                 }
+
                 Console.WriteLine($"\n///\nВсего в набл: {list.Count} в базе: {query.Count()} студентов");
-                
+
                 Console.WriteLine("\nДобавление нового:\n");
                 var newStud = new Student
                 {
@@ -76,7 +97,6 @@ namespace ConsoleAppTest
                 Console.WriteLine($"\n///\nВсего в набл: {list.Count} в базе: {query.Count()} студентов");
 
                 #region MyRegion
-
 
                 //StringBuilder sb = new StringBuilder();
                 //foreach (var student in students)
@@ -98,8 +118,8 @@ namespace ConsoleAppTest
 
                 #endregion
             }
-            Console.WriteLine("Нажмите любую кнопку ...");
-            Console.ReadKey();
+
+            #endregion
         }
 
 

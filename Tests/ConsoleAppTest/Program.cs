@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.Intrinsics.X86;
 using System.Threading.Tasks;
 
 
@@ -10,14 +12,10 @@ namespace ConsoleAppTest
 {
     static class Program
     {
-        static async Task Main(string[] args)
+        static void Main(string[] args)
         {
-            #region Русификация консоли обязательная
-            [DllImport("kernel32.dll")] static extern bool SetConsoleCP(uint pagenum);
-            [DllImport("kernel32.dll")] static extern bool SetConsoleOutputCP(uint pagenum);
-            SetConsoleCP(65001);        //установка кодовой страницы utf-8 (Unicode) для вводного потока
-            SetConsoleOutputCP(65001);  //установка кодовой страницы utf-8 (Unicode) для выводного потока
-            #endregion
+            ConsoleToRussian();
+            Console.WriteLine("Привет, мир!\n");
 
             const string file = "TestLibrary.dll";
             Assembly lib = Assembly.LoadFile(Path.GetFullPath(file)); //полная загрузка
@@ -33,10 +31,34 @@ namespace ConsoleAppTest
             var evs = type.GetEvents();
             var fiels = type.GetFields();
 
-            
+            var print_typ = lib.GetType("TestLibrary.Printer");
+            foreach (var met in print_typ.GetMethods(BindingFlags.Instance|BindingFlags.NonPublic))
+            {
+                var ret_t = met.ReturnType;
+                var pars = met.GetParameters();
 
-            Console.WriteLine("Нажмите любую кнопку ...");
+                Console.WriteLine($"{ret_t.Name} {met.Name} ({string.Join(", ", pars.Select(p => $"{p.ParameterType.Name} {p.Name}"))})");
+            }
+
+            object printer1 = Activator.CreateInstance(print_typ, ">>>");
+
+            var ctorpr = print_typ.GetConstructor(new []{typeof(string)});
+            var printer2 = ctorpr.Invoke(new object[] {"<<<"});
+
+            var method = print_typ.GetMethod("Print");
+            method.Invoke(printer1, new []{"Привет, мир!"});
+
+            Console.WriteLine("\nНажмите любую кнопку ...");
             Console.ReadKey();
         }
+
+        private static void ConsoleToRussian()
+        {
+            [DllImport("kernel32.dll")] static extern bool SetConsoleCP(uint pagenum);
+            [DllImport("kernel32.dll")] static extern bool SetConsoleOutputCP(uint pagenum);
+            SetConsoleCP(65001);        //установка кодовой страницы utf-8 (Unicode) для вводного потока
+            SetConsoleOutputCP(65001);  //установка кодовой страницы utf-8 (Unicode) для выводного потока
+        }
+
     }
 }

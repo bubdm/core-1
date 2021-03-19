@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.Intrinsics.X86;
 using System.Threading.Tasks;
 
@@ -44,13 +47,50 @@ namespace ConsoleAppTest
 
             var ctorpr = print_typ.GetConstructor(new []{typeof(string)});
             var printer2 = ctorpr.Invoke(new object[] {"<<<"});
-
+            
             var method = print_typ.GetMethod("Print");
-            method.Invoke(printer1, new []{"Привет, мир!"});
+            method.Invoke(printer1, new object?[] {"Привет, мир!"});
+            method.Invoke(printer2, new object?[] {"Еще раз привет"});
+
+            var field_info = print_typ.GetField("_prefix", BindingFlags.Instance | BindingFlags.NonPublic);
+            var value_field = (string)field_info.GetValue(printer1);
+            field_info.SetValue(printer1, "!!!WOW!!!");
+
+            var print_deleg = (Action<string>)method.CreateDelegate(typeof(Action<string>), printer1);
+            print_deleg("Тест1");
+            var print_deleg2 = (Action<string>)Delegate.CreateDelegate(typeof(Action<string>), printer1, method);
+            print_deleg2("Тест2");
+
+            /// dynamic
+
+            dynamic dPrinter1 = printer1;
+            dPrinter1.Print("Тест динамического");
+
+            var values = new object[]
+            {
+                "Str",
+                123,
+                2.12,
+                true,
+            };
+            ProcessValue(values);
 
             Console.WriteLine("\nНажмите любую кнопку ...");
             Console.ReadKey();
         }
+
+        private static void ProcessValue(IEnumerable<object> values)
+        {
+            foreach (dynamic value in values)
+            {
+                ProcessValue(value);
+            }
+        }
+
+        private static void ProcessValue(string value) => Console.WriteLine($"string: {value}");
+        private static void ProcessValue(int value) => Console.WriteLine($"int: {value}");
+        private static void ProcessValue(double value) => Console.WriteLine($"double: {value}");
+        private static void ProcessValue(bool value) => Console.WriteLine($"bool: {value}");
 
         private static void ConsoleToRussian()
         {

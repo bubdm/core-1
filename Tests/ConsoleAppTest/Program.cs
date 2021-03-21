@@ -6,16 +6,29 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.Intrinsics.X86;
 using System.Threading.Tasks;
+using Microsoft.CodeAnalysis.CSharp.Scripting;
 
 
 namespace ConsoleAppTest
 {
     static class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             ConsoleToRussian();
             Console.WriteLine("Привет, мир!\n");
+
+            Console.Write("Введите код на C#:> ");
+            var code = Console.ReadLine();
+            try
+            {
+                var res = await CSharpScript.EvaluateAsync(code);
+                Console.WriteLine($"Результат: {res}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Что-то не так: " + e.Message);
+            }
 
             const string file = "TestLibrary.dll";
             Assembly lib = Assembly.LoadFile(Path.GetFullPath(file)); //полная загрузка

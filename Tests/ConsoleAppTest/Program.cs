@@ -23,9 +23,14 @@ namespace ConsoleAppTest
 
             Console.Write("Введите код на C#:> ");
             var code = Console.ReadLine();
+            var lib0 = CSharpScript.Create(code);
+            lib0.Compile();
+            
             try
             {
-                var res = await CSharpScript.EvaluateAsync(code);
+                var state = await lib0.RunAsync();
+                //var res = await CSharpScript.EvaluateAsync(code);
+                var res = state.ReturnValue;
                 Console.WriteLine($"Результат: {res}");
             }
             catch (Exception e)

@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.Intrinsics.X86;
 using System.Threading.Tasks;
-using Microsoft.CodeAnalysis.CSharp.Scripting;
+//using Microsoft.CodeAnalysis.CSharp.Scripting;
 
 
 namespace ConsoleAppTest
@@ -23,20 +23,20 @@ namespace ConsoleAppTest
 
             Console.Write("Введите код на C#:> ");
             var code = Console.ReadLine();
-            var lib0 = CSharpScript.Create(code);
-            lib0.Compile();
+            //var lib0 = CSharpScript.Create(code);
+            //lib0.Compile();
             
-            try
-            {
-                var state = await lib0.RunAsync();
-                //var res = await CSharpScript.EvaluateAsync(code);
-                var res = state.ReturnValue;
-                Console.WriteLine($"Результат: {res}");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Что-то не так: " + e.Message);
-            }
+            //try
+            //{
+            //    var state = await lib0.RunAsync();
+            //    //var res = await CSharpScript.EvaluateAsync(code);
+            //    var res = state.ReturnValue;
+            //    Console.WriteLine($"Результат: {res}");
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine("Что-то не так: " + e.Message);
+            //}
 
             const string file = "TestLibrary.dll";
             Assembly lib = Assembly.LoadFile(Path.GetFullPath(file)); //полная загрузка

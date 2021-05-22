@@ -18,6 +18,7 @@ namespace WebApplication1
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -30,10 +31,13 @@ namespace WebApplication1
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
+                endpoints.MapGet("/hello", async context =>
                 {
                     await context.Response.WriteAsync($"Hello World, {Configuration["Hello"]}!");
                 });
+
+                //endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapDefaultControllerRoute();
             });
         }
     }

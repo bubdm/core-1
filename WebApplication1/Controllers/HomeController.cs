@@ -1,15 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IConfiguration _Configuration;
+
+        private readonly IEnumerable<Person> _Persons = Person.GetPersons;
+        
         public HomeController(IConfiguration Configuration)
         {
             _Configuration = Configuration;
@@ -17,7 +18,7 @@ namespace WebApplication1.Controllers
 
         public IActionResult Index()
         {
-            return Content($"Hello => {_Configuration["Hello"]}");
+            return View();
         }
 
         public IActionResult Second()
@@ -25,9 +26,9 @@ namespace WebApplication1.Controllers
             return Content("Second");
         }
 
-        public IActionResult Third()
+        public IActionResult Persons()
         {
-            return Content($"Third + {_Configuration["Hello"]}");
+            return View(_Persons);
         }
     }
 }

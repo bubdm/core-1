@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Extensions.Configuration;
 using WebApplication1.Models;
 
@@ -29,6 +30,11 @@ namespace WebApplication1.Controllers
         public IActionResult Persons()
         {
             return View(_Persons);
+        }
+
+        public IActionResult Details(int id)
+        {
+            return View(_Persons.First(p => p.Id == id));
         }
     }
 }

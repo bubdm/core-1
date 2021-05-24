@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-
+using Microsoft.CodeAnalysis.CSharp;
 
 
 namespace ConsoleAppTest
@@ -13,12 +13,11 @@ namespace ConsoleAppTest
             ConsoleToRussian();
             Console.WriteLine("Привет, мир!\n");
 
+
  
             Console.WriteLine("\nНажмите любую кнопку ...");
             Console.ReadKey();
         }
-
-
         private static void ConsoleToRussian()
         {
             [DllImport("kernel32.dll")] static extern bool SetConsoleCP(uint pagenum);
@@ -26,6 +25,5 @@ namespace ConsoleAppTest
             SetConsoleCP(65001);        //установка кодовой страницы utf-8 (Unicode) для вводного потока
             SetConsoleOutputCP(65001);  //установка кодовой страницы utf-8 (Unicode) для выводного потока
         }
-
     }
 }

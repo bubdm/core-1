@@ -13,11 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication1", "WebAppli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplicationMVC", "WebApplicationMVC\WebApplicationMVC.csproj", "{1F932DFD-AE29-4DB9-A605-C909A9281A48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentsDAL", "StudentsDAL\StudentsDAL.csproj", "{6F17F050-D041-4C22-B613-3A4B3782C2F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsDAL", "StudentsDAL\StudentsDAL.csproj", "{6F17F050-D041-4C22-B613-3A4B3782C2F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentsDAL.Models", "StudentsDAL.Models\StudentsDAL.Models.csproj", "{2493D4AA-7412-4312-AD86-C85656E6B149}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsDAL.Models", "StudentsDAL.Models\StudentsDAL.Models.csproj", "{2493D4AA-7412-4312-AD86-C85656E6B149}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentsDAL.TestDriver", "StudentsDAL.TestDriver\StudentsDAL.TestDriver.csproj", "{0DD5ABC3-643F-4E94-980B-8E0CC69FB55A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsDAL.TestDriver", "StudentsDAL.TestDriver\StudentsDAL.TestDriver.csproj", "{0DD5ABC3-643F-4E94-980B-8E0CC69FB55A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

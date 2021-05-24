@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
+using Microsoft.EntityFrameworkCore;
+using StudentsDAL.DataInit;
+using StudentsDAL.EF;
 
 namespace StudentsDAL.TestDriver
 {
@@ -10,6 +15,25 @@ namespace StudentsDAL.TestDriver
             ConsoleToRussian();
             Console.WriteLine("Тестирование библиотеки доступа к данным");
 
+            using (var context = new StudentsContext())
+            {
+                //StudentsDataInit.InitData(context);
+                //StudentsDataInit.ClearData(context);
+            }
+
+
+            using (var context = new StudentsContext())
+            {
+                foreach (var student in context.Students.Include(s => s.Group).Include(s => s.Courses))
+                {
+                    Console.Write($"{student} - {student.Group.Name} - курсы {student.Courses.Count} штук: {student.Courses.Count}");
+                    foreach (var course in student.Courses)
+                    {
+                        Console.Write(course.Name + ",");
+                    }
+                    Console.WriteLine();
+                }
+            }
 
             Console.WriteLine("Нажмите любую кнопку ...");
             Console.ReadKey();

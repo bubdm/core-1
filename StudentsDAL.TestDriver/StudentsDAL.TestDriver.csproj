@@ -5,4 +5,9 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\StudentsDAL.Models\StudentsDAL.Models.csproj" />
+    <ProjectReference Include="..\StudentsDAL\StudentsDAL.csproj" />
+  </ItemGroup>
+
 </Project>

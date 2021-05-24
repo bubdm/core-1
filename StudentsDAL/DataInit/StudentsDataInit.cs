@@ -14,9 +14,6 @@ namespace StudentsDAL.DataInit
             context.Database.EnsureDeleted();
             context.Database.Migrate();
         }
-
-
-        
         public static void InitData(StudentsContext context)
         {
             var cources = Enumerable.Range(1, 10).Select(c => new Course
@@ -38,7 +35,7 @@ namespace StudentsDAL.DataInit
                 Birthday = new DateTime(rnd.Next(1930, 1980), 1,1),
                 Rating = (float) rnd.NextDouble() * 10.0f,
                 Pet = (s % 2 == 1) ? $"Кошка{s}" : String.Empty,
-                Courses = Enumerable.Range(1, rnd.Next(5))
+                Courses = Enumerable.Range(1, rnd.Next(8))
                     .Select(c => cources[rnd.Next(cources.Count)]).ToList(),
                 Group = groups[rnd.Next(groups.Count)],
             }).ToList();
@@ -57,7 +54,6 @@ namespace StudentsDAL.DataInit
                 context.Database.CloseConnection();
             }
         }
-
         public static void ClearData(StudentsContext context)
         {
             ExecuteDeleteSql(context, "CourseStudent");
@@ -79,6 +75,5 @@ namespace StudentsDAL.DataInit
                 }
             }
         }
-
     }
 }

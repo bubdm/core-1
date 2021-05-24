@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using Microsoft.EntityFrameworkCore;
-using StudentsDAL.DataInit;
 using StudentsDAL.EF;
 
 namespace StudentsDAL.TestDriver
@@ -17,22 +15,25 @@ namespace StudentsDAL.TestDriver
 
             using (var context = new StudentsContext())
             {
-                //StudentsDataInit.InitData(context);
+                //StudentsDataInit.RecreateDatabase(context);
                 //StudentsDataInit.ClearData(context);
+                //StudentsDataInit.InitData(context);
             }
-
 
             using (var context = new StudentsContext())
             {
+                Console.WriteLine("Студенты");
                 foreach (var student in context.Students.Include(s => s.Group).Include(s => s.Courses))
                 {
-                    Console.Write($"{student} - {student.Group.Name} - курсы {student.Courses.Count} штук: {student.Courses.Count}");
-                    foreach (var course in student.Courses)
-                    {
-                        Console.Write(course.Name + ",");
-                    }
-                    Console.WriteLine();
+                    var mm = student.Courses.ToList();
+                    Console.WriteLine($"{student} - {student.Group.Name} - курсы {student.Courses.Count} штук: {student.Courses.Count}, {string.Join(", ", student.Courses)}");
                 }
+                Console.WriteLine("Курсы:");
+                foreach (var course in context.Courses.Include(c => c.Students))
+                {
+                    Console.WriteLine($"{course.Name} - студентов {course.Students.Count} штук, {string.Join(", ", course.Students)}");
+                }
+
             }
 
             Console.WriteLine("Нажмите любую кнопку ...");

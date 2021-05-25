@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using StudentsDAL.DataInit;
 using StudentsDAL.EF;
+using StudentsDAL.Models;
 using StudentsDAL.Repos;
 
 namespace StudentsDAL.TestDriver
@@ -16,12 +17,12 @@ namespace StudentsDAL.TestDriver
             ConsoleToRussian();
             Console.WriteLine("Тестирование библиотеки доступа к данным");
 
-            //using (var context = new StudentsContext())
-            //{
-            //    StudentsDataInit.RecreateDatabase(context);
-            //    //StudentsDataInit.ClearData(context);
-            //    StudentsDataInit.InitData(context);
-            //}
+            using (var context = new StudentsContext())
+            {
+                //StudentsDataInit.RecreateDatabase(context);
+                //StudentsDataInit.ClearData(context);
+                StudentsDataInit.InitData(context);
+            }
 
             //using (var context = new StudentsContext())
             //{

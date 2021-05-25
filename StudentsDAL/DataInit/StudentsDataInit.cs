@@ -40,6 +40,19 @@ namespace StudentsDAL.DataInit
                 Group = groups[rnd.Next(groups.Count)],
             }).ToList();
             context.Students.AddRange(students);
+            context.StarStudents.Add(new StarStudent
+            {
+                LastName = "Петров",
+                FirstName = "Петр",
+                Patronymic = "Петрович",
+                Birthday = new DateTime(1900, 1, 1),
+                Rating = 10,
+                Pet = "Лев",
+                Courses = Enumerable.Range(1, rnd.Next(8))
+                    .Select(c => cources[rnd.Next(cources.Count)]).ToList(),
+                Group = groups[rnd.Next(groups.Count)],
+                Star = 5,
+            });
             context.Database.OpenConnection();
             try
             {
@@ -57,9 +70,11 @@ namespace StudentsDAL.DataInit
         public static void ClearData(StudentsContext context)
         {
             ExecuteDeleteSql(context, "CourseStudent");
+            ExecuteDeleteSql(context, "StarStudents");
             ExecuteDeleteSql(context, "Students");
             ExecuteDeleteSql(context, "Groups");
             ExecuteDeleteSql(context, "Courses");
+            ResetIdentity(context);
             static void ExecuteDeleteSql(StudentsContext context, string tableName)
             {
                 var rawSqlString = $"Delete from dbo.{tableName}";
@@ -67,7 +82,7 @@ namespace StudentsDAL.DataInit
             }
             static void ResetIdentity(StudentsContext context)
             {
-                var tables = new[] { "CourseStudent", "Students", "Groups", "Courses" };
+                var tables = new[] { "Students", "Groups", "Courses" };
                 foreach (var item in tables)
                 {
                     var rawSqlString = $"DBCC CHECKIDENT (\"dbo.{item}\", RESEED, -1);";

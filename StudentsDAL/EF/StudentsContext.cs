@@ -8,6 +8,7 @@ namespace StudentsDAL.EF
         public DbSet<Course> Courses { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Student> Students { get; set; }
+        public DbSet<StarStudent> StarStudents { get; set; }
         public StudentsContext(DbContextOptions options) : base(options)
         {
         }
@@ -22,10 +23,6 @@ namespace StudentsDAL.EF
                                        "Integrated security=True; MultipleActiveResultSets=True; App=EntityFramework;";
                 optionsBuilder.UseSqlServer(connectionString, options => options.EnableRetryOnFailure());
             }
-        }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
         }
     }
 }

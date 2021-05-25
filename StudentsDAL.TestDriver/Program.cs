@@ -2,7 +2,10 @@
 using System.Linq;
 using System.Runtime.InteropServices;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using StudentsDAL.DataInit;
 using StudentsDAL.EF;
+using StudentsDAL.Repos;
 
 namespace StudentsDAL.TestDriver
 {
@@ -13,27 +16,35 @@ namespace StudentsDAL.TestDriver
             ConsoleToRussian();
             Console.WriteLine("Тестирование библиотеки доступа к данным");
 
-            using (var context = new StudentsContext())
-            {
-                //StudentsDataInit.RecreateDatabase(context);
-                //StudentsDataInit.ClearData(context);
-                //StudentsDataInit.InitData(context);
-            }
+            //using (var context = new StudentsContext())
+            //{
+            //    StudentsDataInit.RecreateDatabase(context);
+            //    //StudentsDataInit.ClearData(context);
+            //    StudentsDataInit.InitData(context);
+            //}
 
-            using (var context = new StudentsContext())
-            {
-                Console.WriteLine("Студенты");
-                foreach (var student in context.Students.Include(s => s.Group).Include(s => s.Courses))
-                {
-                    var mm = student.Courses.ToList();
-                    Console.WriteLine($"{student} - {student.Group.Name} - курсы {student.Courses.Count} штук: {student.Courses.Count}, {string.Join(", ", student.Courses)}");
-                }
-                Console.WriteLine("Курсы:");
-                foreach (var course in context.Courses.Include(c => c.Students))
-                {
-                    Console.WriteLine($"{course.Name} - студентов {course.Students.Count} штук, {string.Join(", ", course.Students)}");
-                }
+            //using (var context = new StudentsContext())
+            //{
+            //    Console.WriteLine("Студенты");
+            //    foreach (var student in context.Students.Include(s => s.Group).Include(s => s.Courses))
+            //    {
+            //        var mm = student.Courses.ToList();
+            //        Console.WriteLine($"{student} - {student.Group.Name} - курсы {student.Courses.Count} штук: {student.Courses.Count}, {string.Join(", ", student.Courses)}");
+            //    }
+            //    Console.WriteLine("Курсы:");
+            //    foreach (var course in context.Courses.Include(c => c.Students))
+            //    {
+            //        Console.WriteLine($"{course.Name} - студентов {course.Students.Count} штук, {string.Join(", ", course.Students)}");
+            //    }
+            //}
 
+            using (var repo = new StudentsRepo())
+            {
+                Console.WriteLine("Студенты:");
+                foreach (var student in repo.GetAll())
+                {
+                    Console.WriteLine(student);
+                }
             }
 
             Console.WriteLine("Нажмите любую кнопку ...");

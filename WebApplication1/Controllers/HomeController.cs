@@ -36,5 +36,7 @@ namespace WebApplication1.Controllers
         {
             return View(_Persons.First(p => p.Id == id));
         }
+
+        public IActionResult Blog() => View();
     }
 }

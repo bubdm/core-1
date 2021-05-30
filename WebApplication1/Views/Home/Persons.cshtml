@@ -1,41 +1,34 @@
 ﻿@model IEnumerable<WebApplication1.Models.Person>
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Сотрудники</title>
-</head>
-<body>
+<div class="container">
     <h1>Сотрудники магазина</h1>
     <hr />
-    <a href="/">На главную</a>
+    <a asp-controller="Home" asp-action="Index">На главную</a>
     <hr />
-    <table>
+    <table class="table">
         <thead>
-            <tr>
-                <th>№</th>
-                <th>Фамилия</th>
-                <th>Имя</th>
-                <th>Отчество</th>
-                <th>Возраст</th>
-                <th></th>
-            </tr>
+        <tr>
+            <th>№</th>
+            <th>Фамилия</th>
+            <th>Имя</th>
+            <th>Отчество</th>
+            <th>Возраст</th>
+            <th></th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var person in Model)
-            {
-                <tr>
-                    <td>@person.Id</td>
-                    <td>@person.LastName</td>
-                    <td>@person.FirstName</td>
-                    <td>@person.Patronymic</td>
-                    <td>@person.Age</td>
-                    <td>@Html.ActionLink("Детали","Details", new {Id = person.Id})</td>
-                </tr>
-            }
+        @foreach (var person in Model)
+        {
+            <tr>
+                <td>@person.Id</td>
+                <td>@person.LastName</td>
+                <td>@person.FirstName</td>
+                <td>@person.Patronymic</td>
+                <td>@person.Age</td>
+                <td>@Html.ActionLink("Детали","Details", new {Id = person.Id})</td>
+            </tr>
+        }
         </tbody>
     </table>
-</body>
-</html>
+</div>
+

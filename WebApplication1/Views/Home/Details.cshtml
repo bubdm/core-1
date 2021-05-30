@@ -1,10 +1,13 @@
 ﻿@model WebApplication1.Models.Person
 
+@{
+    ViewBag.Title = "Детально о сотруднике";
+}
 
 <div class="container">
     <h1>Детально о сотруднике</h1>
     <hr />
-    <a href="/">На главную</a> / <a href="/Home/Persons">Сотрудники магазина</a>
+    <a asp-controller="Home" asp-action="Index">На главную</a> / <a asp-controller="Home" asp-action="Persons">Сотрудники магазина</a>
     <hr />
     <p>Идентификатор: @Model.Id</p>
     <p>Фамилия: @Model.LastName</p>

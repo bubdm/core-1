@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<WebApplication1.Models.Person>
 
+@{
+    ViewBag.Title = "Сотрудники";
+}
+
 <div class="container">
     <h1>Сотрудники магазина</h1>
     <hr />
@@ -25,7 +29,8 @@
                 <td>@person.FirstName</td>
                 <td>@person.Patronymic</td>
                 <td>@person.Age</td>
-                <td>@Html.ActionLink("Детали","Details", new {Id = person.Id})</td>
+                @*<td>@Html.ActionLink("Детали","Details", new {Id = person.Id})</td>*@
+                <td><a asp-controller="Home" asp-action="Details" asp-route-id="@person.Id">Детально</a></td>
             </tr>
         }
         </tbody>

@@ -34,7 +34,12 @@ namespace WebApplication1.Controllers
 
         public IActionResult Details(int id)
         {
-            return View(_Persons.First(p => p.Id == id));
+            var person = _Persons.FirstOrDefault(p => p.Id == id);
+
+            if (person is null)
+                return NotFound();
+
+            return View(person);
         }
 
         public IActionResult Blog() => View();

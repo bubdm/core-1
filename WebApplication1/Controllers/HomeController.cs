@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +17,8 @@ namespace WebApplication1.Controllers
         {
             _Configuration = Configuration;
         }
+
+        public IActionResult Throw(string id) => throw new ApplicationException(id);
 
         public IActionResult Index()
         {

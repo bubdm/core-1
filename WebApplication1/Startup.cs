@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebApplication1.Infrastructure.Middleware;
 
 namespace WebApplication1
 {
@@ -30,6 +31,10 @@ namespace WebApplication1
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseMiddleware<TestMiddleware>();
+
+            app.UseWelcomePage("/WelcomePage");
 
             app.UseEndpoints(endpoints =>
             {

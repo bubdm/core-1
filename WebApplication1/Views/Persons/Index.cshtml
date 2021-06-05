@@ -9,9 +9,13 @@
 <div class="container">
     <h1>@ViewBag.Title</h1>
 
-    <a asp-controller="Home" asp-action="Index" class="btn btn-default">На главную</a>
-    
-    <a asp-controller="Persons" asp-action="Create" class="btn btn-default">Создать</a>
+    <p >
+         <a asp-controller="Home" asp-action="Index" class="btn btn-default">На главную</a>
+    </p>
+
+    <p>
+        <a asp-controller="Persons" asp-action="Create" class="btn btn-default">Создать</a>
+    </p>
 
     <table class="table">
         <thead>
@@ -21,6 +25,7 @@
             <th>Имя</th>
             <th>Отчетство</th>
             <th>Возраст</th>
+            <th></th>
             <th></th>
             <th></th>
         </tr>
@@ -42,6 +47,16 @@
                 <td>
                     <a asp-controller="Persons" asp-action="Edit" asp-route-id="@person.Id" class="btn btn-default">
                         <i class="fa fa-edit"></i>
+                    </a>
+                </td>
+                <td>
+                    @*<form asp-action="DeleteConfirmed" asp-route-id="@person.Id">
+                        <button type="submit">
+                            <i class="fa fa-trash-o text-danger"></i>
+                        </button>
+                    </form>*@
+                    <a asp-controller="Persons" asp-action="Delete" asp-route-id="@person.Id" class="btn btn-danger">
+                        <i class="fa fa-trash-o"></i>
                     </a>
                 </td>
             </tr>

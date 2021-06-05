@@ -36,6 +36,8 @@ namespace WebApplication1.Controllers
 
         public IActionResult Edit(int id)
         {
+            if (id <= 0)
+                return BadRequest();
             var person = _PersonsData.Get(id);
             if (person is null)
                 return NotFound();
@@ -55,6 +57,8 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public IActionResult Edit(PersonViewModel model)
         {
+            if (model is null)
+                return BadRequest();
             var person = new Person
             {
                 Id = model.Id,
@@ -74,6 +78,33 @@ namespace WebApplication1.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Delete(int id) => View();
+        public IActionResult Delete(int id)
+        {
+            if (id <= 0)
+                return BadRequest();
+            var person = _PersonsData.Get(id);
+            if (person is null)
+                return NotFound();
+            var model = new PersonViewModel
+            {
+                Id = person.Id,
+                LastName = person.LastName,
+                FirstName = person.FirstName,
+                Patronymic = person.Patronymic,
+                Age = person.Age,
+                Birthday = person.Birthday,
+                CountChildren = person.CountChildren,
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            if (id <= 0)
+                return BadRequest();
+            _PersonsData.Delete(id);
+            return RedirectToAction("Index");
+        }
     }
 }

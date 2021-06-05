@@ -1,0 +1,63 @@
+﻿@model Person
+
+@{
+    ViewData["Title"] = "Детально о сотруднике";
+}
+
+<div class="container">
+    <h1>@ViewBag.Title</h1>
+
+    <a asp-controller="Home" asp-action="Index">На главную</a> / <a asp-controller="Persons" asp-action="Index">Все сотрудники</a>
+    
+    <div>
+        <h4>Сотрудник</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Id)
+            </dt>
+            <dt class="col-sm-10">
+                @Html.DisplayFor(model => model.Id)
+            </dt>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.LastName)
+            </dt>
+            <dt class="col-sm-10">
+                @Html.DisplayFor(model => model.LastName)
+            </dt>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.FirstName)
+            </dt>
+            <dt class="col-sm-10">
+                @Html.DisplayFor(model => model.FirstName)
+            </dt>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Patronymic)
+            </dt>
+            <dt class="col-sm-10">
+                @Html.DisplayFor(model => model.Patronymic)
+            </dt>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Age)
+            </dt>
+            <dt class="col-sm-10">
+                @Html.DisplayFor(model => model.Age)
+            </dt>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Birthday)
+            </dt>
+            <dt class="col-sm-10">
+                @Html.DisplayFor(model => model.Birthday)
+            </dt>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.CountChildren)
+            </dt>
+            <dt class="col-sm-10">
+                @Html.DisplayFor(model => model.CountChildren)
+            </dt>
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Index" class="btn btn-default">Назад</a>
+    </div>
+</div>

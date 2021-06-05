@@ -11,7 +11,7 @@ namespace WebApplication1.Controllers
     {
         private readonly IConfiguration _Configuration;
 
-        private readonly IEnumerable<Person> _Persons = Person.GetPersons;
+
         
         public HomeController(IConfiguration Configuration)
         {
@@ -28,21 +28,6 @@ namespace WebApplication1.Controllers
         public IActionResult Second()
         {
             return Content("Second");
-        }
-
-        public IActionResult Persons()
-        {
-            return View(_Persons);
-        }
-
-        public IActionResult Details(int id)
-        {
-            var person = _Persons.FirstOrDefault(p => p.Id == id);
-
-            if (person is null)
-                return NotFound();
-
-            return View(person);
         }
 
         public IActionResult Blog() => View();

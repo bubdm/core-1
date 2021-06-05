@@ -1,21 +1,23 @@
-﻿@model IEnumerable<WebApplication1.Models.Person>
+﻿@model IEnumerable<Person>
 
 @{
-    ViewBag.Title = "Сотрудники";
+    ViewData["Title"] = "Сотрудники";
 }
 
+
+
 <div class="container">
-    <h1>Сотрудники магазина</h1>
-    <hr />
+    <h1>@ViewBag.Title</h1>
+
     <a asp-controller="Home" asp-action="Index">На главную</a>
-    <hr />
+
     <table class="table">
         <thead>
         <tr>
             <th>№</th>
             <th>Фамилия</th>
             <th>Имя</th>
-            <th>Отчество</th>
+            <th>Отчетство</th>
             <th>Возраст</th>
             <th></th>
         </tr>
@@ -29,10 +31,9 @@
                 <td>@person.FirstName</td>
                 <td>@person.Patronymic</td>
                 <td>@person.Age</td>
-                @*<td>@Html.ActionLink("Детали","Details", new {Id = person.Id})</td>*@
                 <td>
-                    <a asp-controller="Home" asp-action="Details" asp-route-id="@person.Id">
-                        <i class="fa fa-edit"></i>
+                    <a asp-action="Details" asp-route-id="@person.Id" class="btn btn-default">
+                        info
                     </a>
                 </td>
             </tr>

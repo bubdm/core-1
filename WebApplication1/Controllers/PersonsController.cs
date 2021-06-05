@@ -10,7 +10,7 @@ namespace WebApplication1.Controllers
     [Route("Staff")]
     public class PersonsController : Controller
     {
-        private readonly IEnumerable<Person> _Persons = Person.GetPersons;
+        
 
         [Route("All")]
         public IActionResult Index()

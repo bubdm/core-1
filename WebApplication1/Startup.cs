@@ -39,12 +39,10 @@ namespace WebApplication1
 
             app.UseRouting();
 
-            //app.UseMiddleware<TestMiddleware>();
             app.UseMiddleware(typeof(TestMiddleware));
 
             //отдельный специальный маршрут
-            app.Map("/Hello", 
-                context => context.Run(async req => await req.Response.WriteAsync("Hello!")));
+            app.Map("/Hello", context => context.Run(async req => await req.Response.WriteAsync("Hello!")));
 
             app.Use(async (app, next) =>
             {

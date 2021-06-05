@@ -20,7 +20,7 @@ namespace WebApplication1.Services
         public IEnumerable<Person> GetAll() => _Persons;
         public Person Get(int id)
         {
-            return _Persons.FirstOrDefault(p => p.Id == id);
+            return _Persons.SingleOrDefault(p => p.Id == id);
         }
         public int Add(Person person)
         {

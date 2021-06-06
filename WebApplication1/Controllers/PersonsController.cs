@@ -59,6 +59,13 @@ namespace WebApplication1.Controllers
         {
             if (model is null)
                 return BadRequest();
+
+            if (model.LastName == "Иванов")
+                ModelState.AddModelError(nameof(model.LastName), "Запрещено иметь имя Иванов");
+
+            if (!ModelState.IsValid)
+                return View(model);
+
             var person = new Person
             {
                 Id = model.Id,

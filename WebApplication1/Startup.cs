@@ -23,7 +23,9 @@ namespace WebApplication1
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IPersonsData, InMemoryEmployesData>();
+            services.AddSingleton<IPersonsData, InMemoryEmployesData>(); // хранение на время работы приложения
+            //services.AddScoped<IPersonsData, InMemoryEmployesData>(); // хранение только на время запроса
+            //services.AddTransient<IPersonsData, InMemoryEmployesData>(); // нет ничего для хранения
 
             services.AddControllersWithViews(opt => opt.Conventions.Add(new TestControllerConvention()))
                 .AddRazorRuntimeCompilation();

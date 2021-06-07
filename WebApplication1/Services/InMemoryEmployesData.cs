@@ -9,7 +9,17 @@ namespace WebApplication1.Services
 {
     public class InMemoryEmployesData : IPersonsData
     {
-        private readonly ICollection<Person> _Persons = Person.GetPersons;
+        private readonly ICollection<Person> _Persons = Enumerable.Range(1, 10).Select(p => new Person
+        {
+            Id = p,
+            FirstName = $"Иван_{p}",
+            LastName = $"Иванов_{p + 1}",
+            Patronymic = $"Иванович_{p + 2}",
+            Age = p + 20,
+            Birthday = new DateTime(1980 + p, 1, 1),
+            CountChildren = p,
+        }).ToList();
+        
         private int _maxId;
 
         public InMemoryEmployesData()

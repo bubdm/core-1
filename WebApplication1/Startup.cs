@@ -26,6 +26,7 @@ namespace WebApplication1
             services.AddSingleton<IPersonsData, InMemoryEmployesData>(); // хранение на время работы приложения
             //services.AddScoped<IPersonsData, InMemoryEmployesData>(); // хранение только на время запроса
             //services.AddTransient<IPersonsData, InMemoryEmployesData>(); // нет ничего для хранения
+            services.AddSingleton<IProductData, InMemoryProductData>();
 
             services.AddControllersWithViews(opt => opt.Conventions.Add(new TestControllerConvention()))
                 .AddRazorRuntimeCompilation();

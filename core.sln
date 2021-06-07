@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsDAL.Models", "Stude
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsDAL.TestDriver", "StudentsDAL.TestDriver\StudentsDAL.TestDriver.csproj", "{0DD5ABC3-643F-4E94-980B-8E0CC69FB55A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication.Domain", "WebApplication.Domain\WebApplication.Domain.csproj", "{AC84D5D3-3511-4774-BB54-F117C07EE26A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{0DD5ABC3-643F-4E94-980B-8E0CC69FB55A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0DD5ABC3-643F-4E94-980B-8E0CC69FB55A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0DD5ABC3-643F-4E94-980B-8E0CC69FB55A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC84D5D3-3511-4774-BB54-F117C07EE26A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC84D5D3-3511-4774-BB54-F117C07EE26A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC84D5D3-3511-4774-BB54-F117C07EE26A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC84D5D3-3511-4774-BB54-F117C07EE26A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

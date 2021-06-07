@@ -6,9 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebApplication1.Infrastructure.Conventions;
-using WebApplication1.Infrastructure.Interfaces;
 using WebApplication1.Infrastructure.Middleware;
 using WebApplication1.Services;
+using WebApplication1.Services.Interfaces;
 
 namespace WebApplication1
 {

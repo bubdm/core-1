@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using WebApplication1.Models;
 
-namespace WebApplication1.Infrastructure.Interfaces
+namespace WebApplication1.Services.Interfaces
 {
     public interface IPersonsData
     {

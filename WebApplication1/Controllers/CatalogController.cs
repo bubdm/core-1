@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using WebApplication.Domain;
 using WebApplication1.Services.Interfaces;
+using WebApplication1.ViewModel;
 
 namespace WebApplication1.Controllers
 {
@@ -14,9 +13,29 @@ namespace WebApplication1.Controllers
         {
             _productData = productData;
         }
-        public IActionResult Index(int? brandId, int? catalogId)
+        public IActionResult Index(int? brandId, int? sectionId)
         {
-            return View();
+            var filter = new ProductFilter
+            {
+                BrandId = brandId,
+                SectionId = sectionId,
+            };
+            var products = _productData.GetProducts(filter);
+
+            return View(new CatalogViewModel
+            {
+                BrandId = brandId,
+                SectionId = sectionId,
+                Products = products
+                    .OrderBy(p => p.Order)
+                    .Select(p => new ProductViewModel
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        Price = p.Price,
+                        ImageUrl = p.ImageUrl,
+                    })
+            });
         }
     }
 }

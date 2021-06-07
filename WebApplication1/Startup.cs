@@ -2,9 +2,11 @@ using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebApplication1.Dal.Context;
 using WebApplication1.Infrastructure.Conventions;
 using WebApplication1.Infrastructure.Middleware;
 using WebApplication1.Services;
@@ -23,6 +25,9 @@ namespace WebApplication1
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<Application1DB>(opt => 
+                opt.UseSqlServer(Configuration.GetConnectionString("Default"), o => o.EnableRetryOnFailure()));
+
             services.AddSingleton<IPersonsData, InMemoryEmployesData>(); // хранение на время работы приложения
             //services.AddScoped<IPersonsData, InMemoryEmployesData>(); // хранение только на время запроса
             //services.AddTransient<IPersonsData, InMemoryEmployesData>(); // нет ничего для хранения

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebApplication1.Dal.Context;
+using WebApplication1.Data;
 using WebApplication1.Infrastructure.Conventions;
 using WebApplication1.Infrastructure.Middleware;
 using WebApplication1.Services;
@@ -27,6 +28,7 @@ namespace WebApplication1
         {
             services.AddDbContext<Application1DB>(opt => 
                 opt.UseSqlServer(Configuration.GetConnectionString("Default"), o => o.EnableRetryOnFailure()));
+            services.AddTransient<WebStoreDBInitializer>();
 
             services.AddSingleton<IPersonsData, InMemoryEmployesData>(); // хранение на время работы приложения
             //services.AddScoped<IPersonsData, InMemoryEmployesData>(); // хранение только на время запроса
@@ -36,8 +38,11 @@ namespace WebApplication1
             services.AddControllersWithViews(opt => opt.Conventions.Add(new TestControllerConvention()))
                 .AddRazorRuntimeCompilation();
         }
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider service)
         {
+            using (var scope = service.CreateScope() )
+                scope.ServiceProvider.GetRequiredService<WebStoreDBInitializer>().Init();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

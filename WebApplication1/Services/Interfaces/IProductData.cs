@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using WebApplication.Domain;
 using WebApplication.Domain.Entities;
 
 namespace WebApplication1.Services.Interfaces
@@ -9,5 +10,7 @@ namespace WebApplication1.Services.Interfaces
         IEnumerable<Section> GetSections();
         /// <summary> Все бренды </summary>
         IEnumerable<Brand> GetBrands();
+        /// <summary> Все товары </summary>
+        IEnumerable<Product> GetProducts(ProductFilter productFilter = null);
     }
 }

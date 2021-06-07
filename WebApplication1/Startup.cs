@@ -27,13 +27,15 @@ namespace WebApplication1
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<Application1DB>(opt => 
-                opt.UseSqlServer(Configuration.GetConnectionString("Default"), o => o.EnableRetryOnFailure()));
+                opt.UseSqlServer(Configuration.GetConnectionString("Default")));
             services.AddTransient<WebStoreDBInitializer>();
 
             services.AddSingleton<IPersonsData, InMemoryEmployesData>(); // хранение на время работы приложения
             //services.AddScoped<IPersonsData, InMemoryEmployesData>(); // хранение только на время запроса
             //services.AddTransient<IPersonsData, InMemoryEmployesData>(); // нет ничего для хранения
-            services.AddSingleton<IProductData, InMemoryProductData>();
+            
+            //services.AddSingleton<IProductData, InMemoryProductData>();
+            services.AddScoped<IProductData, SqlProductData>();
 
             services.AddControllersWithViews(opt => opt.Conventions.Add(new TestControllerConvention()))
                 .AddRazorRuntimeCompilation();

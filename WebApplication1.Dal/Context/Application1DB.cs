@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WebApplication.Domain.Entities;
+using WebApplication.Domain.Identity;
 
 namespace WebApplication1.Dal.Context
 {
-    public class Application1DB : DbContext
+    public class Application1DB : IdentityDbContext<User, Role, string>
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Section> Sections { get; set; }

@@ -2,10 +2,12 @@ using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebApplication.Domain.Identity;
 using WebApplication1.Dal.Context;
 using WebApplication1.Data;
 using WebApplication1.Infrastructure.Conventions;
@@ -27,8 +29,47 @@ namespace WebApplication1
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<Application1DB>(opt => 
-                opt.UseSqlServer(Configuration.GetConnectionString("Default")));
+                opt.UseSqlServer(
+                    Configuration.GetConnectionString("Default"),
+                    o => o.EnableRetryOnFailure().MigrationsAssembly("WebApplication1.Dal"))
+                );
+
             services.AddTransient<WebStoreDBInitializer>();
+
+            services.AddIdentity<User, Role>()
+                .AddEntityFrameworkStores<Application1DB>()
+                .AddDefaultTokenProviders();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+#if DEBUG
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 3;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredUniqueChars = 3;       
+#endif
+                options.User.RequireUniqueEmail = false;
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+
+                options.Lockout.AllowedForNewUsers = false;
+                options.Lockout.MaxFailedAccessAttempts = 10;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.Name = "WebStoreDB";
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromDays(10);
+
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Logout";
+                options.AccessDeniedPath = "/Account/AccessDenied";
+
+                options.SlidingExpiration = true;
+            });
 
             services.AddSingleton<IPersonsData, InMemoryEmployesData>(); // хранение на время работы приложения
             //services.AddScoped<IPersonsData, InMemoryEmployesData>(); // хранение только на время запроса
@@ -53,6 +94,9 @@ namespace WebApplication1
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseMiddleware(typeof(TestMiddleware));
 

@@ -1,9 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Extensions.Configuration;
-using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {

@@ -31,7 +31,7 @@ namespace WebApplication1
             services.AddDbContext<Application1DB>(opt => 
                 opt.UseSqlServer(
                     Configuration.GetConnectionString("Default"),
-                    o => o.EnableRetryOnFailure().MigrationsAssembly("WebApplication1.Dal"))
+                    o => o.MigrationsAssembly("WebApplication1.Dal"))
                 );
 
             services.AddTransient<WebStoreDBInitializer>();

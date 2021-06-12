@@ -14,20 +14,18 @@ namespace WebApplication1.Data
     {
         private readonly Application1DB _context;
         private readonly ILogger<WebStoreDBInitializer> _logger;
-        private readonly IProductData _productData;
 
-        public WebStoreDBInitializer(Application1DB context, ILogger<WebStoreDBInitializer> Logger, IProductData productData)
+        public WebStoreDBInitializer(Application1DB context, ILogger<WebStoreDBInitializer> Logger)
         {
             _context = context;
             _logger = Logger;
-            _productData = productData;
         }
 
         public void Init()
         {
             if (_context.Database.GetPendingMigrations().Any())
                 _context.Database.Migrate();
-
+            
             try
             {
                 InitProducts();
@@ -42,37 +40,78 @@ namespace WebApplication1.Data
         private void InitProducts()
         {
             if (_context.Products.Any())
+            {
+                _logger.LogInformation("БД не нуждается в обновлении");
                 return;
+            }
+
+            var sectionsPool = _Sections.ToDictionary(s => s.Id);
+            var brandsPool = _Brands.ToDictionary(b => b.Id);
+            foreach (var section in _Sections.Where(s => s.ParentId != null))
+                section.Parent = sectionsPool[(int) section.ParentId!];
+
+            foreach (var product in _Products)
+            {
+                product.Section = sectionsPool[product.SectionId];
+                if (product.BrandId is { } brandId)
+                    product.Brand = brandsPool[(int)product.BrandId!];
+                product.Id = 0;
+                product.BrandId = 0;
+                product.SectionId = 0;
+            }
+            foreach (var section in _Sections)
+            {
+                section.Id = 0;
+                section.ParentId = null;
+            }
+            foreach (var brand in _Brands)
+            {
+                brand.Id = 0;
+            }
+
             using (_context.Database.BeginTransaction())
             {
                 _context.Sections.AddRange(_Sections);
-
-                _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Sections] ON"); // Костыль!!!
-                _context.SaveChanges();
-                _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Sections] OFF");
-
-                _context.Database.CommitTransaction();
-            }
-            using (_context.Database.BeginTransaction())
-            {
                 _context.Brands.AddRange(_Brands);
-
-                _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Brands] ON"); // Костыль!!!
-                _context.SaveChanges();
-                _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Brands] OFF");
-
-                _context.Database.CommitTransaction();
-            }
-            using (_context.Database.BeginTransaction())
-            {
                 _context.Products.AddRange(_Products);
 
-                _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Products] ON"); // Костыль!!!
                 _context.SaveChanges();
-                _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Products] OFF");
-
                 _context.Database.CommitTransaction();
+
+                _logger.LogInformation("Добавлены тестовые данные в базу данных");
             }
+
+
+            //using (_context.Database.BeginTransaction())
+            //{
+            //    _context.Sections.AddRange(_Sections);
+
+            //    _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Sections] ON"); // Костыль!!!
+            //    _context.SaveChanges();
+            //    _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Sections] OFF");
+
+            //    _context.Database.CommitTransaction();
+            //}
+            //using (_context.Database.BeginTransaction())
+            //{
+            //    _context.Brands.AddRange(_Brands);
+
+            //    _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Brands] ON"); // Костыль!!!
+            //    _context.SaveChanges();
+            //    _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Brands] OFF");
+
+            //    _context.Database.CommitTransaction();
+            //}
+            //using (_context.Database.BeginTransaction())
+            //{
+            //    _context.Products.AddRange(_Products);
+
+            //    _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Products] ON"); // Костыль!!!
+            //    _context.SaveChanges();
+            //    _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Products] OFF");
+
+            //    _context.Database.CommitTransaction();
+            //}
         }
 
         #region Стремные данные без базы данных

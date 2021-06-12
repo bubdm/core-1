@@ -28,9 +28,9 @@ namespace WebApplication1.Controllers
         {
             if (!ModelState.IsValid)
                 return View(model);
-
+            #region Лог
             _logger.LogInformation($"Регистрация нового пользователя {model.UserName}");
-
+            #endregion
             var user = new User
             {
                 UserName = model.UserName,
@@ -40,17 +40,17 @@ namespace WebApplication1.Controllers
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, false);
-
+                #region Лог
                 _logger.LogInformation($"Пользователь успешно зареган {model.UserName}");
-
+                #endregion
                 return RedirectToAction("Index", "Home");
             }
 
             foreach (var error in result.Errors) 
                 ModelState.AddModelError("", error.Description);
-
+            #region Лог
             _logger.LogWarning($"При регистрации пользователя {model.UserName} возникли ошибки: {string.Join(",", result.Errors.Select(e => e.Description))}");
-
+            #endregion
             return View();
         }
 
@@ -61,7 +61,9 @@ namespace WebApplication1.Controllers
         {
             if (!ModelState.IsValid)
                 return View(model);
-
+            #region Лог
+            _logger.LogInformation($"Вход пользователя в систему {model.UserName}");
+            #endregion
             var result =
                 await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe,
 #if DEBUG
@@ -75,7 +77,9 @@ namespace WebApplication1.Controllers
                 return LocalRedirect(model.ReturnUrl);
 
             ModelState.AddModelError("", "Ошибка в имени пользователя, либо в пароле");
-
+            #region Лог
+            _logger.LogInformation($"Ошибка в имени пользователя, либо в пароле");
+            #endregion
             return View();
         }
 

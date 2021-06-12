@@ -32,11 +32,7 @@ namespace WebApplication1.Services
                 .Include(p => p.Brand);
             if (productFilter?.Ids?.Length > 0)
             {
-                //query = query.Where(p => productFilter.Ids.Contains(p.Id));
-
-                var ids = new int[] {1, 2, 3, 4, 5, 6};
-                query = query.Where(p => ids.Contains(p.Id));
-
+                query = query.Where(p => productFilter.Ids.Contains(p.Id));
             }
             else
             {

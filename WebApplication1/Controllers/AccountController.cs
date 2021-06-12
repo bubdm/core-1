@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using WebApplication.Domain.Identity;
 using WebApplication1.ViewModel;
 
@@ -10,11 +12,13 @@ namespace WebApplication1.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly ILogger<AccountController> _logger;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _logger = logger;
         }
 
         public IActionResult Register() => View(new RegisterUserViewModel());
@@ -25,6 +29,8 @@ namespace WebApplication1.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
+            _logger.LogInformation($"Регистрация нового пользователя {model.UserName}");
+
             var user = new User
             {
                 UserName = model.UserName,
@@ -34,11 +40,16 @@ namespace WebApplication1.Controllers
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, false);
+
+                _logger.LogInformation($"Пользователь успешно зареган {model.UserName}");
+
                 return RedirectToAction("Index", "Home");
             }
 
             foreach (var error in result.Errors) 
                 ModelState.AddModelError("", error.Description);
+
+            _logger.LogWarning($"При регистрации пользователя {model.UserName} возникли ошибки: {string.Join(",", result.Errors.Select(e => e.Description))}");
 
             return View();
         }

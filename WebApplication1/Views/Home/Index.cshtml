@@ -1,20 +1,4 @@
-﻿@using WebApplication1.Services.Interfaces
-@using WebApplication1.ViewModel
-@inject IProductData ProductData
-@{
-    var products = ProductData
-        .GetProducts()
-        .Take(6)
-        .Select(p => new ProductViewModel
-        {
-            Id = p.Id,
-            Name = p.Name,
-            Price = p.Price,
-            ImageUrl = p.ImageUrl,
-        });
-}
-
-@{
+﻿@{
     ViewBag.Title = "Главная страница";
 }
 
@@ -28,7 +12,7 @@
             </div>
 
             <div class="col-sm-9 padding-right">
-                <partial name="Partial/_FeaturedItemsPartial" model="products"/>
+                <partial name="Partial/_FeaturedItemsPartial" model="@ViewBag.Products"/>
 
                 <partial name="Partial/_CategoryTabPartial" />
 

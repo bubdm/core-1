@@ -74,7 +74,7 @@ namespace WebApplication1.Controllers
                 );
 
             if (result.Succeeded)
-                return LocalRedirect(model.ReturnUrl);
+                return LocalRedirect(model.ReturnUrl ?? "/");
 
             ModelState.AddModelError("", "Ошибка в имени пользователя, либо в пароле");
             #region Лог

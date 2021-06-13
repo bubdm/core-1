@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -41,7 +42,7 @@ namespace WebApplication1.Controllers
             {
                 await _userManager.AddToRoleAsync(user, Role.Clients);
                 _logger.LogInformation($"Пользователь успешно зареган {user.UserName} и наделен ролью {Role.Clients}");
-
+                
                 await _signInManager.SignInAsync(user, false);
                 _logger.LogInformation($"Пользователь {user.UserName} автоматически вошел после регистрации");
                 return RedirectToAction("Index", "Home");

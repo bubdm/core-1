@@ -39,10 +39,11 @@ namespace WebApplication1.Controllers
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
+                await _userManager.AddToRoleAsync(user, Role.Clients);
+                _logger.LogInformation($"Пользователь успешно зареган {user.UserName} и наделен ролью {Role.Clients}");
+
                 await _signInManager.SignInAsync(user, false);
-                #region Лог
-                _logger.LogInformation($"Пользователь успешно зареган {model.UserName}");
-                #endregion
+                _logger.LogInformation($"Пользователь {user.UserName} автоматически вошел после регистрации");
                 return RedirectToAction("Index", "Home");
             }
 
@@ -74,7 +75,9 @@ namespace WebApplication1.Controllers
                 );
 
             if (result.Succeeded)
+            {
                 return LocalRedirect(model.ReturnUrl ?? "/");
+            }
 
             ModelState.AddModelError("", "Ошибка в имени пользователя, либо в пароле");
             #region Лог

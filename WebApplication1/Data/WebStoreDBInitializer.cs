@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WebApplication.Domain.Entities;
+using WebApplication.Domain.Identity;
 using WebApplication1.Dal.Context;
 using WebApplication1.Services.Interfaces;
 
@@ -13,11 +15,18 @@ namespace WebApplication1.Data
     public class WebStoreDBInitializer
     {
         private readonly Application1DB _context;
+        private readonly UserManager<User> _userManager;
+        private readonly RoleManager<Role> _roleManager;
         private readonly ILogger<WebStoreDBInitializer> _logger;
-
-        public WebStoreDBInitializer(Application1DB context, ILogger<WebStoreDBInitializer> Logger)
+        public WebStoreDBInitializer(
+            Application1DB context,
+            UserManager<User> userManager,
+            RoleManager<Role> roleManager,
+            ILogger<WebStoreDBInitializer> Logger)
         {
             _context = context;
+            _userManager = userManager;
+            _roleManager = roleManager;
             _logger = Logger;
         }
 
@@ -35,6 +44,17 @@ namespace WebApplication1.Data
                 _logger.LogError(e, "Ошибка при инициализации данных");
                 throw;
             }
+
+            try
+            {
+                InitIdentityAsync().GetAwaiter().GetResult();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Ошибка в инициализации данных Identity");
+                throw;
+            }
+
         }
 
         private void InitProducts()
@@ -81,37 +101,45 @@ namespace WebApplication1.Data
                 _logger.LogInformation("Добавлены тестовые данные в базу данных");
             }
 
+        }
 
-            //using (_context.Database.BeginTransaction())
-            //{
-            //    _context.Sections.AddRange(_Sections);
+        private async Task InitIdentityAsync()
+        {
+            await CheckRoleAsync(Role.Administrators, _roleManager);
+            await CheckRoleAsync(Role.Users, _roleManager);
+            await CheckRoleAsync(Role.Clients, _roleManager);
 
-            //    _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Sections] ON"); // Костыль!!!
-            //    _context.SaveChanges();
-            //    _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Sections] OFF");
+            if (await _userManager.FindByNameAsync(User.Administrator) is null)
+            {
+                _logger.LogInformation($"Пользователь {User.Administrator} отсутствует в базе данных, создаю");
+                var admin = new User
+                {
+                    UserName = User.Administrator
+                };
+                var result = await _userManager.CreateAsync(admin, User.DefaultAdministratorPassword);
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(admin, Role.Administrators);
+                    _logger.LogInformation($"Пользователь {admin.UserName} успешно создан и назначен правами {Role.Administrators}");
+                }
+                else
+                {
+                    var errors = result.Errors.Select(e => e.Description).ToArray();
+                    _logger.LogError($"Учётная запись администратора не создана по причине: {string.Join(",", errors)}");
+                    throw new InvalidOperationException($"Ошибка при создании пользователя {User.Administrator}:{string.Join(",", errors)}");
+                }
+                _logger.LogInformation("Инициализация данных БД системы Identity выполнена.");
+            }
 
-            //    _context.Database.CommitTransaction();
-            //}
-            //using (_context.Database.BeginTransaction())
-            //{
-            //    _context.Brands.AddRange(_Brands);
 
-            //    _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Brands] ON"); // Костыль!!!
-            //    _context.SaveChanges();
-            //    _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Brands] OFF");
 
-            //    _context.Database.CommitTransaction();
-            //}
-            //using (_context.Database.BeginTransaction())
-            //{
-            //    _context.Products.AddRange(_Products);
-
-            //    _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Products] ON"); // Костыль!!!
-            //    _context.SaveChanges();
-            //    _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Products] OFF");
-
-            //    _context.Database.CommitTransaction();
-            //}
+            static async Task CheckRoleAsync(string RoleName, RoleManager<Role> roleManager)
+            {
+                if (!await roleManager.RoleExistsAsync(RoleName))
+                {
+                    await roleManager.CreateAsync(new Role { Name = RoleName });
+                }
+            }
         }
 
         #region Стремные данные без базы данных

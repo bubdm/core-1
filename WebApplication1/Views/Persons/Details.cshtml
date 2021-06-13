@@ -1,4 +1,5 @@
-﻿@model Person
+﻿@using WebApplication.Domain.Identity
+@model Person
 
 @{
     ViewData["Title"] = "Детально о сотруднике";
@@ -55,12 +56,15 @@
         </dl>
     </div>
     <div>
-        <div class="col-sm-12">
-            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Редактирование</a>
-        </div>
-        <div class="col-sm-12">
-            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Удаление</a>
-        </div>
+        @if (User.IsInRole(Role.Administrators))
+        {
+            <div class="col-sm-12">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Редактирование</a>
+            </div>
+            <div class="col-sm-12">
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Удаление</a>
+            </div>
+        }
         <div class="col-sm-12">
             <a asp-action="Index" class="btn btn-default">Назад</a>
         </div>

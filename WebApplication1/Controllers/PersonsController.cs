@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using WebApplication.Domain.Identity;
 using WebApplication1.Models;
 using WebApplication1.Services.Interfaces;
 using WebApplication1.ViewModel;
 
 namespace WebApplication1.Controllers
 {
+    [Authorize]
     public class PersonsController : Controller
     {
         private readonly IPersonsData _PersonsData;
@@ -28,8 +31,10 @@ namespace WebApplication1.Controllers
             return View(person);
         }
 
+        [Authorize(Roles = Role.Administrators)]
         public IActionResult Create() => View("Edit", new PersonViewModel());
 
+        [Authorize(Roles = Role.Administrators)]
         public IActionResult Edit(int id)
         {
             if (id <= 0)
@@ -51,6 +56,7 @@ namespace WebApplication1.Controllers
         }
         
         [HttpPost]
+        [Authorize(Roles = Role.Administrators)]
         public IActionResult Edit(PersonViewModel model)
         {
             if (model is null)
@@ -81,6 +87,7 @@ namespace WebApplication1.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = Role.Administrators)]
         public IActionResult Delete(int id)
         {
             if (id <= 0)
@@ -102,6 +109,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = Role.Administrators)]
         public IActionResult DeleteConfirmed(int id)
         {
             if (id <= 0)

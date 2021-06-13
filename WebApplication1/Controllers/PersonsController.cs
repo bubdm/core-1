@@ -34,6 +34,7 @@ namespace WebApplication1.Controllers
         [Authorize(Roles = Role.Administrators)]
         public IActionResult Create() => View("Edit", new PersonViewModel());
 
+
         [Authorize(Roles = Role.Administrators)]
         public IActionResult Edit(int id)
         {
@@ -55,8 +56,7 @@ namespace WebApplication1.Controllers
             return View(model);
         }
         
-        [HttpPost]
-        [Authorize(Roles = Role.Administrators)]
+        [HttpPost, Authorize(Roles = Role.Administrators)]
         public IActionResult Edit(PersonViewModel model)
         {
             if (model is null)
@@ -108,8 +108,7 @@ namespace WebApplication1.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        [Authorize(Roles = Role.Administrators)]
+        [HttpPost, Authorize(Roles = Role.Administrators)]
         public IActionResult DeleteConfirmed(int id)
         {
             if (id <= 0)

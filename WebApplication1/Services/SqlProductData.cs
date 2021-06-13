@@ -44,5 +44,10 @@ namespace WebApplication1.Services
             _logger.LogInformation($"Запрос SQL: {query.ToQueryString()}");
             return query;
         }
+
+        public Product GetProductById(int Id) => _context.Products
+            .Include(p => p.Section)
+            .Include(p => p.Brand)
+            .SingleOrDefault(p => p.Id == Id);
     }
 }

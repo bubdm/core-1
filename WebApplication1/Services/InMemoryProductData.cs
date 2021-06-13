@@ -86,5 +86,7 @@ namespace WebApplication1.Services
                 query = query.Where(p => p.BrandId == brandId);
             return query;
         }
+
+        public Product GetProductById(int Id) => _Products.SingleOrDefault(p => p.Id == Id);
     }
 }

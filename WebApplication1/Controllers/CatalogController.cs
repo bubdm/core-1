@@ -37,5 +37,22 @@ namespace WebApplication1.Controllers
                     })
             });
         }
+
+        public IActionResult Details(int id)
+        {
+            var product = _productData.GetProductById(id);
+            if (product is null)
+                return NotFound();
+
+            return View(new ProductViewModel
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Brand = product.Brand.Name,
+                ImageUrl = product.ImageUrl,
+                Price = product.Price,
+                Section = product.Section.Name
+            });
+        }
     }
 }

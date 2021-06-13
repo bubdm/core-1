@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication.Domain.Identity;
 using WebApplication1.Models;
@@ -11,6 +12,10 @@ namespace WebApplication1.Controllers
     public class PersonsController : Controller
     {
         private readonly IPersonsData _PersonsData;
+        private readonly Mapper _mapperPersonToView = 
+            new (new MapperConfiguration(c => c.CreateMap<Person, PersonViewModel>()));
+        private readonly Mapper _mapperPersonFromView =
+            new(new MapperConfiguration(c => c.CreateMap<PersonViewModel, Person>()));
         public PersonsController(IPersonsData personsData)
         {
             _PersonsData = personsData;
@@ -43,17 +48,8 @@ namespace WebApplication1.Controllers
             var person = _PersonsData.Get(id);
             if (person is null)
                 return NotFound();
-            var model = new PersonViewModel
-            {
-                Id = person.Id,
-                LastName = person.LastName,
-                FirstName = person.FirstName,
-                Patronymic = person.Patronymic,
-                Age = person.Age,
-                Birthday = person.Birthday,
-                CountChildren = person.CountChildren,
-            };
-            return View(model);
+
+            return View(_mapperPersonToView.Map<PersonViewModel>(person));
         }
         
         [HttpPost, Authorize(Roles = Role.Administrators)]
@@ -68,16 +64,7 @@ namespace WebApplication1.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            var person = new Person
-            {
-                Id = model.Id,
-                LastName = model.LastName,
-                FirstName = model.FirstName,
-                Patronymic = model.Patronymic,
-                Age = model.Age,
-                Birthday = model.Birthday,
-                CountChildren = model.CountChildren,
-            };
+            var person = _mapperPersonFromView.Map<Person>(model);
 
             if (person.Id == 0)
                 _PersonsData.Add(person);
@@ -95,17 +82,8 @@ namespace WebApplication1.Controllers
             var person = _PersonsData.Get(id);
             if (person is null)
                 return NotFound();
-            var model = new PersonViewModel
-            {
-                Id = person.Id,
-                LastName = person.LastName,
-                FirstName = person.FirstName,
-                Patronymic = person.Patronymic,
-                Age = person.Age,
-                Birthday = person.Birthday,
-                CountChildren = person.CountChildren,
-            };
-            return View(model);
+
+            return View(_mapperPersonToView.Map<PersonViewModel>(person));
         }
 
         [HttpPost, Authorize(Roles = Role.Administrators)]

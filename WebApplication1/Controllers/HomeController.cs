@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using WebApplication.Domain;
+using WebApplication.Domain.Entities;
 using WebApplication1.Services.Interfaces;
 using WebApplication1.ViewModel;
 
@@ -11,9 +13,9 @@ namespace WebApplication1.Controllers
     public class HomeController : Controller
     {
         private readonly IConfiguration _Configuration;
-
-
-        
+        private readonly Mapper _mapperProductToView = new (new MapperConfiguration(c => c.CreateMap<Product, ProductViewModel>()
+            .ForMember("Section", o => o.MapFrom(p => p.Section.Name))
+            .ForMember("Brand", o => o.MapFrom(p => p.Brand.Name))));
         public HomeController(IConfiguration Configuration)
         {
             _Configuration = Configuration;
@@ -23,16 +25,8 @@ namespace WebApplication1.Controllers
 
         public IActionResult Index([FromServices] IProductData productData)
         {
-            var products = productData
-                .GetProducts()
-                .Take(6)
-                .Select(p => new ProductViewModel
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Price = p.Price,
-                    ImageUrl = p.ImageUrl,
-                });
+            var products = _mapperProductToView
+                .Map<IEnumerable<ProductViewModel>>(productData.GetProducts().Take(6));
             ViewBag.Products = products;
             return View();
         }

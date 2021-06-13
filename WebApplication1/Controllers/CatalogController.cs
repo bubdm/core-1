@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using AutoMapper;
 using WebApplication.Domain;
+using WebApplication.Domain.Entities;
 using WebApplication1.Services.Interfaces;
 using WebApplication1.ViewModel;
 
@@ -9,6 +12,9 @@ namespace WebApplication1.Controllers
     public class CatalogController : Controller
     {
         private readonly IProductData _productData;
+        private readonly Mapper _mapperProductToView = new (new MapperConfiguration(c => c.CreateMap<Product, ProductViewModel>()
+            .ForMember("Section", o => o.MapFrom(p => p.Section.Name))
+            .ForMember("Brand", o => o.MapFrom(p => p.Brand.Name))));
         public CatalogController(IProductData productData)
         {
             _productData = productData;
@@ -26,15 +32,8 @@ namespace WebApplication1.Controllers
             {
                 BrandId = brandId,
                 SectionId = sectionId,
-                Products = products
-                    .OrderBy(p => p.Order)
-                    .Select(p => new ProductViewModel
-                    {
-                        Id = p.Id,
-                        Name = p.Name,
-                        Price = p.Price,
-                        ImageUrl = p.ImageUrl,
-                    })
+                Products = _mapperProductToView
+                    .Map<IEnumerable<ProductViewModel>>(products.OrderBy(p => p.Order)),
             });
         }
 
@@ -44,15 +43,8 @@ namespace WebApplication1.Controllers
             if (product is null)
                 return NotFound();
 
-            return View(new ProductViewModel
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Brand = product.Brand.Name,
-                ImageUrl = product.ImageUrl,
-                Price = product.Price,
-                Section = product.Section.Name
-            });
+            return View(_mapperProductToView
+                .Map<ProductViewModel>(product));
         }
     }
 }

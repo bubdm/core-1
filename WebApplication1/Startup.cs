@@ -71,11 +71,17 @@ namespace WebApplication1
                 options.SlidingExpiration = true;
             });
 
+            services.AddScoped<ICartService, InCookiesCartService>();
+
             services.AddSingleton<IPersonsData, InMemoryEmployesData>(); // хранение на время работы приложения
+            #region Устаревшее
+
             //services.AddScoped<IPersonsData, InMemoryEmployesData>(); // хранение только на время запроса
             //services.AddTransient<IPersonsData, InMemoryEmployesData>(); // нет ничего для хранения
             
             //services.AddSingleton<IProductData, InMemoryProductData>();
+
+            #endregion
             services.AddScoped<IProductData, SqlProductData>();
 
             services.AddControllersWithViews(opt => opt.Conventions.Add(new TestControllerConvention()))

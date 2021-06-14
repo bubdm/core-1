@@ -13,7 +13,7 @@ namespace WebApplication1.Services
 {
     public class InCookiesCartService : ICartService
     {
-        private readonly HttpContextAccessor _ContextAccessor;
+        private readonly IHttpContextAccessor _ContextAccessor;
         private readonly IProductData _ProductData;
         private readonly string _cartName;
         private readonly Mapper _mapperProductToView = new (new MapperConfiguration(c => c.CreateMap<Product, ProductViewModel>()
@@ -44,7 +44,7 @@ namespace WebApplication1.Services
             cookies.Append(_cartName, cookie);
         }
 
-        public InCookiesCartService(HttpContextAccessor contextAccessor, IProductData productData)
+        public InCookiesCartService(IHttpContextAccessor contextAccessor, IProductData productData)
         {
             _ContextAccessor = contextAccessor;
             _ProductData = productData;
@@ -105,7 +105,7 @@ namespace WebApplication1.Services
             Cart = cart;
         }
 
-        public CartViewModel CartViewModel()
+        public CartViewModel GetViewModel()
         {
             var products = _ProductData.GetProducts(new ProductFilter
             {
@@ -119,7 +119,7 @@ namespace WebApplication1.Services
             {
                 Items = Cart.Items
                     .Where(p => productViews.ContainsKey(p.ProductId))
-                    .Select(p => (productViews[p.ProductId], p.Quantity))
+                    .Select(p => (productViews[p.ProductId], p.Quantity, productViews[p.ProductId].Price * p.Quantity))
             };
         }
     }

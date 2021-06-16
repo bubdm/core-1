@@ -25,23 +25,15 @@ namespace WebApplication1.Services
             get
             {
                 var context = _ContextAccessor.HttpContext;
-                var cookies = context!.Response.Cookies;
-                var cartCookie = context.Request.Cookies[_cartName];
-                if (cartCookie is null)
+                if (!context!.Request.Cookies.ContainsKey(_cartName))
                 {
                     var cart = new Cart();
-                    cookies.Append(_cartName, JsonConvert.SerializeObject(cart));
+                    context.Response.Cookies.Append(_cartName, JsonConvert.SerializeObject(cart));
                     return cart;
                 }
-                ReplaceCookies(cookies, cartCookie);
-                return JsonConvert.DeserializeObject<Cart>(cartCookie);
+                return JsonConvert.DeserializeObject<Cart>(context.Request.Cookies[_cartName]);
             }
-            set => ReplaceCookies(_ContextAccessor.HttpContext!.Response.Cookies, JsonConvert.SerializeObject(value));
-        }
-        private void ReplaceCookies(IResponseCookies cookies, string cookie)
-        {
-            cookies.Delete(_cartName);
-            cookies.Append(_cartName, cookie);
+            set => _ContextAccessor.HttpContext!.Response.Cookies.Append(_cartName, JsonConvert.SerializeObject(value));
         }
 
         public InCookiesCartService(IHttpContextAccessor contextAccessor, IProductData productData)

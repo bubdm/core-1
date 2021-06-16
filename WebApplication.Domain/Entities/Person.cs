@@ -1,7 +1,7 @@
 ﻿using System;
-using WebApplication1.Models.Base;
+using WebApplication.Domain.Entities.Base;
 
-namespace WebApplication1.Models
+namespace WebApplication.Domain.Entities
 {
     public class Person : Entity
     {

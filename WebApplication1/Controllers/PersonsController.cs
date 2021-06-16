@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebApplication.Domain.Entities;
 using WebApplication.Domain.Identity;
-using WebApplication1.Models;
 using WebApplication1.Services.Interfaces;
 using WebApplication1.ViewModel;
 

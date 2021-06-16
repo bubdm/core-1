@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using WebApplication1.Models;
+using WebApplication.Domain.Entities;
 
 namespace WebApplication1.Services.Interfaces
 {

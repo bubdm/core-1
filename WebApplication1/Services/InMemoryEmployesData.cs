@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebApplication1.Models;
+using WebApplication.Domain.Entities;
 using WebApplication1.Services.Interfaces;
 
 namespace WebApplication1.Services

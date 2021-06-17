@@ -10,6 +10,7 @@ namespace WebApplication1.Dal.Context
         public DbSet<Product> Products { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<Brand> Brands { get; set; }
+        public DbSet<Person> Persons { get; set; }
         public Application1DB(DbContextOptions<Application1DB> options) : base(options) { }
     }
 }

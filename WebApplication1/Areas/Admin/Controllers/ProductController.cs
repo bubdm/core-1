@@ -3,6 +3,7 @@ using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApplication.Domain.Entities;
 using WebApplication.Domain.Identity;
 using WebApplication1.Services.Interfaces;
@@ -33,7 +34,12 @@ namespace WebApplication1.Areas.Admin.Controllers
             return View(_mapperProductToView.Map<IEnumerable<ProductEditViewModel>>(_ProductData.GetProducts().OrderBy(p => p.Order)));
         }
 
-        public IActionResult Create() => View("Edit", new ProductEditViewModel());
+        public IActionResult Create()
+        {
+            ViewBag.Sections = new SelectList(_ProductData.GetSections(), "Id", "Name");
+            ViewBag.Brands = new SelectList(_ProductData.GetBrands(), "Id", "Name");
+            return View("Edit", new ProductEditViewModel());
+        }
 
         public IActionResult Edit(int id)
         {
@@ -41,9 +47,33 @@ namespace WebApplication1.Areas.Admin.Controllers
                 return BadRequest();
             if (_ProductData.GetProductById(id) is { } product)
             {
+                ViewBag.Sections = new SelectList(_ProductData.GetSections(), "Id", "Name");
+                ViewBag.Brands = new SelectList(_ProductData.GetBrands(), "Id", "Name");
                 return View(_mapperProductToView.Map<ProductEditViewModel>(product));
             }
             return NotFound();
+        }
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult Edit(ProductEditViewModel model)
+        {
+            if (model is null)
+                return BadRequest();
+
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Sections = new SelectList(_ProductData.GetSections(), "Id", "Name");
+                ViewBag.Brands = new SelectList(_ProductData.GetBrands(), "Id", "Name");
+                return View(model);
+            }
+
+            var product = _mapperProductFromView.Map<Product>(model);
+
+            if (product.Id == 0)
+                _ProductData.Add(product);
+            else
+                _ProductData.Update(product);
+
+            return RedirectToAction("Index");
         }
 
         public IActionResult Delete(int id)

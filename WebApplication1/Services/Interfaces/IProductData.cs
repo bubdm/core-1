@@ -13,6 +13,12 @@ namespace WebApplication1.Services.Interfaces
         /// <summary> Все товары </summary>
         IEnumerable<Product> GetProducts(ProductFilter productFilter = null);
         /// <summary> Один продукт по ид </summary>
-        Product GetProductById(int Id);
+        Product GetProductById(int id);
+        /// <summary> Добавить продукт </summary>
+        int Add(Product product);
+        /// <summary> Обновить продукт </summary>
+        void Update(Product product);
+        /// <summary> Удалить продукт </summary>
+        bool Delete(int id);
     }
 }

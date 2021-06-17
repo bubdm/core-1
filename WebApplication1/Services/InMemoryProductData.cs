@@ -88,6 +88,20 @@ namespace WebApplication1.Services
             return query;
         }
 
-        public Product GetProductById(int Id) => _Products.SingleOrDefault(p => p.Id == Id);
+        public Product GetProductById(int id) => _Products.SingleOrDefault(p => p.Id == id);
+        public int Add(Product product)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(Product product)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

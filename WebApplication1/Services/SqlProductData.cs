@@ -45,9 +45,46 @@ namespace WebApplication1.Services
             return query;
         }
 
-        public Product GetProductById(int Id) => _context.Products
+        public Product GetProductById(int id) => _context.Products
             .Include(p => p.Section)
             .Include(p => p.Brand)
-            .SingleOrDefault(p => p.Id == Id);
+            .SingleOrDefault(p => p.Id == id);
+
+        public int Add(Product product)
+        {
+            if (product is null)
+                throw new ArgumentNullException(nameof(product));
+            _context.Add(product);
+            _context.SaveChanges();
+            return product.Id;
+        }
+
+        public void Update(Product product)
+        {
+            if (product is null)
+                throw new ArgumentNullException(nameof(product));
+            if (_context.Products.Local.Any(e => e == product)) 
+                _context.Update(product);
+            else
+            {
+                var origin = _context.Products.Find(product.Id);
+                origin.Name = product.Name;
+                origin.Order = product.Order;
+                origin.SectionId = product.SectionId;
+                origin.BrandId = product.BrandId;
+                origin.Price = product.Price;
+                origin.ImageUrl = product.ImageUrl;
+                _context.Update(origin);
+            }
+            _context.SaveChanges();
+        }
+
+        public bool Delete(int id)
+        {
+            if (GetProductById(id) is not { } person) return false;
+            _context.Remove(person);
+            _context.SaveChanges();
+            return true;
+        }
     }
 }

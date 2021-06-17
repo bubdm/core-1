@@ -4,7 +4,7 @@ using WebApplication.Domain.Identity;
 
 namespace WebApplication1.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area("admin")]
     [Authorize(Roles = Role.Administrators)]
     public class HomeController : Controller
     {

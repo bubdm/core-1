@@ -3,12 +3,14 @@
         <ul class="nav" id="main-menu">
             <li class="active-link">
                 <a asp-controller="Home" asp-action="Index">
-                    <i class="fa fa-desktop "></i>Товары <span class="badge">Посмотри</span>
+                    <i class="fa fa-desktop "></i>Секретная страница <span class="badge">Посмотри</span>
                 </a>
             </li>
-            @*<li>
-                <a href="ui.html"><i class="fa fa-table "></i>UI Elements  <span class="badge">Included</span></a>
-            </li>*@
+            <li>
+                <a asp-controller="Product" asp-action="Index">
+                    <i class="fa fa-table "></i>Редактирование товаров <span class="badge">Новое</span>
+                </a>
+            </li>
         </ul>
     </div>
 </nav>

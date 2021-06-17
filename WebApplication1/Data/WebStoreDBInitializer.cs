@@ -55,6 +55,16 @@ namespace WebApplication1.Data
                 throw;
             }
 
+            try
+            {
+                InitPersons();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Ошибка в инициализации данных сотрудников");
+                throw;
+            }
+
         }
 
         private void InitProducts()
@@ -130,9 +140,7 @@ namespace WebApplication1.Data
                 }
                 _logger.LogInformation("Инициализация данных БД системы Identity выполнена.");
             }
-
-
-
+            
             static async Task CheckRoleAsync(string RoleName, RoleManager<Role> roleManager)
             {
                 if (!await roleManager.RoleExistsAsync(RoleName))
@@ -140,6 +148,17 @@ namespace WebApplication1.Data
                     await roleManager.CreateAsync(new Role { Name = RoleName });
                 }
             }
+        }
+
+        private void InitPersons()
+        {
+            if (_context.Persons.Any())
+            {
+                _logger.LogInformation("В бд уже есть работники");
+                return;
+            }
+            _context.Persons.AddRange(_Persons);
+            _context.SaveChanges();
         }
 
         #region Стремные данные без базы данных
@@ -202,6 +221,15 @@ namespace WebApplication1.Data
             new Product { Id = 11, Name = "Джинсы женские", Price = 1025, ImageUrl = "product11.jpg", Order = 10, SectionId = 25, BrandId = 3 },
             new Product { Id = 12, Name = "Летний костюм", Price = 1025, ImageUrl = "product12.jpg", Order = 11, SectionId = 25, BrandId = 3 },
         };
+        private readonly ICollection<Person> _Persons = Enumerable.Range(1, 10).Select(p => new Person
+        {
+            FirstName = $"Иван_{p}",
+            LastName = $"Иванов_{p + 1}",
+            Patronymic = $"Иванович_{p + 2}",
+            Age = p + 20,
+            Birthday = new DateTime(1980 + p, 1, 1),
+            CountChildren = p,
+        }).ToList();
 
         #endregion
     }

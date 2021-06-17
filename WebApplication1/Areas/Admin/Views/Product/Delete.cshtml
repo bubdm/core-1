@@ -5,6 +5,59 @@
 
 <div class="container">
     <h2>@ViewBag.Title</h2>
+    
+    <p>Вы действительно хотите удалить этот товар?</p>
+    
 
+    <h4>Товар</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Order)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Order)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ImageUrl)
+        </dt>
+        <dd class="col-sm-10">
+            <img src="~/images/home/@Model.ImageUrl" alt="@Model.Name" height="200"/>
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SectionName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SectionName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BrandName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BrandName)
+        </dd>
+    </dl>
+
+    <form asp-action="DeleteConfirmed" asp-route-id="@Model.Id" asp-antiforgery="true">
+        <input type="hidden" asp-for="Id"/>
+        <input type="submit" value="Подтвердить удаление" class="btn btn-danger"/>
+    </form>
+
+    
+    <div>
+        <a asp-action="Index" class="btn btn-default">Назад к списку</a>
+    </div>
 
 </div>

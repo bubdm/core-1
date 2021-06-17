@@ -53,6 +53,7 @@ namespace WebApplication1.Areas.Admin.Controllers
             }
             return NotFound();
         }
+
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult Edit(ProductEditViewModel model)
         {
@@ -85,6 +86,15 @@ namespace WebApplication1.Areas.Admin.Controllers
                 return View(_mapperProductToView.Map<ProductEditViewModel>(product));
             }
             return NotFound();
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            if (id <= 0)
+                return BadRequest();
+            _ProductData.Delete(id);
+            return RedirectToAction("Index");
         }
     }
 }

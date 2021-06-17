@@ -126,6 +126,11 @@ namespace WebApplication1
                     await context.Response.WriteAsync($"Hello World, {Configuration["Hello"]}!");
                 });
 
+                endpoints.MapControllerRoute(
+                    name : "areas",
+                    pattern : "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                );
+
                 //endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapDefaultControllerRoute();
             });

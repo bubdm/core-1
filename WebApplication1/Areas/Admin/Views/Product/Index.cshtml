@@ -1,7 +1,58 @@
-﻿@{
+﻿@using System.Linq
+@model IEnumerable<WebApplication1.ViewModel.ProductEditViewModel>
+@{
     ViewBag.Title = "Редактирование каталога товаров";
 }
 
-<h2>@ViewBag.Title</h2>
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+
+    @if (@Model.FirstOrDefault() is { } first)
+    {
+        <div class="row form-group">
+            <p>
+                <a asp-action="Create" class="btn btn-primary">Создать</a>
+            </p>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th><label asp-for="@first.Id"></label></th>
+                    <th><label asp-for="@first.Name"></label></th>
+                    <th><label asp-for="@first.BrandName"></label></th>
+                    <th><label asp-for="@first.SectionName"></label></th>
+                    <th><label asp-for="@first.Order"></label></th>
+                    <th><label asp-for="@first.ImageUrl"></label></th>
+                    <th><label asp-for="@first.Price"></label></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model)
+                {
+                    <tr>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@product?.Id"><i class="glyphicon glyphicon-edit"></i></a>
+                        </td>
+                        <td>@product?.Id</td>
+                        <td>@product?.Name</td>
+                        <td>@product.BrandName</td>
+                        <td>@product.SectionName</td>
+                        <td>@product.Order</td>
+                        <td>
+                            <img src="~/images/home/@product.ImageUrl" width="90" alt="@product.Name"/>
+                        </td>
+                        <td>@product.Price.ToString("C")</td>
+                        <td>
+                            <a asp-action="Delete" asp-route-id="@product.Id"><i class="glyphicon glyphicon-trash text-danger"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
 
 

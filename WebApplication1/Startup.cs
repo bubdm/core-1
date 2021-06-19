@@ -85,6 +85,7 @@ namespace WebApplication1
 
             services.AddScoped<IPersonsData, SqlPersonsData>();
             services.AddScoped<IProductData, SqlProductData>();
+            services.AddScoped<IOrderService, SqlOrderService>();
 
             services.AddControllersWithViews(opt => opt.Conventions.Add(new TestControllerConvention()))
                 .AddRazorRuntimeCompilation();

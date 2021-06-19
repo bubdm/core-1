@@ -56,10 +56,10 @@ namespace WebApplication1.Controllers
             return RedirectToAction(nameof(OrderConfirmed), new {order.Id});
         }
 
-        public IActionResult OrderConfirmed(int id)
+        public async Task<IActionResult> OrderConfirmed(int id)
         {
             ViewBag.OrderId = id;
-            ViewBag.Name = _OrderService.GetOrderById(id).GetAwaiter().GetResult();
+            ViewBag.Name = (await _OrderService.GetOrderById(id)).Name;
             return View();
         }
     }

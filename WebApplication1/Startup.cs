@@ -29,11 +29,20 @@ namespace WebApplication1
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<Application1DB>(opt => 
-                opt.UseSqlServer(
-                    Configuration.GetConnectionString("Default"),
-                    o => o.MigrationsAssembly("WebApplication1.Dal"))
-                );
+            var databaseName = Configuration["Database"];
+            switch (databaseName)
+            {
+                case "MSSQL": 
+                    services.AddDbContext<Application1DB>(opt => 
+                        opt.UseSqlServer(Configuration.GetConnectionString("MSSQL"),
+                            o => o.MigrationsAssembly("WebApplication1.Dal")));
+                    break;
+                case "SQLite":
+                    services.AddDbContext<Application1DB>(opt =>
+                        opt.UseSqlite(Configuration.GetConnectionString("SQLite"),
+                            o => o.MigrationsAssembly("WebApplication1.Dal.Sqlite")));
+                    break;
+            }
 
             services.AddTransient<WebStoreDBInitializer>();
 

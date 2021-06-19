@@ -16,7 +16,8 @@ namespace WebApplication1.Controllers
         private readonly Mapper _mapperOrderToView = 
             new (new MapperConfiguration(c => c.CreateMap<Order, UserOrderViewModel>()
                 .ForMember("TotalPrice", o => o
-                    .MapFrom(u => u.Items.Sum(i => i.Price)))));
+                    .MapFrom(u => u.Items.Sum(i => i.Price)))
+                .ForMember("Count", o => o.MapFrom(u => u.Items.Count))));
         public IActionResult Index()
         {
             return View();

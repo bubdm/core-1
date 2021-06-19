@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<WebApplication1.ViewModel.UserOrderViewModel>
 @{
     ViewBag.Title = "Заказы пользователя";
+    Layout = "_UserProfileLayout";
 }
 
 <table class="table">
@@ -10,6 +11,7 @@
         <th>Имя</th>
         <th>Адрес</th>
         <th>Телефон</th>
+        <th>Количество</th>
         <th>Сумма</th>
     </tr>
     </thead>
@@ -22,6 +24,7 @@
             <td>@order.Name</td>
             <td>@order.Address</td>
             <td>@order.Phone</td>
+            <td>@order.Count</td>
             <td>@order.TotalPrice</td>
         </tr>
     }

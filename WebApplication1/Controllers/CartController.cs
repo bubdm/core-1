@@ -51,6 +51,8 @@ namespace WebApplication1.Controllers
 
             var order = await _OrderService.CreateOrder(User.Identity!.Name, _CartService.GetViewModel(), model);
 
+            _CartService.Clear();
+
             return RedirectToAction(nameof(OrderConfirmed), new {order.Id});
         }
 

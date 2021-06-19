@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using WebApplication.Domain.Entities.Orders;
 using WebApplication.Domain.Identity;
 using WebApplication1.Dal.Context;
@@ -16,10 +17,12 @@ namespace WebApplication1.Services
     {
         private readonly Application1DB _Context;
         private readonly UserManager<User> _UserManager;
-        public SqlOrderService(Application1DB context, UserManager<User> userManager)
+        private readonly ILogger<SqlOrderService> _Logger;
+        public SqlOrderService(Application1DB context, UserManager<User> userManager, ILogger<SqlOrderService> logger)
         {
             _Context = context;
             _UserManager = userManager;
+            _Logger = logger;
         }
         public async Task<IEnumerable<Order>> GetUserOrders(string userName)
         {
@@ -42,8 +45,15 @@ namespace WebApplication1.Services
         {
             var user = await _UserManager.FindByNameAsync(userName);
             if (user is null)
+            {
+                _Logger.LogInformation($"Пользователь {userName} отсустсвует в базе данных");
                 throw new InvalidOperationException($"Пользователь {userName} отсутствует в базе данных");
+            }
 
+
+            _Logger.LogInformation("Начало формирования заказа");
+
+            await using var transaction = await _Context.Database.BeginTransactionAsync();
             var order = new Order
             {
                 User = user,
@@ -63,11 +73,14 @@ namespace WebApplication1.Services
                 Quantity = i.Quantity
             }).ToArray();
 
-            await using var transaction = await _Context.Database.BeginTransactionAsync();
+            _Logger.LogInformation("Заказ успешно сформирован");
+            
             await _Context.Orders.AddAsync(order);
             await _Context.SaveChangesAsync();
             await transaction.CommitAsync();
             
+            _Logger.LogInformation("Заказ успешно добавлен в базу данных");
+
             return order;
         }
     }

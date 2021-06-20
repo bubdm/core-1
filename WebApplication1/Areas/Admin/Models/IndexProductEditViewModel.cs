@@ -7,5 +7,6 @@ namespace WebApplication1.Areas.Admin.Models
     {
         public ProductEditSortViewModel SortViewModel { get; set; }
         public IEnumerable<ProductEditViewModel> Products { get; set; }
+        public string FilterName { get; set; }
     }
 }

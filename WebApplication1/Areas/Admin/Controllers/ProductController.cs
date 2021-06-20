@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -36,9 +37,14 @@ namespace WebApplication1.Areas.Admin.Controllers
             _AppEnvironment = appEnvironment;
         }
 
-        public IActionResult Index(ProductEditSortState sortOrder = ProductEditSortState.NameAsc)
+        public IActionResult Index(string name, ProductEditSortState sortOrder = ProductEditSortState.NameAsc)
         {
             var products = _ProductData.GetProducts();
+
+            if (!String.IsNullOrEmpty(name))
+            {
+                products = products.Where(p => p.Name.Contains(name));
+            }
 
             products = sortOrder switch
             {

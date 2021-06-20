@@ -12,7 +12,16 @@
                 <a asp-action="Create" class="btn btn-primary">Создать</a>
             </p>
         </div>
-        <table class="table">
+        <form method="get">
+            <div class="form-inline form-group">
+                <label class="control-label">Фильтр по названию:</label>
+                <input name="name" class="form-control"/>
+
+                <input type="submit" value="Фильр" class="btn btn-default"/>
+            </div>
+        </form>
+
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th></th>

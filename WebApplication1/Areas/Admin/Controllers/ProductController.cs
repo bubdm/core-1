@@ -37,7 +37,7 @@ namespace WebApplication1.Areas.Admin.Controllers
             _AppEnvironment = appEnvironment;
         }
 
-        public IActionResult Index(string name, ProductEditSortState sortOrder = ProductEditSortState.NameAsc)
+        public IActionResult Index(string name, int page = 1, ProductEditSortState sortOrder = ProductEditSortState.NameAsc)
         {
             var products = _ProductData.GetProducts();
 
@@ -45,6 +45,11 @@ namespace WebApplication1.Areas.Admin.Controllers
             {
                 products = products.Where(p => p.Name.Contains(name));
             }
+
+            int pageSize = 6;
+            var count = products!.Count();
+            products = products.Skip((page - 1) * pageSize).Take(pageSize);
+            var pageModel = new PageViewModel(count, page, pageSize);
 
             products = sortOrder switch
             {
@@ -63,6 +68,8 @@ namespace WebApplication1.Areas.Admin.Controllers
             {
                 SortViewModel = new ProductEditSortViewModel(sortOrder),
                 Products = _mapperProductToView.Map<IEnumerable<ProductEditViewModel>>(products.ToList()),
+                FilterName = name,
+                PageViewModel = pageModel,
             };
             return View(webModel);
         }

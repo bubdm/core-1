@@ -15,9 +15,9 @@
         <form method="get">
             <div class="form-inline form-group">
                 <label class="control-label">Фильтр по названию:</label>
-                <input name="name" class="form-control"/>
+                <input name="name" class="form-control" />
 
-                <input type="submit" value="Фильр" class="btn btn-default"/>
+                <input type="submit" value="Фильр" class="btn btn-default" />
             </div>
         </form>
 
@@ -68,7 +68,7 @@
                         <td>@product.SectionName</td>
                         <td>@product.Order</td>
                         <td>
-                            <img src="~/images/home/@product.ImageUrl" width="90" alt="@product.Name"/>
+                            <img src="~/images/home/@product.ImageUrl" width="90" alt="@product.Name" />
                         </td>
                         <td>@product.Price.ToString("C")</td>
                         <td>
@@ -78,6 +78,18 @@
                 }
             </tbody>
         </table>
+        @if (Model.PageViewModel.HasPreviousPage)
+        {
+            <a asp-action="Index" asp-route-page="@(Model.PageViewModel.PageNumber - 1)" class="btn btn-outline-dark">
+                <i class="glyphicon glyphicon-chevron-left"></i> Назад
+            </a>
+        }
+        @if (Model.PageViewModel.HasNextPage)
+        {
+            <a asp-action="Index" asp-route-page="@(Model.PageViewModel.PageNumber + 1)" class="btn btn-outline-dark">
+                Вперед <i class="glyphicon glyphicon-chevron-right"></i>
+            </a>
+        }
     }
 </div>
 

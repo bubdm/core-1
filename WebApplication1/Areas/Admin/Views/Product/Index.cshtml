@@ -1,30 +1,7 @@
-﻿
-@model WebApplication1.Areas.Admin.Models.IndexProductEditViewModel
-@*@model IEnumerable<WebApplication1.ViewModel.ProductEditViewModel>*@
-
+﻿@model WebApplication1.Areas.Admin.Models.IndexProductEditViewModel
 @{
     ViewBag.Title = "Редактирование каталога товаров";
 }
-@*<style>
-    @@font-face{font-family:'FontAwesome';src:url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2') format('woff2'),
-                                              url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.woff') format('woff'),
-                                              url('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/fonts/fontawesome-webfont.ttf') format('truetype');font-weight:normal;font-style:normal}
-    .glyphicon {
-        display: inline-block;
-        font: normal normal normal 14px/1 FontAwesome;
-        font-size: inherit;
-        text-rendering: auto;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale
-    }
-    .glyphicon-chevron-down:before {
-        content: "\f078";
-    }
- 
-    .glyphicon-chevron-up:before {
-        content: "\f077";
-    }
-</style>*@
 <div class="container">
     <h2>@ViewBag.Title</h2>
 
@@ -44,42 +21,27 @@
                         <product-edit-sort action="Index" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current" property="@Model.SortViewModel.NameSort">
                             <label asp-for="@first.Name" class="btn"></label>
                         </product-edit-sort>
-                        @*<a asp-action="Index" asp-route-sortOrder="@ViewBag.NameSort">
-                            <label asp-for="@first.Name" class="btn"></label>
-                        </a>*@
                     </th>
                     <th>
                         <product-edit-sort action="Index" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current" property="@Model.SortViewModel.BrandSort">
                             <label asp-for="@first.BrandName" class="btn"></label>
                         </product-edit-sort>
-                        @*<a asp-action="Index" asp-route-sortOrder="@ViewBag.BrandSort">
-                            <label asp-for="@first.BrandName" class="btn"></label>
-                        </a>*@
                     </th>
                     <th>
                         <product-edit-sort action="Index" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current" property="@Model.SortViewModel.SectionSort">
                             <label asp-for="@first.SectionName" class="btn"></label>
                         </product-edit-sort>
-                        @*<a asp-action="Index" asp-route-sortOrder="@ViewBag.SectionSort">
-                            <label asp-for="@first.SectionName" class="btn"></label>
-                        </a>*@
                     </th>
                     <th>
                         <product-edit-sort action="Index" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current" property="@Model.SortViewModel.OrderSort">
                             <label asp-for="@first.Order" class="btn"></label>
                         </product-edit-sort>
-                        @*<a asp-action="Index" asp-route-sortOrder="@ViewBag.OrderSort">
-                            <label asp-for="@first.Order" class="btn"></label>
-                        </a>*@
                     </th>
                     <th><label asp-for="@first.ImageUrl"></label></th>
                     <th>
                         <product-edit-sort action="Index" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current" property="@Model.SortViewModel.PriceSort">
                             <label asp-for="@first.Price" class="btn"></label>
                         </product-edit-sort>
-                        @*<a asp-action="Index" asp-route-sortOrder="@ViewBag.PriceSort">
-                            <label asp-for="@first.Price" class="btn"></label>
-                        </a>*@
                     </th>
                     <th></th>
                 </tr>

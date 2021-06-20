@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.Data.SqlClient;
 using WebApplication1.Areas.Admin.Models;
 
 namespace WebApplication1.TagHelpers
@@ -21,6 +20,7 @@ namespace WebApplication1.TagHelpers
         {
             _UrlHelperFactory = urlHelperFactory;
         }
+
         [ViewContext, HtmlAttributeNotBound]
         public ViewContext ViewContext { get; set; }
 

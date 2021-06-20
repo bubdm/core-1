@@ -40,12 +40,6 @@ namespace WebApplication1.Areas.Admin.Controllers
         {
             var products = _ProductData.GetProducts();
 
-            //ViewData["NameSort"] = sortOrder == ProductEditSortState.NameAsc ? ProductEditSortState.NameDesc : ProductEditSortState.NameAsc;
-            //ViewData["OrderSort"] = sortOrder == ProductEditSortState.OrderAsc ? ProductEditSortState.OrderDesc : ProductEditSortState.OrderAsc;
-            //ViewData["PriceSort"] = sortOrder == ProductEditSortState.PriceAsc ? ProductEditSortState.PriceDesc : ProductEditSortState.PriceAsc;
-            //ViewData["SectionSort"] = sortOrder == ProductEditSortState.SectionAsc ? ProductEditSortState.SectionDesc : ProductEditSortState.SectionAsc;
-            //ViewData["BrandSort"] = sortOrder == ProductEditSortState.BrandAsc ? ProductEditSortState.BrandDesc : ProductEditSortState.BrandAsc;
-
             products = sortOrder switch
             {
                 ProductEditSortState.NameDesc => products.OrderByDescending(p => p.Name),
@@ -65,8 +59,6 @@ namespace WebApplication1.Areas.Admin.Controllers
                 Products = _mapperProductToView.Map<IEnumerable<ProductEditViewModel>>(products.ToList()),
             };
             return View(webModel);
-
-            //return View(_mapperProductToView.Map<IEnumerable<ProductEditViewModel>>(products.ToList()));
         }
 
         public IActionResult Create()

@@ -1,7 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApplication.Domain.Entities;
@@ -16,6 +20,7 @@ namespace WebApplication1.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IProductData _ProductData;
+        private readonly IWebHostEnvironment _AppEnvironment;
 
         private readonly Mapper _mapperProductToView =
             new(new MapperConfiguration(c => c.CreateMap<Product, ProductEditViewModel>()            
@@ -24,9 +29,10 @@ namespace WebApplication1.Areas.Admin.Controllers
         private readonly Mapper _mapperProductFromView =
             new(new MapperConfiguration(c => c.CreateMap<ProductEditViewModel, Product>()));
 
-        public ProductController(IProductData productData)
+        public ProductController(IProductData productData, IWebHostEnvironment appEnvironment)
         {
             _ProductData = productData;
+            _AppEnvironment = appEnvironment;
         }
 
         public IActionResult Index()
@@ -54,6 +60,26 @@ namespace WebApplication1.Areas.Admin.Controllers
             return NotFound();
         }
 
+        
+        [HttpPost]
+        public async Task<IActionResult> UploadFotoToEdit(int id, IFormFile uploadedFile)
+        {
+            if (_ProductData.GetProductById(id) is not { } product)
+                return BadRequest();
+
+            if (uploadedFile != null)
+            {
+                string path = "/images/home/" + uploadedFile.FileName;
+                using (var fileStream = new FileStream(_AppEnvironment.WebRootPath + path, FileMode.Create))
+                {
+                    await uploadedFile.CopyToAsync(fileStream);
+                }
+                product.ImageUrl = uploadedFile.FileName;
+                _ProductData.Update(product);
+            }
+            return RedirectToAction(nameof(Edit), new { id });
+        }
+
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult Edit(ProductEditViewModel model)
         {
@@ -76,6 +102,7 @@ namespace WebApplication1.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
+
 
         public IActionResult Delete(int id)
         {

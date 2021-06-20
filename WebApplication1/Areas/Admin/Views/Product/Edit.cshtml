@@ -35,7 +35,7 @@
                 
                 <div class="form-group">
                     <label asp-for="ImageUrl" class="control-label"></label>
-                    <input asp-for="ImageUrl" class="form-control"/>
+                    <img src="~/images/home/@Model.ImageUrl" alt="@Model.ImageUrl" width="500"/>
                     <span asp-validation-for="ImageUrl" class="text-danger"></span>
                 </div>
                 
@@ -54,7 +54,15 @@
                 <div class="form-group">
                     <input type="submit" value="Сохранить" class="btn btn-primary" />
                 </div>
+            </form>
+            
+            <div class="row">
+                <p>Загрузка фотографии товара:</p>
+            </div>
 
+            <form asp-action="UploadFotoToEdit" asp-route-id="@Model.Id" enctype="multipart/form-data">
+                <input type="file" name="uploadedFile" />
+                <input type="submit" class="btn btn-primary" value="Загрузить изображение товара" /><br/>
             </form>
         </div>
     </div>

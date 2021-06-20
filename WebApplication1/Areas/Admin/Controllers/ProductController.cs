@@ -60,28 +60,8 @@ namespace WebApplication1.Areas.Admin.Controllers
             return NotFound();
         }
 
-        
         [HttpPost]
-        public async Task<IActionResult> UploadFotoToEdit(int id, IFormFile uploadedFile)
-        {
-            if (_ProductData.GetProductById(id) is not { } product)
-                return BadRequest();
-
-            if (uploadedFile != null)
-            {
-                string path = "/images/home/" + uploadedFile.FileName;
-                using (var fileStream = new FileStream(_AppEnvironment.WebRootPath + path, FileMode.Create))
-                {
-                    await uploadedFile.CopyToAsync(fileStream);
-                }
-                product.ImageUrl = uploadedFile.FileName;
-                _ProductData.Update(product);
-            }
-            return RedirectToAction(nameof(Edit), new { id });
-        }
-
-        [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Edit(ProductEditViewModel model)
+        public async Task<IActionResult> Edit(ProductEditViewModel model, IFormFile uploadedFile)
         {
             if (model is null)
                 return BadRequest();
@@ -95,6 +75,14 @@ namespace WebApplication1.Areas.Admin.Controllers
 
             var product = _mapperProductFromView.Map<Product>(model);
 
+            if (uploadedFile is not null)
+            {
+                string path = "/images/home/" + uploadedFile.FileName;
+                await using (var fileStream = new FileStream(_AppEnvironment.WebRootPath + path, FileMode.Create))
+                    await uploadedFile.CopyToAsync(fileStream);
+                product.ImageUrl = uploadedFile.FileName;
+            }
+
             if (product.Id == 0)
                 _ProductData.Add(product);
             else
@@ -102,7 +90,6 @@ namespace WebApplication1.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
-
 
         public IActionResult Delete(int id)
         {

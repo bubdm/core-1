@@ -10,11 +10,13 @@
     <hr />
     <div class="row">
         <div class="col-md-4">
-            <form asp-action="Edit" asp-antiforgery="true">
+            <form asp-controller="Product" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 
                 <input type="hidden" asp-for="Id"/>
                 
+                <input type="hidden" asp-for="ImageUrl" />
+
                 <div class="form-group">
                     <label asp-for="Name" class="control-label"></label>
                     <input asp-for="Name" class="form-control"/>
@@ -35,10 +37,12 @@
                 
                 <div class="form-group">
                     <label asp-for="ImageUrl" class="control-label"></label>
-                    <img src="~/images/home/@Model.ImageUrl" alt="@Model.ImageUrl" width="500"/>
+                    <input type="file" name="uploadedFile" />
                     <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                    <img src="~/images/home/@Model.ImageUrl" alt="@Model.ImageUrl" width="500" />
                 </div>
                 
+               
                 <div class="form-group">
                     <label asp-for="SectionId" class="control-label"></label>
                     <select asp-for="SectionId" asp-items="ViewBag.Sections"></select>
@@ -52,18 +56,13 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="submit" value="Сохранить" class="btn btn-primary" />
+                    <button asp-controller="Product" asp-action="Edit">Сохранить</button>
                 </div>
             </form>
             
             <div class="row">
                 <p>Загрузка фотографии товара:</p>
             </div>
-
-            <form asp-action="UploadFotoToEdit" asp-route-id="@Model.Id" enctype="multipart/form-data">
-                <input type="file" name="uploadedFile" />
-                <input type="submit" class="btn btn-primary" value="Загрузить изображение товара" /><br/>
-            </form>
         </div>
     </div>
     

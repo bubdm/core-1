@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApplication.Domain.Entities;
 using WebApplication.Domain.Identity;
+using WebApplication1.Areas.Admin.Models;
 using WebApplication1.Services.Interfaces;
 using WebApplication1.ViewModel;
 
@@ -35,9 +36,37 @@ namespace WebApplication1.Areas.Admin.Controllers
             _AppEnvironment = appEnvironment;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(ProductEditSortState sortOrder = ProductEditSortState.NameAsc)
         {
-            return View(_mapperProductToView.Map<IEnumerable<ProductEditViewModel>>(_ProductData.GetProducts().OrderBy(p => p.Order)));
+            var products = _ProductData.GetProducts();
+
+            //ViewData["NameSort"] = sortOrder == ProductEditSortState.NameAsc ? ProductEditSortState.NameDesc : ProductEditSortState.NameAsc;
+            //ViewData["OrderSort"] = sortOrder == ProductEditSortState.OrderAsc ? ProductEditSortState.OrderDesc : ProductEditSortState.OrderAsc;
+            //ViewData["PriceSort"] = sortOrder == ProductEditSortState.PriceAsc ? ProductEditSortState.PriceDesc : ProductEditSortState.PriceAsc;
+            //ViewData["SectionSort"] = sortOrder == ProductEditSortState.SectionAsc ? ProductEditSortState.SectionDesc : ProductEditSortState.SectionAsc;
+            //ViewData["BrandSort"] = sortOrder == ProductEditSortState.BrandAsc ? ProductEditSortState.BrandDesc : ProductEditSortState.BrandAsc;
+
+            products = sortOrder switch
+            {
+                ProductEditSortState.NameDesc => products.OrderByDescending(p => p.Name),
+                ProductEditSortState.OrderAsc => products.OrderBy(p => p.Order),
+                ProductEditSortState.OrderDesc => products.OrderByDescending(p => p.Order),
+                ProductEditSortState.PriceAsc => products.OrderBy(p => p.Price),
+                ProductEditSortState.PriceDesc => products.OrderByDescending(p => p.Price),
+                ProductEditSortState.SectionAsc => products.OrderBy(p => p.Section.Name),
+                ProductEditSortState.SectionDesc => products.OrderByDescending(p => p.Section.Name),
+                ProductEditSortState.BrandAsc => products.OrderBy(p => p.Brand.Name),
+                ProductEditSortState.BrandDesc => products.OrderByDescending(p => p.Brand.Name),
+                _ => products.OrderBy(p => p.Name),
+            };
+            var webModel = new IndexProductEditViewModel
+            {
+                SortViewModel = new ProductEditSortViewModel(sortOrder),
+                Products = _mapperProductToView.Map<IEnumerable<ProductEditViewModel>>(products.ToList()),
+            };
+            return View(webModel);
+
+            //return View(_mapperProductToView.Map<IEnumerable<ProductEditViewModel>>(products.ToList()));
         }
 
         public IActionResult Create()

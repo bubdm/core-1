@@ -46,11 +46,6 @@ namespace WebApplication1.Areas.Admin.Controllers
                 products = products.Where(p => p.Name.Contains(name));
             }
 
-            int pageSize = 6;
-            var count = products!.Count();
-            products = products.Skip((page - 1) * pageSize).Take(pageSize);
-            var pageModel = new PageViewModel(count, page, pageSize);
-
             products = sortOrder switch
             {
                 ProductEditSortState.NameDesc => products.OrderByDescending(p => p.Name),
@@ -64,12 +59,20 @@ namespace WebApplication1.Areas.Admin.Controllers
                 ProductEditSortState.BrandDesc => products.OrderByDescending(p => p.Brand.Name),
                 _ => products.OrderBy(p => p.Name),
             };
+
+            int pageSize = 6;
+            var count = products!.Count();
+            products = products.Skip((page - 1) * pageSize).Take(pageSize);
+
+            //var pageModel = new PageViewModel(count, page, pageSize);
+
+
             var webModel = new IndexProductEditViewModel
             {
+                FilterViewModel = new ProductEditFilterViewModel(name),
                 SortViewModel = new ProductEditSortViewModel(sortOrder),
+                PageViewModel = new PageViewModel(count, page, pageSize),
                 Products = _mapperProductToView.Map<IEnumerable<ProductEditViewModel>>(products.ToList()),
-                FilterName = name,
-                PageViewModel = pageModel,
             };
             return View(webModel);
         }

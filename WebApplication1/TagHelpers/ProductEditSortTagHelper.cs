@@ -20,7 +20,6 @@ namespace WebApplication1.TagHelpers
         {
             _UrlHelperFactory = urlHelperFactory;
         }
-
         [ViewContext, HtmlAttributeNotBound]
         public ViewContext ViewContext { get; set; }
 

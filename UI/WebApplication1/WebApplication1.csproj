@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>ab75180e-753c-4dca-8233-f0ee939363d1</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.113" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\WebApplication1.Domain\WebApplication1.Domain.csproj" />
+    <ProjectReference Include="..\..\Services\WebApplication1.Dal.Sqlite\WebApplication1.Dal.Sqlite.csproj" />
+    <ProjectReference Include="..\..\Services\WebApplication1.Dal\WebApplication1.Dal.csproj" />
+    <ProjectReference Include="..\..\Services\WebApplication1.Interfaces\WebApplication1.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Services\WebApplication1.Services\WebApplication1.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+
+</Project>

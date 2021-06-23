@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -9,7 +8,7 @@ using WebApplication1.Domain.Entities;
 using WebApplication1.Domain.ViewModel;
 using WebApplication1.Interfaces.Services;
 
-namespace WebApplication1.Services
+namespace WebApplication1.Services.Services
 {
     public class InCookiesCartService : ICartService
     {

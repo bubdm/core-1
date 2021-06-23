@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using WebApplication1.Dal.Context;
 using WebApplication1.Domain.Entities.Orders;
 using WebApplication1.Domain.Identity;
-using WebApplication1.Dal.Context;
 using WebApplication1.Domain.ViewModel;
 using WebApplication1.Interfaces.Services;
 
-namespace WebApplication1.Services
+namespace WebApplication1.Services.Services
 {
     public class SqlOrderService : IOrderService
     {

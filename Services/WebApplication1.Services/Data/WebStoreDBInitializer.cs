@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using WebApplication1.Dal.Context;
 using WebApplication1.Domain.Entities;
 using WebApplication1.Domain.Identity;
-using WebApplication1.Dal.Context;
 
-namespace WebApplication1.Data
+namespace WebApplication1.Services.Data
 {
     public class WebStoreDBInitializer
     {

@@ -10,11 +10,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebApplication1.Domain.Identity;
 using WebApplication1.Dal.Context;
-using WebApplication1.Data;
 using WebApplication1.Infrastructure.Conventions;
 using WebApplication1.Infrastructure.Middleware;
 using WebApplication1.Interfaces.Services;
 using WebApplication1.Services;
+using WebApplication1.Services.Data;
+using WebApplication1.Services.Services;
 
 namespace WebApplication1
 {

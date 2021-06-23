@@ -14,8 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StudentsDAL.Models\StudentsDAL.Models.csproj" />
-    <ProjectReference Include="..\StudentsDAL\StudentsDAL.csproj" />
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
   </ItemGroup>
 

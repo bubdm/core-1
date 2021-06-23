@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApplication1.Domain;
 using WebApplication1.Domain.Entities;
-using WebApplication1.Services.Interfaces;
+using WebApplication1.Interfaces.Services;
 
 namespace WebApplication1.Services
 {

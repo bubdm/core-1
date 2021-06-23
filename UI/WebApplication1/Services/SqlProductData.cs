@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using WebApplication1.Domain;
 using WebApplication1.Domain.Entities;
 using WebApplication1.Dal.Context;
-using WebApplication1.Services.Interfaces;
+using WebApplication1.Interfaces.Services;
 
 namespace WebApplication1.Services
 {

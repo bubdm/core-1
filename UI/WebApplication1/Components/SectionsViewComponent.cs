@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using WebApplication1.Services.Interfaces;
-using WebApplication1.ViewModel;
+using WebApplication1.Domain.ViewModel;
+using WebApplication1.Interfaces.Services;
 
 namespace WebApplication1.Components
 {

@@ -8,7 +8,6 @@ using Microsoft.Extensions.Logging;
 using WebApplication1.Domain.Entities;
 using WebApplication1.Domain.Identity;
 using WebApplication1.Dal.Context;
-using WebApplication1.Services.Interfaces;
 
 namespace WebApplication1.Data
 {

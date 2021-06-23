@@ -12,8 +12,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApplication1.Domain.Entities;
 using WebApplication1.Domain.Identity;
 using WebApplication1.Areas.Admin.Models;
-using WebApplication1.Services.Interfaces;
-using WebApplication1.ViewModel;
+using WebApplication1.Domain.ViewModel;
+using WebApplication1.Interfaces.Services;
 
 namespace WebApplication1.Areas.Admin.Controllers
 {

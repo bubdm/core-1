@@ -13,8 +13,8 @@ using WebApplication1.Dal.Context;
 using WebApplication1.Data;
 using WebApplication1.Infrastructure.Conventions;
 using WebApplication1.Infrastructure.Middleware;
+using WebApplication1.Interfaces.Services;
 using WebApplication1.Services;
-using WebApplication1.Services.Interfaces;
 
 namespace WebApplication1
 {

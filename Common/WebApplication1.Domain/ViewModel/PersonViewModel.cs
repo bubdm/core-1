@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApplication1.ViewModel
+namespace WebApplication1.Domain.ViewModel
 {
     public class PersonViewModel
     {

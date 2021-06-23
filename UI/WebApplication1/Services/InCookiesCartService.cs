@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using WebApplication1.Domain;
 using WebApplication1.Domain.Entities;
-using WebApplication1.Services.Interfaces;
-using WebApplication1.ViewModel;
+using WebApplication1.Domain.ViewModel;
+using WebApplication1.Interfaces.Services;
 
 namespace WebApplication1.Services
 {

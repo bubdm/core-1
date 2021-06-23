@@ -2,7 +2,7 @@
 using WebApplication1.Domain;
 using WebApplication1.Domain.Entities;
 
-namespace WebApplication1.Services.Interfaces
+namespace WebApplication1.Interfaces.Services
 {
     public interface IProductData
     {

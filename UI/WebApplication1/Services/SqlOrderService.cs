@@ -8,8 +8,8 @@ using Microsoft.Extensions.Logging;
 using WebApplication1.Domain.Entities.Orders;
 using WebApplication1.Domain.Identity;
 using WebApplication1.Dal.Context;
-using WebApplication1.Services.Interfaces;
-using WebApplication1.ViewModel;
+using WebApplication1.Domain.ViewModel;
+using WebApplication1.Interfaces.Services;
 
 namespace WebApplication1.Services
 {

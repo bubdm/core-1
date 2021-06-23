@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using WebApplication1.ViewModel;
+using WebApplication1.Domain.ViewModel;
 
 namespace WebApplication1.Areas.Admin.Models
 {

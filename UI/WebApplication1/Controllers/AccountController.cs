@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WebApplication1.Domain.Identity;
-using WebApplication1.ViewModel;
+using WebApplication1.Domain.ViewModel;
 
 namespace WebApplication1.Controllers
 {

@@ -5,8 +5,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using WebApplication1.Domain.Entities;
-using WebApplication1.Services.Interfaces;
-using WebApplication1.ViewModel;
+using WebApplication1.Domain.ViewModel;
+using WebApplication1.Interfaces.Services;
 
 namespace WebApplication1.Controllers
 {

@@ -1,6 +1,5 @@
 using System;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -13,7 +12,6 @@ using WebApplication1.Dal.Context;
 using WebApplication1.Infrastructure.Conventions;
 using WebApplication1.Infrastructure.Middleware;
 using WebApplication1.Interfaces.Services;
-using WebApplication1.Services;
 using WebApplication1.Services.Data;
 using WebApplication1.Services.Services;
 

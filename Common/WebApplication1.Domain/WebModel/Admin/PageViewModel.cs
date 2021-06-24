@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WebApplication1.Areas.Admin.WebModels
+namespace WebApplication1.Domain.WebModel.Admin
 {
     public class PageViewModel
     {

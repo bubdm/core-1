@@ -9,10 +9,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using WebApplication1.Areas.Admin.WebModels;
 using WebApplication1.Domain.Entities;
 using WebApplication1.Domain.Identity;
 using WebApplication1.Domain.WebModel;
+using WebApplication1.Domain.WebModel.Admin;
 using WebApplication1.Interfaces.Services;
 
 namespace WebApplication1.Areas.Admin.Controllers

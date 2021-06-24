@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using WebApplication1.Areas.Admin.WebModels;
+using WebApplication1.Domain.WebModel.Admin;
 
 namespace WebApplication1.TagHelpers
 {

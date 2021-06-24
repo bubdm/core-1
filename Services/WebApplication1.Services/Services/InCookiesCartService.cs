@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using WebApplication1.Domain.Model;
 using WebApplication1.Domain.Entities;
-using WebApplication1.Domain.ViewModel;
+using WebApplication1.Domain.WebModel;
 using WebApplication1.Interfaces.Services;
 
 namespace WebApplication1.Services.Services
@@ -15,7 +15,7 @@ namespace WebApplication1.Services.Services
         private readonly IHttpContextAccessor _ContextAccessor;
         private readonly IProductData _ProductData;
         private readonly string _cartName;
-        private readonly Mapper _mapperProductToView = new (new MapperConfiguration(c => c.CreateMap<Product, ProductViewModel>()
+        private readonly Mapper _mapperProductToView = new (new MapperConfiguration(c => c.CreateMap<Product, ProductWebModel>()
             .ForMember("Section", o => o.MapFrom(p => p.Section.Name))
             .ForMember("Brand", o => o.MapFrom(p => p.Brand.Name))));
 
@@ -96,7 +96,7 @@ namespace WebApplication1.Services.Services
             Cart = cart;
         }
 
-        public CartViewModel GetViewModel()
+        public CartWebModel GetViewModel()
         {
             var products = _ProductData.GetProducts(new ProductFilter
             {
@@ -104,9 +104,9 @@ namespace WebApplication1.Services.Services
             });
 
             var productViews = _mapperProductToView
-                .Map<IEnumerable<ProductViewModel>>(products).ToDictionary(p => p.Id);
+                .Map<IEnumerable<ProductWebModel>>(products).ToDictionary(p => p.Id);
 
-            return new CartViewModel
+            return new CartWebModel
             {
                 Items = Cart.Items
                     .Where(p => productViews.ContainsKey(p.ProductId))

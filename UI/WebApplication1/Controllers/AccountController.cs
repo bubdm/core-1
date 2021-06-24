@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WebApplication1.Domain.Identity;
-using WebApplication1.Domain.ViewModel;
+using WebApplication1.Domain.WebModel;
 
 namespace WebApplication1.Controllers
 {
@@ -24,10 +24,10 @@ namespace WebApplication1.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult Register() => View(new RegisterUserViewModel());
+        public IActionResult Register() => View(new RegisterUserWebModel());
 
         [HttpPost, ValidateAntiForgeryToken, AllowAnonymous]
-        public async Task<IActionResult> Register(RegisterUserViewModel model)
+        public async Task<IActionResult> Register(RegisterUserWebModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);
@@ -59,10 +59,10 @@ namespace WebApplication1.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult Login(string returnUrl) => View(new LoginViewModel {ReturnUrl = returnUrl});
+        public IActionResult Login(string returnUrl) => View(new LoginWebModel {ReturnUrl = returnUrl});
 
         [HttpPost, ValidateAntiForgeryToken, AllowAnonymous]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginWebModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);

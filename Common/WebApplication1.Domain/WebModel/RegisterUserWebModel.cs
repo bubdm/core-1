@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebApplication1.Domain.ViewModel
+namespace WebApplication1.Domain.WebModel
 {
-    public class RegisterUserViewModel
+    public class RegisterUserWebModel
     {
         [Required]
         [Display(Name = "Имя пользователя")]

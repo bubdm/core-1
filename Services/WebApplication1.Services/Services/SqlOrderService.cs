@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using WebApplication1.Dal.Context;
 using WebApplication1.Domain.Entities.Orders;
 using WebApplication1.Domain.Identity;
-using WebApplication1.Domain.ViewModel;
+using WebApplication1.Domain.WebModel;
 using WebApplication1.Interfaces.Services;
 
 namespace WebApplication1.Services.Services
@@ -41,7 +41,7 @@ namespace WebApplication1.Services.Services
                 .FirstOrDefaultAsync(o => o.Id == id);
         }
 
-        public async Task<Order> CreateOrder(string userName, CartViewModel cart, OrderViewModel model)
+        public async Task<Order> CreateOrder(string userName, CartWebModel cart, OrderWebModel model)
         {
             var user = await _UserManager.FindByNameAsync(userName);
             if (user is null)

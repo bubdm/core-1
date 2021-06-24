@@ -1,4 +1,4 @@
-﻿using WebApplication1.Domain.ViewModel;
+﻿using WebApplication1.Domain.WebModel;
 
 namespace WebApplication1.Interfaces.Services
 {
@@ -8,6 +8,6 @@ namespace WebApplication1.Interfaces.Services
         void Minus(int id);
         void Remove(int id);
         void Clear();
-        CartViewModel GetViewModel();
+        CartWebModel GetViewModel();
     }
 }

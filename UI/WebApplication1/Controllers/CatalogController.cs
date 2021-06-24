@@ -4,7 +4,7 @@ using System.Linq;
 using AutoMapper;
 using WebApplication1.Domain.Model;
 using WebApplication1.Domain.Entities;
-using WebApplication1.Domain.ViewModel;
+using WebApplication1.Domain.WebModel;
 using WebApplication1.Interfaces.Services;
 
 namespace WebApplication1.Controllers
@@ -12,7 +12,7 @@ namespace WebApplication1.Controllers
     public class CatalogController : Controller
     {
         private readonly IProductData _productData;
-        private readonly Mapper _mapperProductToView = new (new MapperConfiguration(c => c.CreateMap<Product, ProductViewModel>()
+        private readonly Mapper _mapperProductToView = new (new MapperConfiguration(c => c.CreateMap<Product, ProductWebModel>()
             .ForMember("Section", o => o.MapFrom(p => p.Section.Name))
             .ForMember("Brand", o => o.MapFrom(p => p.Brand.Name))));
         public CatalogController(IProductData productData)
@@ -28,12 +28,12 @@ namespace WebApplication1.Controllers
             };
             var products = _productData.GetProducts(filter);
 
-            return View(new CatalogViewModel
+            return View(new CatalogWebModel
             {
                 BrandId = brandId,
                 SectionId = sectionId,
                 Products = _mapperProductToView
-                    .Map<IEnumerable<ProductViewModel>>(products.OrderBy(p => p.Order)),
+                    .Map<IEnumerable<ProductWebModel>>(products.OrderBy(p => p.Order)),
             });
         }
 
@@ -44,7 +44,7 @@ namespace WebApplication1.Controllers
                 return NotFound();
 
             return View(_mapperProductToView
-                .Map<ProductViewModel>(product));
+                .Map<ProductWebModel>(product));
         }
     }
 }

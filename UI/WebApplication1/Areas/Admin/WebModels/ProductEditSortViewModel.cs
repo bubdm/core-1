@@ -1,6 +1,4 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-
-namespace WebApplication1.Areas.Admin.Models
+﻿namespace WebApplication1.Areas.Admin.WebModels
 {
     public class ProductEditSortViewModel
     {

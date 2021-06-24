@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebApplication1.Domain.ViewModel
+namespace WebApplication1.Domain.WebModel
 {
-    public class OrderViewModel
+    public class OrderWebModel
     {
         [Required(ErrorMessage = "Нужно ввести название заказа")]
         public string Name { get; set; }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using WebApplication1.Domain.ViewModel;
+using WebApplication1.Domain.WebModel;
 using WebApplication1.Interfaces.Services;
 
 namespace WebApplication1.Components
@@ -15,10 +15,10 @@ namespace WebApplication1.Components
         }
         public IViewComponentResult Invoke() => View(GetBrands());
 
-        private IEnumerable<BrandViewModel> GetBrands() => _productData
+        private IEnumerable<BrandWebModel> GetBrands() => _productData
             .GetBrands().OrderBy(b => b.Order)
             .Select(b =>
-            new BrandViewModel
+            new BrandWebModel
             {
                 Id = b.Id,
                 Name = b.Name,

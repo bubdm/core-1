@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using WebApplication1.Domain.ViewModel;
+using WebApplication1.Domain.WebModel;
 using WebApplication1.Interfaces.Services;
 
 namespace WebApplication1.Components
@@ -18,7 +18,7 @@ namespace WebApplication1.Components
             var all = _productData.GetSections();
 
             var parents = all.Where(s => s.ParentId == null);
-            var parentsViews = parents.Select(p => new SectionViewModel
+            var parentsViews = parents.Select(p => new SectionWebModel
             {
                 Id = p.Id,
                 Name = p.Name,
@@ -30,7 +30,7 @@ namespace WebApplication1.Components
                 var childs = all.Where(p => p.ParentId == parentView.Id);
                 foreach (var child in childs)
                 {
-                    parentView.ChildSections.Add(new SectionViewModel
+                    parentView.ChildSections.Add(new SectionWebModel
                     {
                         Id = child.Id,
                         Name = child.Name,

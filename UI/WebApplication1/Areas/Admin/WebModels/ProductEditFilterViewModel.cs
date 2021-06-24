@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace WebApplication1.Areas.Admin.Models
+﻿namespace WebApplication1.Areas.Admin.WebModels
 {
     public class ProductEditFilterViewModel
     {

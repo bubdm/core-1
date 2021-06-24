@@ -45,7 +45,7 @@ namespace WebApplication1.WebAPI.Clients.Values
         }
 
         public bool Delete(int id)
-        {
+    {
             var response = _Client.DeleteAsync($"{_Address}/{id}").Result;
             return response.IsSuccessStatusCode;
         }

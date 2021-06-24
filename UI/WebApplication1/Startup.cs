@@ -12,8 +12,10 @@ using WebApplication1.Dal.Context;
 using WebApplication1.Infrastructure.Conventions;
 using WebApplication1.Infrastructure.Middleware;
 using WebApplication1.Interfaces.Services;
+using WebApplication1.Interfaces.WebAPI;
 using WebApplication1.Services.Data;
 using WebApplication1.Services.Services;
+using WebApplication1.WebAPI.Clients.Values;
 
 namespace WebApplication1
 {
@@ -94,6 +96,9 @@ namespace WebApplication1
             services.AddScoped<IPersonsData, SqlPersonsData>();
             services.AddScoped<IProductData, SqlProductData>();
             services.AddScoped<IOrderService, SqlOrderService>();
+
+            services.AddHttpClient<IValuesService, ValuesClient>(c => c
+                .BaseAddress = new Uri(Configuration["WebAPI"]));
 
             services.AddControllersWithViews(opt => opt.Conventions.Add(new TestControllerConvention()))
                 .AddRazorRuntimeCompilation();

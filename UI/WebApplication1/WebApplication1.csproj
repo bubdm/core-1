@@ -22,6 +22,7 @@
     <ProjectReference Include="..\..\Services\WebApplication1.Dal\WebApplication1.Dal.csproj" />
     <ProjectReference Include="..\..\Services\WebApplication1.Interfaces\WebApplication1.Interfaces.csproj" />
     <ProjectReference Include="..\..\Services\WebApplication1.Services\WebApplication1.Services.csproj" />
+    <ProjectReference Include="..\..\Services\WebApplication1.WebAPI.Clients\WebApplication1.WebAPI.Clients.csproj" />
   </ItemGroup>
 
   <ItemGroup>

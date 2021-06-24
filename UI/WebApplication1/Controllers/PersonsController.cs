@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Domain.Entities;
 using WebApplication1.Domain.Identity;
-using WebApplication1.Domain.ViewModel;
+using WebApplication1.Domain.WebModel;
 using WebApplication1.Interfaces.Services;
 
 namespace WebApplication1.Controllers
@@ -13,9 +13,9 @@ namespace WebApplication1.Controllers
     {
         private readonly IPersonsData _PersonsData;
         private readonly Mapper _mapperPersonToView = 
-            new (new MapperConfiguration(c => c.CreateMap<Person, PersonViewModel>()));
+            new (new MapperConfiguration(c => c.CreateMap<Person, PersonWebModel>()));
         private readonly Mapper _mapperPersonFromView =
-            new(new MapperConfiguration(c => c.CreateMap<PersonViewModel, Person>()));
+            new(new MapperConfiguration(c => c.CreateMap<PersonWebModel, Person>()));
         public PersonsController(IPersonsData personsData)
         {
             _PersonsData = personsData;
@@ -37,7 +37,7 @@ namespace WebApplication1.Controllers
         }
 
         [Authorize(Roles = Role.Administrators)]
-        public IActionResult Create() => View("Edit", new PersonViewModel());
+        public IActionResult Create() => View("Edit", new PersonWebModel());
 
 
         [Authorize(Roles = Role.Administrators)]
@@ -49,11 +49,11 @@ namespace WebApplication1.Controllers
             if (person is null)
                 return NotFound();
 
-            return View(_mapperPersonToView.Map<PersonViewModel>(person));
+            return View(_mapperPersonToView.Map<PersonWebModel>(person));
         }
         
         [HttpPost, Authorize(Roles = Role.Administrators)]
-        public IActionResult Edit(PersonViewModel model)
+        public IActionResult Edit(PersonWebModel model)
         {
             if (model is null)
                 return BadRequest();
@@ -84,7 +84,7 @@ namespace WebApplication1.Controllers
             if (person is null)
                 return NotFound();
 
-            return View(_mapperPersonToView.Map<PersonViewModel>(person));
+            return View(_mapperPersonToView.Map<PersonWebModel>(person));
         }
 
         [HttpPost, Authorize(Roles = Role.Administrators)]

@@ -1,4 +1,4 @@
-﻿namespace WebApplication1.Areas.Admin.Models
+﻿namespace WebApplication1.Domain.WebModel.Admin
 {
     public enum ProductEditSortState
     {

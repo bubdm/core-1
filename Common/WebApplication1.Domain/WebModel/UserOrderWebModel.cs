@@ -1,6 +1,6 @@
-﻿namespace WebApplication1.Domain.ViewModel
+﻿namespace WebApplication1.Domain.WebModel
 {
-    public class UserOrderViewModel
+    public class UserOrderWebModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

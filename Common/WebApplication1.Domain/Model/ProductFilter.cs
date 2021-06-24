@@ -1,4 +1,4 @@
-﻿namespace WebApplication1.Domain
+﻿namespace WebApplication1.Domain.Model
 {
     public class ProductFilter
     {

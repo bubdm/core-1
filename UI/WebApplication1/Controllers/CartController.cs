@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Domain.Entities;
-using WebApplication1.Domain.ViewModel;
+using WebApplication1.Domain.WebModel;
 using WebApplication1.Interfaces.Services;
 
 namespace WebApplication1.Controllers
@@ -19,7 +19,7 @@ namespace WebApplication1.Controllers
         }
         public IActionResult Index()
         {
-            return View(new CartOrderViewModel{ Cart = _CartService.GetViewModel()});
+            return View(new CartOrderWebModel{ Cart = _CartService.GetViewModel()});
         }
         public IActionResult Add(int id)
         {
@@ -43,11 +43,11 @@ namespace WebApplication1.Controllers
         }
 
         [Authorize, ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckOut(OrderViewModel model, [FromServices] IOrderService orderService)
+        public async Task<IActionResult> CheckOut(OrderWebModel model, [FromServices] IOrderService orderService)
         {
             if (!ModelState.IsValid)
                 return View(nameof(Index),
-                    new CartOrderViewModel {Cart = _CartService.GetViewModel(), Order = model});
+                    new CartOrderWebModel {Cart = _CartService.GetViewModel(), Order = model});
 
             var order = await _OrderService.CreateOrder(User.Identity!.Name, _CartService.GetViewModel(), model);
 

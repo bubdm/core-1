@@ -11,8 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApplication1.Domain.Entities;
 using WebApplication1.Domain.Identity;
-using WebApplication1.Areas.Admin.Models;
-using WebApplication1.Domain.ViewModel;
+using WebApplication1.Domain.WebModel;
+using WebApplication1.Domain.WebModel.Admin;
 using WebApplication1.Interfaces.Services;
 
 namespace WebApplication1.Areas.Admin.Controllers
@@ -25,11 +25,11 @@ namespace WebApplication1.Areas.Admin.Controllers
         private readonly IWebHostEnvironment _AppEnvironment;
 
         private readonly Mapper _mapperProductToView =
-            new(new MapperConfiguration(c => c.CreateMap<Product, ProductEditViewModel>()            
+            new(new MapperConfiguration(c => c.CreateMap<Product, EditProductWebModel>()            
                 .ForMember("SectionName", o => o.MapFrom(p => p.Section.Name))
                 .ForMember("BrandName", o => o.MapFrom(p => p.Brand.Name))));
         private readonly Mapper _mapperProductFromView =
-            new(new MapperConfiguration(c => c.CreateMap<ProductEditViewModel, Product>()));
+            new(new MapperConfiguration(c => c.CreateMap<EditProductWebModel, Product>()));
 
         public ProductController(IProductData productData, IWebHostEnvironment appEnvironment)
         {
@@ -72,7 +72,7 @@ namespace WebApplication1.Areas.Admin.Controllers
                 FilterViewModel = new ProductEditFilterViewModel(name),
                 SortViewModel = new ProductEditSortViewModel(sortOrder),
                 PageViewModel = new PageViewModel(count, page, pageSize),
-                Products = _mapperProductToView.Map<IEnumerable<ProductEditViewModel>>(products.ToList()),
+                Products = _mapperProductToView.Map<IEnumerable<EditProductWebModel>>(products.ToList()),
             };
             return View(webModel);
         }
@@ -81,7 +81,7 @@ namespace WebApplication1.Areas.Admin.Controllers
         {
             ViewBag.Sections = new SelectList(_ProductData.GetSections(), "Id", "Name");
             ViewBag.Brands = new SelectList(_ProductData.GetBrands(), "Id", "Name");
-            return View("Edit", new ProductEditViewModel());
+            return View("Edit", new EditProductWebModel());
         }
 
         public IActionResult Edit(int id)
@@ -92,13 +92,13 @@ namespace WebApplication1.Areas.Admin.Controllers
             {
                 ViewBag.Sections = new SelectList(_ProductData.GetSections(), "Id", "Name");
                 ViewBag.Brands = new SelectList(_ProductData.GetBrands(), "Id", "Name");
-                return View(_mapperProductToView.Map<ProductEditViewModel>(product));
+                return View(_mapperProductToView.Map<EditProductWebModel>(product));
             }
             return NotFound();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(ProductEditViewModel model, IFormFile uploadedFile)
+        public async Task<IActionResult> Edit(EditProductWebModel model, IFormFile uploadedFile)
         {
             if (model is null)
                 return BadRequest();
@@ -134,7 +134,7 @@ namespace WebApplication1.Areas.Admin.Controllers
                 return BadRequest();
             if (_ProductData.GetProductById(id) is { } product)
             {
-                return View(_mapperProductToView.Map<ProductEditViewModel>(product));
+                return View(_mapperProductToView.Map<EditProductWebModel>(product));
             }
             return NotFound();
         }

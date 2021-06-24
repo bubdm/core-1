@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebApplication1.Domain;
+using WebApplication1.Domain.Model;
 using WebApplication1.Domain.Entities;
 using WebApplication1.Interfaces.Services;
 

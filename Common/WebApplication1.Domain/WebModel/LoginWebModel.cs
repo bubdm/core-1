@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApplication1.Domain.ViewModel
+namespace WebApplication1.Domain.WebModel
 {
-    public class LoginViewModel
+    public class LoginWebModel
     {
         [Required]
         [Display(Name = "Имя пользователя")]

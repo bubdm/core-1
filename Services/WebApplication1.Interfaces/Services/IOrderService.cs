@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApplication1.Domain.Entities.Orders;
-using WebApplication1.Domain.ViewModel;
+using WebApplication1.Domain.WebModel;
 
 namespace WebApplication1.Interfaces.Services
 {
@@ -16,6 +16,6 @@ namespace WebApplication1.Interfaces.Services
         /// <summary> Создать заказ новый </summary>
         /// <param name="UserName">Имя пользователя</param> <param name="cart">корзина</param>
         /// <param name="model">заказ</param> <returns>Заказ</returns>
-        Task<Order> CreateOrder(string UserName, CartViewModel cart, OrderViewModel model); 
+        Task<Order> CreateOrder(string UserName, CartWebModel cart, OrderWebModel model); 
     }
 }

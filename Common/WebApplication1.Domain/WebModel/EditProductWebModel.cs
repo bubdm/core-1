@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApplication1.Domain.ViewModel
+namespace WebApplication1.Domain.WebModel
 {
-    public class ProductEditViewModel
+    public class EditProductWebModel
     {
         [HiddenInput(DisplayValue = false)]
         public int Id { get; set; }

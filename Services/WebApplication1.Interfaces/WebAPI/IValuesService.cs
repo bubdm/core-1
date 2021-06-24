@@ -8,6 +8,6 @@ namespace WebApplication1.Interfaces.WebAPI
         string GetById(int id);
         void Add(string str);
         void Edit(int id, string str);
-        int Delete(int id);
+        bool Delete(int id);
     }
 }

@@ -15,11 +15,19 @@ namespace ConsoleApp1
 
             PrintData(client, "Элементы изначально:");
 
-            Console.WriteLine("Нажмите любую кнопку и будет добавлен один дополнительный элемент");
+            Console.WriteLine("Нажмите любую кнопку и будет удален один элемент");
             Console.ReadKey();
 
-            client.Add("New Item");
-            
+            var result = client.Delete(0);
+            if (result)
+                Console.WriteLine("Элемент успешно удален");
+
+            Console.WriteLine("Нажмите кнопку для добавления элемента");
+            Console.ReadKey();
+
+            client.Add("new");
+            Console.WriteLine("Элемент добавлен");
+
             PrintData(client, "Элементы сейчас:");
 
             Console.WriteLine("Для завершения нажмите любую кнопку ...");

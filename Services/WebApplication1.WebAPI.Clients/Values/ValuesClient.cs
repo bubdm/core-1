@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Threading.Tasks;
 using WebApplication1.Interfaces.WebAPI;
 using WebApplication1.WebAPI.Clients.Base;
 
@@ -34,7 +35,7 @@ namespace WebApplication1.WebAPI.Clients.Values
 
         public void Add(string str)
         {
-            var response = _Client.PostAsJsonAsync(_Address, str).Result;
+            var response = _Client.GetAsync($"{_Address}/add?str={str}").Result;
             response.EnsureSuccessStatusCode();
         }
 

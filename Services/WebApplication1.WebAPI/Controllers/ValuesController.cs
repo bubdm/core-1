@@ -33,8 +33,7 @@ namespace WebApplication1.WebAPI.Controllers
             return Ok(__list[id]);
         }
 
-        [HttpPost]
-        [HttpPost("add")]
+        [HttpGet("add")]
         public IActionResult Add(string str)
         {
             __list.Add(str);

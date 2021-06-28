@@ -84,15 +84,6 @@ namespace WebApplication1
 
             services.AddScoped<ICartService, InCookiesCartService>();
             
-            #region Устаревшее
-
-            //services.AddSingleton<IPersonsData, InMemoryEmployesData>(); // хранение на время работы приложения
-            //services.AddScoped<IPersonsData, InMemoryEmployesData>(); // хранение только на время запроса
-            //services.AddTransient<IPersonsData, InMemoryEmployesData>(); // нет ничего для хранения
-            //services.AddSingleton<IProductData, InMemoryProductData>();
-
-            #endregion
-
             services.AddScoped<IPersonsData, SqlPersonsData>();
             services.AddScoped<IProductData, SqlProductData>();
             services.AddScoped<IOrderService, SqlOrderService>();

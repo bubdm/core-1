@@ -6,6 +6,7 @@ using WebApplication1.Interfaces.Services;
 
 namespace WebApplication1.Services.Services
 {
+    [Obsolete("Этим не нужно пользоваться", true)]
     public class InMemoryEmployesData : IPersonsData
     {
         private readonly ICollection<Person> _Persons = Enumerable.Range(1, 10).Select(p => new Person

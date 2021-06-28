@@ -7,7 +7,7 @@ using WebApplication1.Interfaces.Services;
 
 namespace WebApplication1.Services.Services
 {
-    [Obsolete("Не нужно этим пользоваться", false)]
+    [Obsolete("Не нужно этим пользоваться", true)]
     public class InMemoryProductData : IProductData
     {
         #region Стремные данные без базы данных

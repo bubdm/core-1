@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,7 +12,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Common\WebApplication1.Domain\WebApplication1.Domain.csproj" />
     <ProjectReference Include="..\WebApplication1.Interfaces\WebApplication1.Interfaces.csproj" />
-    <ProjectReference Include="..\WebApplication1.WebAPI\WebApplication1.WebAPI.csproj" />
   </ItemGroup>
 
 </Project>

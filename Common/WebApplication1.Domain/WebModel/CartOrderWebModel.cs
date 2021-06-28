@@ -3,6 +3,6 @@
     public class CartOrderWebModel
     {
         public CartWebModel Cart { get; set; }
-        public OrderWebModel Order { get; set; } = new();
+        public OrderWebModel Order { get; set; } = new OrderWebModel();
     }
 }

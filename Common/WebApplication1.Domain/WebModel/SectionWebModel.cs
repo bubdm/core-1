@@ -8,6 +8,6 @@ namespace WebApplication1.Domain.WebModel
         public string Name { get; set; }
         public int Order { get; set; }
         public SectionWebModel Parent { get; set; }
-        public List<SectionWebModel> ChildSections { get; set; } = new();
+        public List<SectionWebModel> ChildSections { get; set; } = new List<SectionWebModel>();
     }
 }

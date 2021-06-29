@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Json;
 using WebApplication1.Domain.Entities;
 using WebApplication1.Domain.Model;
 using WebApplication1.Interfaces.Adresses;
@@ -15,32 +16,34 @@ namespace WebApplication1.WebAPI.Clients.Products
 
         public IEnumerable<Section> GetSections()
         {
-            throw new NotImplementedException();
+            return Get<IEnumerable<Section>>($"{Address}/sections");
         }
 
         public Section GetSection(int id)
         {
-            throw new NotImplementedException();
+            return Get<Section>($"{Address}/sections/{id}");
         }
 
         public IEnumerable<Brand> GetBrands()
         {
-            throw new NotImplementedException();
+            return Get<IEnumerable<Brand>>($"{Address}/brands");
         }
 
         public Brand GetBrand(int id)
         {
-            throw new NotImplementedException();
+            return Get<Brand>($"{Address}/brands/{id}");
         }
 
         public IEnumerable<Product> GetProducts(ProductFilter productFilter = null)
         {
-            throw new NotImplementedException();
+            var response = Post(Address, productFilter);
+            var products = response.Content.ReadFromJsonAsync<IEnumerable<Product>>().Result;
+            return products;
         }
 
         public Product GetProductById(int id)
         {
-            throw new NotImplementedException();
+            return Get<Product>($"{Address}/{id}");
         }
 
         public int Add(Product product)

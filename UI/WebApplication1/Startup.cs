@@ -92,6 +92,7 @@ namespace WebApplication1
                 .BaseAddress = new Uri(Configuration["WebAPI"]));
             services.AddHttpClient<IPersonsData, PersonsClient>(c => c
                 .BaseAddress = new Uri(Configuration["WebAPI"]));
+            
 
             services.AddControllersWithViews(opt => opt.Conventions.Add(new TestControllerConvention()))
                 .AddRazorRuntimeCompilation();

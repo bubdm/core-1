@@ -2,7 +2,7 @@
 
 namespace WebApplication1.WebAPI.Clients.Base
 {
-    class BaseSyncClient : BaseClient
+    public class BaseSyncClient : BaseClient
     {
         public BaseSyncClient(HttpClient client, string address) : base(client, address) { }
         protected T Get<T>(string url) => GetAsync<T>(url).Result;

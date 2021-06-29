@@ -4,8 +4,7 @@ using System.Linq;
 
 namespace WebApplication1.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    [Route("api/[controller]"), ApiController]
     public class ValuesController : ControllerBase
     {
         private static List<string> __list = Enumerable

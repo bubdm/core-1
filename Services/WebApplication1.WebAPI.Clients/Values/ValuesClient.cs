@@ -23,7 +23,7 @@ namespace WebApplication1.WebAPI.Clients.Values
         public IEnumerable<string> GetAll()
         {
             var response = _policy.ExecuteAsync(async () => 
-                await _client.GetAsync(_address)).Result;
+                await _client.GetAsync(Address)).Result;
             if (response.IsSuccessStatusCode)
                 return response.Content
                     .ReadFromJsonAsync<IEnumerable<string>>()
@@ -34,7 +34,7 @@ namespace WebApplication1.WebAPI.Clients.Values
         public string GetById(int id)
         {
             var response = _policy.ExecuteAsync(async () => 
-                await _client.GetAsync($"{_address}/{id}")).Result;
+                await _client.GetAsync($"{Address}/{id}")).Result;
             if (response.IsSuccessStatusCode)
                 return response.Content
                     .ReadFromJsonAsync<string>()
@@ -44,19 +44,19 @@ namespace WebApplication1.WebAPI.Clients.Values
 
         public void Add(string str)
         {
-            var response = _client.GetAsync($"{_address}/add?str={str}").Result;
+            var response = _client.GetAsync($"{Address}/add?str={str}").Result;
             response.EnsureSuccessStatusCode();
         }
 
         public void Edit(int id, string str)
         {
-            var response = _client.PutAsJsonAsync($"{_address}/{id}", str).Result;
+            var response = _client.PutAsJsonAsync($"{Address}/{id}", str).Result;
             response.EnsureSuccessStatusCode();
         }
 
         public bool Delete(int id)
     {
-            var response = _client.DeleteAsync($"{_address}/{id}").Result;
+            var response = _client.DeleteAsync($"{Address}/{id}").Result;
             return response.IsSuccessStatusCode;
         }
     }

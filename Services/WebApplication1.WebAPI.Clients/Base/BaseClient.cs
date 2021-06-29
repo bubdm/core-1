@@ -7,11 +7,11 @@ namespace WebApplication1.WebAPI.Clients.Base
     public abstract class BaseClient
     {
         protected readonly HttpClient _client;
-        protected readonly string _address;
+        protected readonly string Address;
         public BaseClient(HttpClient client, string address)
         {
             _client = client;
-            _address = address;
+            Address = address;
         }
         protected async Task<T> GetAsync<T>(string url)
         {

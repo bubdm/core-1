@@ -15,6 +15,7 @@ using WebApplication1.Interfaces.Services;
 using WebApplication1.Interfaces.WebAPI;
 using WebApplication1.Services.Data;
 using WebApplication1.Services.Services;
+using WebApplication1.WebAPI.Clients.Persons;
 using WebApplication1.WebAPI.Clients.Values;
 
 namespace WebApplication1
@@ -83,12 +84,13 @@ namespace WebApplication1
             });
 
             services.AddScoped<ICartService, InCookiesCartService>();
-            
-            services.AddScoped<IPersonsData, SqlPersonsData>();
+            //services.AddScoped<IPersonsData, SqlPersonsData>();
             services.AddScoped<IProductData, SqlProductData>();
             services.AddScoped<IOrderService, SqlOrderService>();
-
+            
             services.AddHttpClient<IValuesService, ValuesClient>(c => c
+                .BaseAddress = new Uri(Configuration["WebAPI"]));
+            services.AddHttpClient<IPersonsData, PersonsClient>(c => c
                 .BaseAddress = new Uri(Configuration["WebAPI"]));
 
             services.AddControllersWithViews(opt => opt.Conventions.Add(new TestControllerConvention()))

@@ -20,14 +20,14 @@ namespace WebApplication1.Services.Services
             _logger = logger;
         }
 
-        public IEnumerable<Section> GetSections() => _context.Sections;
+        public IEnumerable<Section> GetSections() => _context.Sections.Include(s => s.Products);
         public Section GetSection(int id)
         {
             return _context.Sections
                 .Include(s => s.Products).FirstOrDefault(s => s.Id == id);
         }
 
-        public IEnumerable<Brand> GetBrands() => _context.Brands;
+        public IEnumerable<Brand> GetBrands() => _context.Brands.Include(b => b.Products);
         public Brand GetBrand(int id)
         {
             return _context.Brands

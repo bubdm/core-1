@@ -36,7 +36,7 @@ namespace WebApplication1.WebAPI.Clients.Products
 
         public IEnumerable<Product> GetProducts(ProductFilter productFilter = null)
         {
-            var response = Post(Address, productFilter);
+            var response = Post($"{Address}/get", productFilter);
             var products = response.Content.ReadFromJsonAsync<IEnumerable<Product>>().Result;
             return products;
         }
@@ -48,17 +48,20 @@ namespace WebApplication1.WebAPI.Clients.Products
 
         public int Add(Product product)
         {
-            throw new NotImplementedException();
+            var response = Post(Address, product);
+            var id = response.Content.ReadFromJsonAsync<int>().Result;
+            return id;
         }
 
         public void Update(Product product)
         {
-            throw new NotImplementedException();
+            var response = Put(Address, product);
         }
 
         public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            var result = Delete($"{Address}/{id}").IsSuccessStatusCode;
+            return result;
         }
     }
 }

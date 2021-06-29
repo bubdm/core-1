@@ -21,8 +21,18 @@ namespace WebApplication1.Services.Services
         }
 
         public IEnumerable<Section> GetSections() => _context.Sections;
+        public Section GetSection(int id)
+        {
+            return _context.Sections
+                .Include(s => s.Products).FirstOrDefault(s => s.Id == id);
+        }
 
         public IEnumerable<Brand> GetBrands() => _context.Brands;
+        public Brand GetBrand(int id)
+        {
+            return _context.Brands
+                .Include(b => b.Products).FirstOrDefault(b => b.Id == id);
+        }
 
         public IEnumerable<Product> GetProducts(ProductFilter productFilter = null)
         {

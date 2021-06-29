@@ -74,8 +74,16 @@ namespace WebApplication1.Services.Services
         #endregion
 
         public IEnumerable<Section> GetSections() => _Sections;
+        public Section GetSection(int id)
+        {
+            throw new NotImplementedException();
+        }
 
         public IEnumerable<Brand> GetBrands() => _Brands;
+        public Brand GetBrand(int id)
+        {
+            throw new NotImplementedException();
+        }
 
         public IEnumerable<Product> GetProducts(ProductFilter productFilter = null)
         {

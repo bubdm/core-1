@@ -8,8 +8,12 @@ namespace WebApplication1.Interfaces.Services
     {
         /// <summary> все категории </summary>
         IEnumerable<Section> GetSections();
+        /// <summary> Одна категория </summary>
+        Section GetSection(int id);
         /// <summary> Все бренды </summary>
         IEnumerable<Brand> GetBrands();
+        /// <summary> Один бренд </summary>
+        Brand GetBrand(int id);
         /// <summary> Все товары </summary>
         IEnumerable<Product> GetProducts(ProductFilter productFilter = null);
         /// <summary> Один продукт по ид </summary>

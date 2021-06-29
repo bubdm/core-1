@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using WebApplication1.Domain.Entities;
+using WebApplication1.Interfaces.Adresses;
 using WebApplication1.Interfaces.Services;
 using WebApplication1.WebAPI.Clients.Base;
 
@@ -9,7 +10,7 @@ namespace WebApplication1.WebAPI.Clients.Persons
 {
     public class PersonsClient : BaseSyncClient, IPersonsData
     {
-        public PersonsClient(HttpClient client) : base(client, "api/persons") { }
+        public PersonsClient(HttpClient client) : base(client, WebAPIInfo.Persons) { }
 
 
         public IEnumerable<Person> GetAll()

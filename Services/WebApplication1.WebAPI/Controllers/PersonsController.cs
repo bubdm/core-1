@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Domain.Entities;
+using WebApplication1.Interfaces.Adresses;
 using WebApplication1.Interfaces.Services;
 
 namespace WebApplication1.WebAPI.Controllers
 {
-    [Route("api/[controller]"), ApiController]
+    [Route(WebAPIInfo.Persons), ApiController]
     public class PersonsController : ControllerBase
     {
         private readonly IPersonsData _PersonsData;

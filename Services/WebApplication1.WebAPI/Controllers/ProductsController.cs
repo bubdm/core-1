@@ -43,14 +43,24 @@ namespace WebApplication1.WebAPI.Controllers
         [HttpPost]
         public IActionResult Add(ProductDTO product)
         {
-            var id = _ProductData.Add(product.FromDTO());
+            var prod = product.FromDTO();
+            prod.SectionId = prod.Section.Id;
+            prod.Section = null;
+            prod.BrandId = prod.Brand?.Id;
+            prod.Brand = null;
+            var id = _ProductData.Add(prod);
             return Ok(id);
         }
 
         [HttpPut]
         public IActionResult Update(ProductDTO product)
         {
-            _ProductData.Update(product.FromDTO());
+            var prod = product.FromDTO();
+            prod.SectionId = prod.Section.Id;
+            prod.Section = null;
+            prod.BrandId = prod.Brand?.Id;
+            prod.Brand = null;
+            _ProductData.Update(prod);
             return Ok();
         }
 

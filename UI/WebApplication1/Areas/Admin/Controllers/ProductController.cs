@@ -111,6 +111,9 @@ namespace WebApplication1.Areas.Admin.Controllers
             }
 
             var product = _mapperProductFromView.Map<Product>(model);
+            product.Section = _ProductData.GetSection(product.SectionId);
+            if (product.BrandId is { } brandId)
+                product.Brand = _ProductData.GetBrand(brandId);
 
             if (uploadedFile is not null)
             {

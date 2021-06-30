@@ -5,6 +5,7 @@ using AutoMapper;
 using WebApplication1.Domain.Model;
 using WebApplication1.Domain.Entities;
 using WebApplication1.Domain.WebModel;
+using WebApplication1.Domain.WebModel.Admin;
 using WebApplication1.Interfaces.Services;
 
 namespace WebApplication1.Controllers
@@ -19,7 +20,7 @@ namespace WebApplication1.Controllers
         {
             _productData = productData;
         }
-        public IActionResult Index(int? brandId, int? sectionId)
+        public IActionResult Index(int? brandId, int? sectionId, int page = 1)
         {
             var filter = new ProductFilter
             {
@@ -28,10 +29,15 @@ namespace WebApplication1.Controllers
             };
             var products = _productData.GetProducts(filter);
 
+            int pageSize = 6;
+            var count = products!.Count();
+            products = products.Skip((page - 1) * pageSize).Take(pageSize);
+
             return View(new CatalogWebModel
             {
                 BrandId = brandId,
                 SectionId = sectionId,
+                PageViewModel = new PageViewModel(count, page, pageSize),
                 Products = _mapperProductToView
                     .Map<IEnumerable<ProductWebModel>>(products.OrderBy(p => p.Order)),
             });

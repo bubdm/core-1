@@ -29,7 +29,7 @@ namespace WebApplication1.Controllers
             };
             var products = _productData.GetProducts(filter);
 
-            int pageSize = 6;
+            int pageSize = 9;
             var count = products!.Count();
             products = products.Skip((page - 1) * pageSize).Take(pageSize);
 

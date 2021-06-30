@@ -34,6 +34,7 @@ namespace WebApplication1.Areas.Admin.Controllers
         {
             _ProductData = productData;
             _AppEnvironment = appEnvironment;
+            //TODO: нужно попробовать реализовать только создание моделей с идентификаторами
             _mapperProductFromView = new(new MapperConfiguration(c => c.CreateMap<EditProductWebModel, Product>()
                 .ForMember("Section", o => o.MapFrom(p => _ProductData.GetSection((int)p.SectionId)))
                 .ForMember("Brand", o=>o.MapFrom(p => _ProductData.GetBrand((int)p.BrandId)))));

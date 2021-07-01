@@ -89,11 +89,17 @@ namespace WebApplication1
             //services.AddScoped<IPersonsData, SqlPersonsData>();
             //services.AddScoped<IProductData, SqlProductData>();
             //services.AddScoped<IOrderService, SqlOrderService>();
-            
-            services.AddHttpClient<IValuesService, ValuesClient>(c => c.BaseAddress = new Uri(Configuration["WebAPI"]));
-            services.AddHttpClient<IPersonsData, PersonsClient>(c => c.BaseAddress = new Uri(Configuration["WebAPI"]));
-            services.AddHttpClient<IProductData, ProductsClient>(c => c.BaseAddress = new Uri(Configuration["WebAPI"]));
-            services.AddHttpClient<IOrderService, OrdersClient>(c => c.BaseAddress = new Uri(Configuration["WebAPI"]));
+
+            //services.AddHttpClient<IValuesService, ValuesClient>(c => c.BaseAddress = new Uri(Configuration["WebAPI"]));
+            //services.AddHttpClient<IPersonsData, PersonsClient>(c => c.BaseAddress = new Uri(Configuration["WebAPI"]));
+            //services.AddHttpClient<IProductData, ProductsClient>(c => c.BaseAddress = new Uri(Configuration["WebAPI"]));
+            //services.AddHttpClient<IOrderService, OrdersClient>(c => c.BaseAddress = new Uri(Configuration["WebAPI"]));
+
+            services.AddHttpClient("Application1API", c => c.BaseAddress = new Uri(Configuration["WebAPI"]))
+                .AddTypedClient<IValuesService, ValuesClient>()
+                .AddTypedClient<IPersonsData, PersonsClient>()
+                .AddTypedClient<IProductData, ProductsClient>()
+                .AddTypedClient<IOrderService, OrdersClient>();
 
             services.AddControllersWithViews(opt => opt.Conventions.Add(new TestControllerConvention()))
                 .AddRazorRuntimeCompilation();

@@ -29,6 +29,7 @@ namespace WebApplication1.Services.Services
             return await _Context.Orders
                 .Include(o => o.User)
                 .Include(o => o.Items)
+                .ThenInclude(i => i.Product)
                 .Where(o => o.User.UserName == userName)
                 .ToArrayAsync();
         }
@@ -38,6 +39,7 @@ namespace WebApplication1.Services.Services
             return await _Context.Orders
                 .Include(o => o.User)
                 .Include(o => o.Items)
+                .ThenInclude(i => i.Product)
                 .FirstOrDefaultAsync(o => o.Id == id);
         }
 

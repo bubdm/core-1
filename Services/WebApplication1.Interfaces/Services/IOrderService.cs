@@ -14,8 +14,8 @@ namespace WebApplication1.Interfaces.Services
         /// <param name="id">Ид заказа</param> <returns>Заказ</returns>
         Task<Order> GetOrderById(int id);
         /// <summary> Создать заказ новый </summary>
-        /// <param name="UserName">Имя пользователя</param> <param name="cart">корзина</param>
+        /// <param name="userName">Имя пользователя</param> <param name="cart">корзина</param>
         /// <param name="model">заказ</param> <returns>Заказ</returns>
-        Task<Order> CreateOrder(string UserName, CartWebModel cart, OrderWebModel model); 
+        Task<Order> CreateOrder(string userName, CartWebModel cart, OrderWebModel model); 
     }
 }

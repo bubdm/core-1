@@ -31,7 +31,7 @@ namespace WebApplication1.Domain.DTO.Mappers
                     Address = order.Address,
                     Phone = order.Phone,
                     DateTime = order.DateTime,
-                    Items = (ICollection<OrderItem>) order.Items.Select(OrderItemDTOMapper.FromDTO),
+                    Items = order.Items.Select(OrderItemDTOMapper.FromDTO).ToList(),
                 };
         }
         public static IEnumerable<OrderDTO> ToDTO(this IEnumerable<Order> orders) => orders.Select(ToDTO);

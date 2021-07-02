@@ -86,14 +86,6 @@ namespace WebApplication1
             });
 
             services.AddScoped<ICartService, InCookiesCartService>();
-            //services.AddScoped<IPersonsData, SqlPersonsData>();
-            //services.AddScoped<IProductData, SqlProductData>();
-            //services.AddScoped<IOrderService, SqlOrderService>();
-
-            //services.AddHttpClient<IValuesService, ValuesClient>(c => c.BaseAddress = new Uri(Configuration["WebAPI"]));
-            //services.AddHttpClient<IPersonsData, PersonsClient>(c => c.BaseAddress = new Uri(Configuration["WebAPI"]));
-            //services.AddHttpClient<IProductData, ProductsClient>(c => c.BaseAddress = new Uri(Configuration["WebAPI"]));
-            //services.AddHttpClient<IOrderService, OrdersClient>(c => c.BaseAddress = new Uri(Configuration["WebAPI"]));
 
             services.AddHttpClient("Application1API", c => c.BaseAddress = new Uri(Configuration["WebAPI"]))
                 .AddTypedClient<IValuesService, ValuesClient>()
@@ -146,7 +138,6 @@ namespace WebApplication1
                     pattern : "{area:exists}/{controller=Home}/{action=Index}/{id?}"
                 );
 
-                //endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapDefaultControllerRoute();
             });
         }

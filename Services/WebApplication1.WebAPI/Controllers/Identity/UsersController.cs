@@ -9,7 +9,7 @@ using WebApplication1.Interfaces.Adresses;
 
 namespace WebApplication1.WebAPI.Controllers.Identity
 {
-    [Route(WebAPIInfo.Users), ApiController]
+    [Route(WebAPIInfo.Identity.Users), ApiController]
     public class UsersController : ControllerBase
     {
         private readonly UserStore<User, Role, Application1Context> _userStore;

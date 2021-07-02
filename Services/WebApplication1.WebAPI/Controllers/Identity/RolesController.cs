@@ -9,7 +9,7 @@ using WebApplication1.Interfaces.Adresses;
 
 namespace WebApplication1.WebAPI.Controllers.Identity
 {
-    [Route(WebAPIInfo.Roles), ApiController]
+    [Route(WebAPIInfo.Identity.Roles), ApiController]
     public class RolesController : ControllerBase
     {
         private readonly RoleStore<Role> _roleStore;

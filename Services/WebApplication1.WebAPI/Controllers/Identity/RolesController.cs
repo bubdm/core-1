@@ -62,7 +62,7 @@ namespace WebApplication1.WebAPI.Controllers.Identity
         }
 
         [HttpPost("setrolename/{name}")]
-        public async Task<string> SetRoleNameAsync(Role role, string name)
+        public async Task<string> SetRoleNameAsync([FromBody] Role role, string name)
         {
             await _roleStore.SetRoleNameAsync(role, name).ConfigureAwait(false);
             await _roleStore.UpdateAsync(role);
@@ -76,8 +76,8 @@ namespace WebApplication1.WebAPI.Controllers.Identity
             return await _roleStore.GetNormalizedRoleNameAsync(role).ConfigureAwait(false);
         }
 
-        [HttpPost("setnormalizedrolename")]
-        public async Task<string> SetNormalizedRoleNameAsync(Role role, string name)
+        [HttpPost("setnormalizedrolename/{name}")]
+        public async Task<string> SetNormalizedRoleNameAsync([FromBody] Role role, string name)
         {
             await _roleStore.SetNormalizedRoleNameAsync(role, name).ConfigureAwait(false);
             await _roleStore.UpdateAsync(role);

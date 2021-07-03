@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
@@ -24,8 +25,10 @@ namespace WebApplication1.WebAPI.Controllers.Identity
         }
 
         [HttpGet("all")]
-        public async Task<IEnumerable<User>> GetAllUsers() => 
-            await _userStore.Users.ToArrayAsync();
+        public async Task<IEnumerable<User>> GetAllUsers()
+        {
+            return await _userStore.Users.ToArrayAsync().ConfigureAwait(false);
+        }
 
         #region Users
 
@@ -156,5 +159,41 @@ namespace WebApplication1.WebAPI.Controllers.Identity
 
         #endregion
 
+        #region Claims
+
+        [HttpPost("getclaims")]
+        public async Task<IList<Claim>> GetClaimsAsync([FromBody] User user)
+        {
+            return await _userStore.GetClaimsAsync(user).ConfigureAwait(false);
+        }
+
+        [HttpPost("addclaims")]
+        public async Task AddClaimsAsync([FromBody] AddClaimDTO claimDto)
+        {
+            await _userStore.AddClaimsAsync(claimDto.User, claimDto.Claims).ConfigureAwait(false);
+            await _userStore.Context.SaveChangesAsync();
+        }
+
+        [HttpPost("replaceclaim")]
+        public async Task ReplaceClaimAsync([FromBody] ReplaceClaimDTO claimDto)
+        {
+            await _userStore.ReplaceClaimAsync(claimDto.User, claimDto.Claim, claimDto.NewClaim).ConfigureAwait(false);
+            await _userStore.Context.SaveChangesAsync();
+        }
+
+        [HttpPost("removeclaim")]
+        public async Task RemoveClaimsAsync([FromBody] RemoveClaimDTO claimDto)
+        {
+            await _userStore.RemoveClaimsAsync(claimDto.User, claimDto.Claims);
+            await _userStore.Context.SaveChangesAsync();
+        }
+
+        [HttpPost("getusersforclaim")]
+        public async Task<IList<User>> GetUsersForClaimAsync([FromBody] Claim claim)
+        {
+            return await _userStore.GetUsersForClaimAsync(claim).ConfigureAwait(false);
+        }
+
+        #endregion
     }
 }

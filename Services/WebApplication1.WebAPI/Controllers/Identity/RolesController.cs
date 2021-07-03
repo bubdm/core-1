@@ -22,8 +22,10 @@ namespace WebApplication1.WebAPI.Controllers.Identity
         }
 
         [HttpGet("all")]
-        public async Task<IEnumerable<Role>> GetAllRolesAsync() => 
-            await _roleStore.Roles.ToArrayAsync();
+        public async Task<IEnumerable<Role>> GetAllRolesAsync()
+        {
+            return await _roleStore.Roles.ToArrayAsync();
+        }
 
         [HttpPost]
         public async Task<bool> CreateAsync(Role role)

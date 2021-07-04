@@ -3,17 +3,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebApplication1.Domain.Identity;
-using WebApplication1.Dal.Context;
 using WebApplication1.Infrastructure.Conventions;
 using WebApplication1.Infrastructure.Middleware;
 using WebApplication1.Interfaces.Services;
 using WebApplication1.Interfaces.WebAPI;
-using WebApplication1.Services.Data;
 using WebApplication1.Services.Services;
 using WebApplication1.WebAPI.Clients.Identity;
 using WebApplication1.WebAPI.Clients.Orders;
@@ -52,19 +49,11 @@ namespace WebApplication1
             //services.AddTransient<WebStoreDBInitializer>();
 
             services.AddIdentity<User, Role>()
+                .AddIdentityApplication1WebAPIClients()
                 //.AddEntityFrameworkStores<Application1Context>()
                 .AddDefaultTokenProviders();
 
-            services.AddHttpClient("Application1API", c => c.BaseAddress = new Uri(Configuration["WebAPI"]))
-                .AddTypedClient<IUserStore<User>, UsersClient>()
-                .AddTypedClient<IUserRoleStore<User>, UsersClient>()
-                .AddTypedClient<IUserPasswordStore<User>, UsersClient>()
-                .AddTypedClient<IUserEmailStore<User>, UsersClient>()
-                .AddTypedClient<IUserPhoneNumberStore<User>, UsersClient>()
-                .AddTypedClient<IUserTwoFactorStore<User>, UsersClient>()
-                .AddTypedClient<IUserClaimStore<User>, UsersClient>()
-                .AddTypedClient<IUserLoginStore<User>, UsersClient>()
-                .AddTypedClient<IRoleStore<Role>, RolesClient>();
+
 
             services.Configure<IdentityOptions>(options =>
             {

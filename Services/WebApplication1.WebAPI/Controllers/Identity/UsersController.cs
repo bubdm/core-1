@@ -195,5 +195,23 @@ namespace WebApplication1.WebAPI.Controllers.Identity
         }
 
         #endregion
+
+        #region TwoFactor
+
+        [HttpPost("gettwofactorenabled")]
+        public async Task<bool> GetTwoFactorEnabledAsync([FromBody] User user)
+        {
+            return await _userStore.GetTwoFactorEnabledAsync(user).ConfigureAwait(false);
+        }
+
+        [HttpPost("settwofactorenabled/{enable}")]
+        public async Task<bool> SetTwoFactorEnabledAsync([FromBody] User user, bool enable)
+        {
+            await _userStore.SetTwoFactorEnabledAsync(user, enable);
+            await _userStore.UpdateAsync(user);
+            return user.TwoFactorEnabled;
+        }
+
+        #endregion
     }
 }

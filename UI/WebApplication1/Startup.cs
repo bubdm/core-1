@@ -31,29 +31,9 @@ namespace WebApplication1
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //var databaseName = Configuration["Database"];
-            //switch (databaseName)
-            //{
-            //    case "MSSQL": 
-            //        services.AddDbContext<Application1Context>(opt => 
-            //            opt.UseSqlServer(Configuration.GetConnectionString("MSSQL"),
-            //                o => o.MigrationsAssembly("WebApplication1.Dal")));
-            //        break;
-            //    case "SQLite":
-            //        services.AddDbContext<Application1Context>(opt =>
-            //            opt.UseSqlite(Configuration.GetConnectionString("SQLite"),
-            //                o => o.MigrationsAssembly("WebApplication1.Dal.Sqlite")));
-            //        break;
-            //}
-
-            //services.AddTransient<WebStoreDBInitializer>();
-
             services.AddIdentity<User, Role>()
                 .AddIdentityApplication1WebAPIClients()
-                //.AddEntityFrameworkStores<Application1Context>()
                 .AddDefaultTokenProviders();
-
-
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -99,9 +79,6 @@ namespace WebApplication1
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env/*, IServiceProvider service*/)
         {
-            //using (var scope = service.CreateScope() )
-            //    scope.ServiceProvider.GetRequiredService<WebStoreDBInitializer>().Init();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

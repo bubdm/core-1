@@ -356,3 +356,6 @@ MigrationBackup/
 **/wwwroot/css/site.min.css
 **/wwwroot/css/site.css
 /WebApplication1/WebStore.db
+/Services/WebApplication1.WebAPI/WebApplication1.WebAPI.xml
+/UI/WebApplication1/WebApplication1.xml
+/Common/WebApplication1.Domain/WebApplication1.Domain.xml

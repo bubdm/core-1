@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -85,6 +86,29 @@ namespace WebApplication1.WebAPI
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApplication1.WebAPI", Version = "v1" });
+
+                const string app1ApiDomainXml = "WebApplication1.Domain.xml";
+                const string app1WebApiXml = "WebApplication1.WebAPI.xml";
+                const string debugPath = "bin/debug/net5.0";
+
+                #if DEBUG
+                if(File.Exists(app1ApiDomainXml))
+                    c.IncludeXmlComments(app1ApiDomainXml);
+                else if(File.Exists(Path.Combine(debugPath, app1ApiDomainXml)))
+                    c.IncludeXmlComments(Path.Combine(debugPath, app1ApiDomainXml));
+
+                if (File.Exists(app1WebApiXml))
+                    c.IncludeXmlComments(app1WebApiXml);
+                else if (File.Exists(Path.Combine(debugPath, app1WebApiXml)))
+                    c.IncludeXmlComments(Path.Combine(debugPath, app1WebApiXml));
+                #else
+                if(File.Exists(app1ApiDomainXml))
+                    c.IncludeXmlComments(app1ApiDomainXml);
+                if (File.Exists(app1WebApiXml))
+                    c.IncludeXmlComments(app1WebApiXml);
+                #endif
+                
+                c.IncludeXmlComments("WebApplication1.WebAPI.xml");
             });
         }
 

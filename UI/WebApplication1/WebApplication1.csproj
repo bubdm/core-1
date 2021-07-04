@@ -5,6 +5,14 @@
     <UserSecretsId>ab75180e-753c-4dca-8233-f0ee939363d1</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Areas\Admin\Models\**" />
     <Compile Remove="Areas\Admin\WebModels\**" />

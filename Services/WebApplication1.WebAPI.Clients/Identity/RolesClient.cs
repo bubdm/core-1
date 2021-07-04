@@ -13,10 +13,6 @@ namespace WebApplication1.WebAPI.Clients.Identity
     public class RolesClient : BaseClient, IRolesClient
     {
         public RolesClient(HttpClient client) : base(client, WebAPIInfo.Identity.Roles) { }
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
 
         public Task<IdentityResult> CreateAsync(Role role, CancellationToken cancellationToken)
         {

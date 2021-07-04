@@ -15,10 +15,6 @@ namespace WebApplication1.WebAPI.Clients.Identity
     public class UsersClient : BaseClient, IUsersClient
     {
         public UsersClient(HttpClient client) : base(client, WebAPIInfo.Identity.Users) { }
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
 
         public Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken)
         {

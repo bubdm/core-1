@@ -114,7 +114,7 @@ namespace WebApplication1.WebAPI.Controllers.Identity
             await _userStore.Context.SaveChangesAsync();
         }
 
-        [HttpPost("role/{role}")]
+        [HttpPost("role/delete/{role}")]
         public async Task RemoveFromRoleAsync([FromBody] User user, string role)
         {
             await _userStore.RemoveFromRoleAsync(user, role);
@@ -139,12 +139,6 @@ namespace WebApplication1.WebAPI.Controllers.Identity
             return await _userStore.GetUsersInRoleAsync(role);
         }
 
-        [HttpPost("getpasswordhash")]
-        public async Task<string> GetPasswordHashAsync([FromBody] User user)
-        {
-            return await _userStore.GetPasswordHashAsync(user);
-        }
-
         [HttpPost("setpasswordhash")]
         public async Task<string> SetPasswordHashAsync([FromBody] PasswordHashDTO hash)
         {
@@ -152,6 +146,12 @@ namespace WebApplication1.WebAPI.Controllers.Identity
             await _userStore.UpdateAsync(hash.User);
             if (!string.Equals(hash.User.PasswordHash, hash.Hash)) _logger.LogError($"Изменение пароля у пользователя {hash.User.UserName} завершилось неудачей");
             return hash.User.PasswordHash;
+        }
+
+        [HttpPost("getpasswordhash")]
+        public async Task<string> GetPasswordHashAsync([FromBody] User user)
+        {
+            return await _userStore.GetPasswordHashAsync(user);
         }
 
         [HttpPost("haspassword")]
@@ -239,7 +239,7 @@ namespace WebApplication1.WebAPI.Controllers.Identity
             return await _userStore.GetEmailConfirmedAsync(user);
         }
 
-        [HttpPost("setrmailconfirmed/{enable:bool}")]
+        [HttpPost("setemailconfirmed/{enable:bool}")]
         public async Task<bool> SetEmailConfirmedAsync([FromBody] User user, bool enable)
         {
             await _userStore.SetEmailConfirmedAsync(user, enable);
@@ -319,7 +319,7 @@ namespace WebApplication1.WebAPI.Controllers.Identity
             return await _userStore.GetLoginsAsync(user);
         }
 
-        [HttpGet("user/findbylogin/{loginProvider}/{providerKey}")]
+        [HttpGet("userfindbylogin/{loginProvider}/{providerKey}")]
         public async Task<User> FindByLoginAsync(string loginProvider, string providerKey)
         {
             return await _userStore.FindByLoginAsync(loginProvider, providerKey);

@@ -15,6 +15,7 @@ using WebApplication1.Interfaces.Services;
 using WebApplication1.Interfaces.WebAPI;
 using WebApplication1.Services.Data;
 using WebApplication1.Services.Services;
+using WebApplication1.WebAPI.Clients.Identity;
 using WebApplication1.WebAPI.Clients.Orders;
 using WebApplication1.WebAPI.Clients.Persons;
 using WebApplication1.WebAPI.Clients.Products;
@@ -33,26 +34,37 @@ namespace WebApplication1
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var databaseName = Configuration["Database"];
-            switch (databaseName)
-            {
-                case "MSSQL": 
-                    services.AddDbContext<Application1Context>(opt => 
-                        opt.UseSqlServer(Configuration.GetConnectionString("MSSQL"),
-                            o => o.MigrationsAssembly("WebApplication1.Dal")));
-                    break;
-                case "SQLite":
-                    services.AddDbContext<Application1Context>(opt =>
-                        opt.UseSqlite(Configuration.GetConnectionString("SQLite"),
-                            o => o.MigrationsAssembly("WebApplication1.Dal.Sqlite")));
-                    break;
-            }
+            //var databaseName = Configuration["Database"];
+            //switch (databaseName)
+            //{
+            //    case "MSSQL": 
+            //        services.AddDbContext<Application1Context>(opt => 
+            //            opt.UseSqlServer(Configuration.GetConnectionString("MSSQL"),
+            //                o => o.MigrationsAssembly("WebApplication1.Dal")));
+            //        break;
+            //    case "SQLite":
+            //        services.AddDbContext<Application1Context>(opt =>
+            //            opt.UseSqlite(Configuration.GetConnectionString("SQLite"),
+            //                o => o.MigrationsAssembly("WebApplication1.Dal.Sqlite")));
+            //        break;
+            //}
 
-            services.AddTransient<WebStoreDBInitializer>();
+            //services.AddTransient<WebStoreDBInitializer>();
 
             services.AddIdentity<User, Role>()
-                .AddEntityFrameworkStores<Application1Context>()
+                //.AddEntityFrameworkStores<Application1Context>()
                 .AddDefaultTokenProviders();
+
+            services.AddHttpClient("Application1API", c => c.BaseAddress = new Uri(Configuration["WebAPI"]))
+                .AddTypedClient<IUserStore<User>, UsersClient>()
+                .AddTypedClient<IUserRoleStore<User>, UsersClient>()
+                .AddTypedClient<IUserPasswordStore<User>, UsersClient>()
+                .AddTypedClient<IUserEmailStore<User>, UsersClient>()
+                .AddTypedClient<IUserPhoneNumberStore<User>, UsersClient>()
+                .AddTypedClient<IUserTwoFactorStore<User>, UsersClient>()
+                .AddTypedClient<IUserClaimStore<User>, UsersClient>()
+                .AddTypedClient<IUserLoginStore<User>, UsersClient>()
+                .AddTypedClient<IRoleStore<Role>, RolesClient>();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -96,10 +108,10 @@ namespace WebApplication1
             services.AddControllersWithViews(opt => opt.Conventions.Add(new TestControllerConvention()))
                 .AddRazorRuntimeCompilation();
         }
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider service)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env/*, IServiceProvider service*/)
         {
-            using (var scope = service.CreateScope() )
-                scope.ServiceProvider.GetRequiredService<WebStoreDBInitializer>().Init();
+            //using (var scope = service.CreateScope() )
+            //    scope.ServiceProvider.GetRequiredService<WebStoreDBInitializer>().Init();
 
             if (env.IsDevelopment())
             {

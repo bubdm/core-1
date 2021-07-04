@@ -23,7 +23,7 @@ namespace WebApplication1.WebAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-                        var databaseName = Configuration["Database"];
+            var databaseName = Configuration["Database"];
             switch (databaseName)
             {
                 case "MSSQL": 
@@ -88,8 +88,11 @@ namespace WebApplication1.WebAPI
             });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider service)
         {
+            using (var scope = service.CreateScope())
+                scope.ServiceProvider.GetRequiredService<WebStoreDBInitializer>().Init();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

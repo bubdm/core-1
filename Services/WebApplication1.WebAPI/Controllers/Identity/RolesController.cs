@@ -30,7 +30,7 @@ namespace WebApplication1.WebAPI.Controllers.Identity
         [HttpPost]
         public async Task<bool> CreateAsync(Role role)
         {
-            var result = await _roleStore.CreateAsync(role).ConfigureAwait(false);
+            var result = await _roleStore.CreateAsync(role);
             if (result.Succeeded == false) _logger.LogError($"Создание роли пользователей {role.Name} завершилось неудачей");
             return result.Succeeded;
         }
@@ -38,7 +38,7 @@ namespace WebApplication1.WebAPI.Controllers.Identity
         [HttpPut]
         public async Task<bool> UpdateAsync(Role role)
         {
-            var result = await _roleStore.UpdateAsync(role).ConfigureAwait(false);
+            var result = await _roleStore.UpdateAsync(role);
             if (result.Succeeded == false) _logger.LogError($"Обновление роли пользователей {role.Name} завершилось неудачей");
             return result.Succeeded;
         }
@@ -46,7 +46,7 @@ namespace WebApplication1.WebAPI.Controllers.Identity
         [HttpDelete("delete")]
         public async Task<bool> DeleteAsync(Role role)
         {
-            var result = await _roleStore.DeleteAsync(role).ConfigureAwait(false);
+            var result = await _roleStore.DeleteAsync(role);
             if (result.Succeeded == false) _logger.LogError($"Удаление роли пользователей {role.Name} завершилось неудачей");
             return result.Succeeded;
         }
@@ -54,19 +54,19 @@ namespace WebApplication1.WebAPI.Controllers.Identity
         [HttpPost("getroleid")]
         public async Task<string> GetRoleIdAsync([FromBody] Role role)
         {
-            return await _roleStore.GetRoleIdAsync(role).ConfigureAwait(false);
+            return await _roleStore.GetRoleIdAsync(role);
         }
 
         [HttpPost("getrolename")]
         public async Task<string> GetRoleNameAsync([FromBody] Role role)
         {
-            return await _roleStore.GetRoleNameAsync(role).ConfigureAwait(false);
+            return await _roleStore.GetRoleNameAsync(role);
         }
 
         [HttpPost("setrolename/{name}")]
         public async Task<string> SetRoleNameAsync([FromBody] Role role, string name)
         {
-            await _roleStore.SetRoleNameAsync(role, name).ConfigureAwait(false);
+            await _roleStore.SetRoleNameAsync(role, name);
             await _roleStore.UpdateAsync(role);
             if (!string.Equals(role.Name, name)) _logger.LogError($"Изменение имени роли {role.Name} на {name} завершилось неудачей");
             return role.Name;
@@ -75,13 +75,13 @@ namespace WebApplication1.WebAPI.Controllers.Identity
         [HttpPost("getnormalizedrolename")]
         public async Task<string> GetNormalizedRoleNameAsync([FromBody] Role role)
         {
-            return await _roleStore.GetNormalizedRoleNameAsync(role).ConfigureAwait(false);
+            return await _roleStore.GetNormalizedRoleNameAsync(role);
         }
 
         [HttpPost("setnormalizedrolename/{name}")]
         public async Task<string> SetNormalizedRoleNameAsync([FromBody] Role role, string name)
         {
-            await _roleStore.SetNormalizedRoleNameAsync(role, name).ConfigureAwait(false);
+            await _roleStore.SetNormalizedRoleNameAsync(role, name);
             await _roleStore.UpdateAsync(role);
             if (!string.Equals(role.NormalizedName, name)) _logger.LogError($"Изменение имени роли {role.NormalizedName} на {name} завершилось неудачей");
             return role.NormalizedName;
@@ -90,13 +90,13 @@ namespace WebApplication1.WebAPI.Controllers.Identity
         [HttpGet("findbyid/{id}")]
         public async Task<Role> FindByIdAsync(string id)
         {
-            return await _roleStore.FindByIdAsync(id).ConfigureAwait(false);
+            return await _roleStore.FindByIdAsync(id);
         }
 
         [HttpGet("findbyname/{name}")]
         public async Task<Role> FindByNameAsync(string name)
         {
-            return await _roleStore.FindByNameAsync(name).ConfigureAwait(false);
+            return await _roleStore.FindByNameAsync(name);
         }
 
     }

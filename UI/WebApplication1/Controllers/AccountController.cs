@@ -42,9 +42,9 @@ namespace WebApplication1.Controllers
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, Role.Clients);
+                var resultAdd = await _userManager.AddToRoleAsync(user, Role.Clients);
                 _logger.LogInformation($"Пользователь успешно зареган {user.UserName} и наделен ролью {Role.Clients}");
-                
+
                 await _signInManager.SignInAsync(user, false);
                 _logger.LogInformation($"Пользователь {user.UserName} автоматически вошел после регистрации");
                 return RedirectToAction("Index", "Home");

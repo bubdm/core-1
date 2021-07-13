@@ -23,22 +23,40 @@ namespace WebApplication1.Services.Services
         {
             if (person is null)
                 throw new ArgumentNullException(nameof(person));
+
             _Context.Add(person);
             _Context.SaveChanges();
+            #region Log
+
+            _Logger.LogInformation($"Работник {person.Id} {person.LastName} {person.FirstName} {person.Patronymic} добавлен в базу данных успешно");
+
+            #endregion
             return person.Id;
         }
         public void Update(Person person)
         {
             if (person is null)
                 throw new ArgumentNullException(nameof(person));
+
             _Context.Update(person);
+            #region Log
+
+            _Logger.LogInformation($"Работник id:{person.Id} {person.LastName} {person.FirstName} {person.Patronymic} упешно обновлен в базе данных");
+
+            #endregion
             _Context.SaveChanges();
         }
         public bool Delete(int id)
         {
             if (Get(id) is not { } person) return false;
+
             _Context.Remove(person);
             _Context.SaveChanges();
+            #region Log
+
+            _Logger.LogInformation($"Работник id:{person.Id} {person.LastName} {person.FirstName} {person.Patronymic} успешно удален из базы данных");
+
+            #endregion
             return true;
         }
     }

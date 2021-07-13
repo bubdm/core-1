@@ -48,12 +48,11 @@ namespace WebApplication1.Services.Services
             var user = await _UserManager.FindByNameAsync(userName);
             if (user is null)
             {
-                _Logger.LogInformation($"Пользователь {userName} отсустсвует в базе данных");
+                _Logger.LogError($"Пользователь {userName} отсустсвует в базе данных");
                 throw new InvalidOperationException($"Пользователь {userName} отсутствует в базе данных");
             }
-
-
-            _Logger.LogInformation("Начало формирования заказа");
+            
+            _Logger.LogInformation($"Начало формирования заказа для {userName}");
 
             await using var transaction = await _Context.Database.BeginTransactionAsync();
             var order = new Order
@@ -75,13 +74,13 @@ namespace WebApplication1.Services.Services
                 Quantity = i.Quantity
             }).ToArray();
 
-            _Logger.LogInformation("Заказ успешно сформирован");
+            _Logger.LogInformation($"Заказ для {userName} успешно сформирован");
             
             await _Context.Orders.AddAsync(order);
             await _Context.SaveChangesAsync();
             await transaction.CommitAsync();
             
-            _Logger.LogInformation("Заказ успешно добавлен в базу данных");
+            _Logger.LogInformation($"Заказ для {userName} успешно добавлен в базу данных");
 
             return order;
         }

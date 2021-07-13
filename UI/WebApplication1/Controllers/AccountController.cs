@@ -40,13 +40,26 @@ namespace WebApplication1.Controllers
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
+
             if (result.Succeeded)
             {
-                var resultAdd = await _userManager.AddToRoleAsync(user, Role.Clients);
-                _logger.LogInformation($"Пользователь успешно зареган {user.UserName} и наделен ролью {Role.Clients}");
+                #region Log
 
+                _logger.LogInformation($"Пользователь {user.UserName} успешно добавлен");
+
+                #endregion
+                var resultAdd = await _userManager.AddToRoleAsync(user, Role.Clients);
+                #region Log
+
+                _logger.LogInformation($"Пользователь {user.UserName} наделен ролью {Role.Clients}");
+
+                #endregion
                 await _signInManager.SignInAsync(user, false);
+                #region Log
+
                 _logger.LogInformation($"Пользователь {user.UserName} автоматически вошел после регистрации");
+
+                #endregion
                 return RedirectToAction("Index", "Home");
             }
 
@@ -59,7 +72,8 @@ namespace WebApplication1.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult Login(string returnUrl) => View(new LoginWebModel {ReturnUrl = returnUrl});
+        public IActionResult Login(string returnUrl) => 
+            View(new LoginWebModel {ReturnUrl = returnUrl});
 
         [HttpPost, ValidateAntiForgeryToken, AllowAnonymous]
         public async Task<IActionResult> Login(LoginWebModel model)
@@ -92,13 +106,22 @@ namespace WebApplication1.Controllers
 
         public async Task<IActionResult> Logout(string returnUrl)
         {
+            var username = User.Identity!.Name;
             await _signInManager.SignOutAsync();
+            #region Log
+
+            _logger.LogInformation($"Пользователь {username} вышел из системы");
+
+            #endregion
             return LocalRedirect(returnUrl ?? "/"); 
         }
 
         [AllowAnonymous]
         public IActionResult AccessDenied()
         {
+            #region Log
+            _logger.LogInformation("В доступе отказано");
+            #endregion
             return View();
         }
     }

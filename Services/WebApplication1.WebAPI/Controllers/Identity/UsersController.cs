@@ -52,7 +52,12 @@ namespace WebApplication1.WebAPI.Controllers.Identity
         {
             await _userStore.SetUserNameAsync(user, name);
             await _userStore.UpdateAsync(user);
-            if (!string.Equals(user.UserName, name)) _logger.LogError($"Изменение имени пользователя {user.UserName} на {name} завершилось неудачей");
+            #region Log
+
+            if (!string.Equals(user.UserName, name)) 
+                _logger.LogError($"Изменение имени пользователя {user.UserName} на {name} завершилось неудачей");
+
+            #endregion
             return user.UserName;
         }
 
@@ -67,7 +72,12 @@ namespace WebApplication1.WebAPI.Controllers.Identity
         {
             await _userStore.SetNormalizedUserNameAsync(user, name);
             await _userStore.UpdateAsync(user);
-            if (!string.Equals(user.NormalizedUserName, name)) _logger.LogError($"Изменение имени пользователя {user.NormalizedUserName} на {name} завершилось неудачей");
+            #region Log
+
+            if (!string.Equals(user.NormalizedUserName, name)) 
+                _logger.LogError($"Изменение имени пользователя {user.NormalizedUserName} на {name} завершилось неудачей");
+
+            #endregion
             return user.NormalizedUserName;
         }
 
@@ -75,7 +85,12 @@ namespace WebApplication1.WebAPI.Controllers.Identity
         public async Task<bool> CreateAsync([FromBody] User user)
         {
             var result = await _userStore.CreateAsync(user);
-            if (result.Succeeded == false) _logger.LogError($"Создание пользователя {user.UserName} завершилось неудачей");
+            #region Log
+
+            if (result.Succeeded == false) 
+                _logger.LogError($"Создание пользователя {user.UserName} завершилось неудачей");
+
+            #endregion
             return result.Succeeded;
         }
 
@@ -83,7 +98,12 @@ namespace WebApplication1.WebAPI.Controllers.Identity
         public async Task<bool> UpdateAsync([FromBody] User user)
         {
             var result = await _userStore.UpdateAsync(user);
-            if (result.Succeeded == false) _logger.LogError($"Изменение пользователя {user.UserName} завершилось неудачей");
+            #region Log
+
+            if (result.Succeeded == false) 
+                _logger.LogError($"Изменение пользователя {user.UserName} завершилось неудачей");
+
+            #endregion
             return result.Succeeded;
         }
 
@@ -91,7 +111,12 @@ namespace WebApplication1.WebAPI.Controllers.Identity
         public async Task<bool> DeleteAsync([FromBody] User user)
         {
             var result = await _userStore.DeleteAsync(user);
-            if (result.Succeeded == false) _logger.LogError($"Удаление пользователя {user.UserName} завершилось неудачей");
+            #region Log
+
+            if (result.Succeeded == false) 
+                _logger.LogError($"Удаление пользователя {user.UserName} завершилось неудачей");
+
+            #endregion
             return result.Succeeded;
         }
 
@@ -144,7 +169,12 @@ namespace WebApplication1.WebAPI.Controllers.Identity
         {
             await _userStore.SetPasswordHashAsync(hash.User, hash.Hash);
             await _userStore.UpdateAsync(hash.User);
-            if (!string.Equals(hash.User.PasswordHash, hash.Hash)) _logger.LogError($"Изменение пароля у пользователя {hash.User.UserName} завершилось неудачей");
+            #region Log
+
+            if (!string.Equals(hash.User.PasswordHash, hash.Hash)) 
+                _logger.LogError($"Изменение пароля у пользователя {hash.User.UserName} завершилось неудачей");
+
+            #endregion
             return hash.User.PasswordHash;
         }
 
@@ -212,6 +242,10 @@ namespace WebApplication1.WebAPI.Controllers.Identity
         {
             await _userStore.SetTwoFactorEnabledAsync(user, enable);
             await _userStore.UpdateAsync(user);
+
+            if (!Equals(user.TwoFactorEnabled, enable))
+                _logger.LogError($"Не удалось изменить у пользователя {user.UserName} статус двухфакторной авторизации с {user.TwoFactorEnabled} на {enable}");
+
             return user.TwoFactorEnabled;
         }
 
@@ -230,6 +264,12 @@ namespace WebApplication1.WebAPI.Controllers.Identity
         {
             await _userStore.SetEmailAsync(user, email);
             await _userStore.UpdateAsync(user);
+            #region Log
+
+            if (!string.Equals(user.Email, email))
+                _logger.LogError($"Не удалось обновить у пользователя {user.UserName} адрес почты с {user.Email} на {email}");
+
+            #endregion
             return user.Email;
         }
 
@@ -244,6 +284,12 @@ namespace WebApplication1.WebAPI.Controllers.Identity
         {
             await _userStore.SetEmailConfirmedAsync(user, enable);
             await _userStore.UpdateAsync(user);
+            #region Log
+
+            if (!Equals(user.EmailConfirmed, enable))
+                _logger.LogError($"Измение статуса подтверждения адреса почты у пользователя {user.UserName} завершилось неудачей");
+
+            #endregion
             return user.EmailConfirmed;
         }
 

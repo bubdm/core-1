@@ -31,7 +31,8 @@ namespace WebApplication1.WebAPI.Controllers.Identity
         public async Task<bool> CreateAsync(Role role)
         {
             var result = await _roleStore.CreateAsync(role);
-            if (result.Succeeded == false) _logger.LogError($"Создание роли пользователей {role.Name} завершилось неудачей");
+            if (result.Succeeded == false) 
+                _logger.LogError($"Создание роли пользователей {role.Name} завершилось неудачей");
             return result.Succeeded;
         }
 
@@ -39,7 +40,8 @@ namespace WebApplication1.WebAPI.Controllers.Identity
         public async Task<bool> UpdateAsync(Role role)
         {
             var result = await _roleStore.UpdateAsync(role);
-            if (result.Succeeded == false) _logger.LogError($"Обновление роли пользователей {role.Name} завершилось неудачей");
+            if (result.Succeeded == false) 
+                _logger.LogError($"Обновление роли пользователей {role.Name} завершилось неудачей");
             return result.Succeeded;
         }
 
@@ -47,7 +49,8 @@ namespace WebApplication1.WebAPI.Controllers.Identity
         public async Task<bool> DeleteAsync(Role role)
         {
             var result = await _roleStore.DeleteAsync(role);
-            if (result.Succeeded == false) _logger.LogError($"Удаление роли пользователей {role.Name} завершилось неудачей");
+            if (result.Succeeded == false) 
+                _logger.LogError($"Удаление роли пользователей {role.Name} завершилось неудачей");
             return result.Succeeded;
         }
 
@@ -68,7 +71,8 @@ namespace WebApplication1.WebAPI.Controllers.Identity
         {
             await _roleStore.SetRoleNameAsync(role, name);
             await _roleStore.UpdateAsync(role);
-            if (!string.Equals(role.Name, name)) _logger.LogError($"Изменение имени роли {role.Name} на {name} завершилось неудачей");
+            if (!string.Equals(role.Name, name)) 
+                _logger.LogError($"Изменение имени роли {role.Name} на {name} завершилось неудачей");
             return role.Name;
         }
 
@@ -83,7 +87,8 @@ namespace WebApplication1.WebAPI.Controllers.Identity
         {
             await _roleStore.SetNormalizedRoleNameAsync(role, name);
             await _roleStore.UpdateAsync(role);
-            if (!string.Equals(role.NormalizedName, name)) _logger.LogError($"Изменение имени роли {role.NormalizedName} на {name} завершилось неудачей");
+            if (!string.Equals(role.NormalizedName, name)) 
+                _logger.LogError($"Изменение имени роли {role.NormalizedName} на {name} завершилось неудачей");
             return role.NormalizedName;
         }
 

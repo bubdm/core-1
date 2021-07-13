@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using WebApplication1.Domain.Identity;
 using WebApplication1.Infrastructure.Conventions;
 using WebApplication1.Infrastructure.Middleware;
 using WebApplication1.Interfaces.Services;
 using WebApplication1.Interfaces.WebAPI;
+using WebApplication1.Logger;
 using WebApplication1.Services.Services;
 using WebApplication1.WebAPI.Clients.Identity;
 using WebApplication1.WebAPI.Clients.Orders;
@@ -77,8 +79,10 @@ namespace WebApplication1
             services.AddControllersWithViews(opt => opt.Conventions.Add(new TestControllerConvention()))
                 .AddRazorRuntimeCompilation();
         }
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env/*, IServiceProvider service*/)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory log/*, IServiceProvider service*/)
         {
+            log.AddLog4Net();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

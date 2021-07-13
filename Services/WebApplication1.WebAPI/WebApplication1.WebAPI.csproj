@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\WebApplication1.Domain\WebApplication1.Domain.csproj" />
+    <ProjectReference Include="..\..\Common\WebApplication1.Logger\WebApplication1.Logger.csproj" />
     <ProjectReference Include="..\WebApplication1.Dal.Sqlite\WebApplication1.Dal.Sqlite.csproj" />
     <ProjectReference Include="..\WebApplication1.Dal\WebApplication1.Dal.csproj" />
     <ProjectReference Include="..\WebApplication1.Services\WebApplication1.Services.csproj" />

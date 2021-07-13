@@ -7,10 +7,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using WebApplication1.Dal.Context;
 using WebApplication1.Domain.Identity;
 using WebApplication1.Interfaces.Services;
+using WebApplication1.Logger;
 using WebApplication1.Services.Data;
 using WebApplication1.Services.Services;
 
@@ -112,8 +114,10 @@ namespace WebApplication1.WebAPI
             });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider service)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider service, ILoggerFactory log)
         {
+            log.AddLog4Net();
+
             using (var scope = service.CreateScope())
                 scope.ServiceProvider.GetRequiredService<WebStoreDBInitializer>().Init();
 

@@ -39,35 +39,39 @@ namespace WebApplication1.Controllers
                 UserName = model.UserName,
             };
 
-            var result = await _userManager.CreateAsync(user, model.Password);
-
-            if (result.Succeeded)
+            using (_logger.BeginScope($"Регистрация пользователя {user.UserName}"))
             {
-                #region Log
+                var result = await _userManager.CreateAsync(user, model.Password);
 
-                _logger.LogInformation($"Пользователь {user.UserName} успешно добавлен");
+                if (result.Succeeded)
+                {
+                    #region Log
 
+                    _logger.LogInformation($"Пользователь {user.UserName} успешно добавлен");
+
+                    #endregion
+                    var resultAdd = await _userManager.AddToRoleAsync(user, Role.Clients);
+                    #region Log
+
+                    _logger.LogInformation($"Пользователь {user.UserName} наделен ролью {Role.Clients}");
+
+                    #endregion
+                    await _signInManager.SignInAsync(user, false);
+                    #region Log
+
+                    _logger.LogInformation($"Пользователь {user.UserName} автоматически вошел после регистрации");
+
+                    #endregion
+                    return RedirectToAction("Index", "Home");
+                }
+
+                foreach (var error in result.Errors) 
+                    ModelState.AddModelError("", error.Description);
+                #region Лог
+                _logger.LogWarning($"При регистрации пользователя {model.UserName} возникли ошибки: {string.Join(",", result.Errors.Select(e => e.Description))}");
                 #endregion
-                var resultAdd = await _userManager.AddToRoleAsync(user, Role.Clients);
-                #region Log
-
-                _logger.LogInformation($"Пользователь {user.UserName} наделен ролью {Role.Clients}");
-
-                #endregion
-                await _signInManager.SignInAsync(user, false);
-                #region Log
-
-                _logger.LogInformation($"Пользователь {user.UserName} автоматически вошел после регистрации");
-
-                #endregion
-                return RedirectToAction("Index", "Home");
             }
 
-            foreach (var error in result.Errors) 
-                ModelState.AddModelError("", error.Description);
-            #region Лог
-            _logger.LogWarning($"При регистрации пользователя {model.UserName} возникли ошибки: {string.Join(",", result.Errors.Select(e => e.Description))}");
-            #endregion
             return View();
         }
 

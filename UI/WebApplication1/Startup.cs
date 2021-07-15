@@ -95,6 +95,7 @@ namespace WebApplication1
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
             app.UseMiddleware(typeof(TestMiddleware));
 
             //отдельный специальный маршрут

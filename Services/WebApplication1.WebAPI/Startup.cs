@@ -92,8 +92,7 @@ namespace WebApplication1.WebAPI
                 const string app1ApiDomainXml = "WebApplication1.Domain.xml";
                 const string app1WebApiXml = "WebApplication1.WebAPI.xml";
                 const string debugPath = "bin/debug/net5.0";
-
-                #if DEBUG
+                
                 if(File.Exists(app1ApiDomainXml))
                     c.IncludeXmlComments(app1ApiDomainXml);
                 else if(File.Exists(Path.Combine(debugPath, app1ApiDomainXml)))
@@ -103,12 +102,6 @@ namespace WebApplication1.WebAPI
                     c.IncludeXmlComments(app1WebApiXml);
                 else if (File.Exists(Path.Combine(debugPath, app1WebApiXml)))
                     c.IncludeXmlComments(Path.Combine(debugPath, app1WebApiXml));
-                #else
-                if(File.Exists(app1ApiDomainXml))
-                    c.IncludeXmlComments(app1ApiDomainXml);
-                if (File.Exists(app1WebApiXml))
-                    c.IncludeXmlComments(app1WebApiXml);
-                #endif
                 
                 c.IncludeXmlComments("WebApplication1.WebAPI.xml");
             });

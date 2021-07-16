@@ -20,12 +20,7 @@ namespace WebApplication1.Controllers
         {
             _Configuration = Configuration;
         }
-
-        public IActionResult Throw(string message)
-        {
-            throw new ApplicationException(message ?? "Test exception in home controller");
-        }
-
+        
         public IActionResult Index([FromServices] IProductData productData)
         {
             var products = _mapperProductToView
@@ -40,5 +35,10 @@ namespace WebApplication1.Controllers
         }
 
         public IActionResult Blog() => View();
+
+        public IActionResult Throw(string message)
+        {
+            throw new ApplicationException(message ?? "Test exception in home controller");
+        }
     }
 }

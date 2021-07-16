@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -52,5 +53,51 @@ namespace WebApplication1.Tests.Controllers
             var contentResult = ((ContentResult)result).Content;
             Assert.AreEqual(expectedString, contentResult);
         }
+
+        [TestMethod, ExpectedException(typeof(ApplicationException))]
+        public void Throw_thrown_ApplicationException()
+        {
+            const string expectedString = "TestErrorMessage";
+            var configurationStub = Mock.Of<IConfiguration>();
+            var controller = new HomeController(configurationStub);
+
+            var result = controller.Throw(expectedString);
+        }
+
+        [TestMethod]
+        public void Throw_thrown_ApplicationExceptionTry()
+        {
+            const string expectedString = "TestErrorMessage";
+            var configurationStub = Mock.Of<IConfiguration>();
+            var controller = new HomeController(configurationStub);
+
+            Exception exception = null;
+            try
+            {
+                controller.Throw(expectedString);
+            }
+            catch (Exception e)
+            {
+                exception = e;
+            }
+
+            Assert.IsInstanceOfType(exception, typeof(ApplicationException));
+            var message = exception!.Message;
+            Assert.AreEqual(expectedString, message);
+        }
+
+        [TestMethod]
+        public void Throw_thrown_ApplicationExceptionAssert()
+        {
+            const string expectedString = "TestErrorMessage";
+            var configurationStub = Mock.Of<IConfiguration>();
+            var controller = new HomeController(configurationStub);
+
+            var exception = Assert.ThrowsException<ApplicationException>(() => controller.Throw(expectedString));
+
+            Assert.AreEqual(expectedString, exception.Message);
+        }
+
+
     }
 }

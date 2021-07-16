@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -60,6 +61,12 @@ namespace WebApplication1.WebAPI.Controllers
                 return NotFound();
             __list.RemoveAt(id);
             return Ok();
+        }
+
+        [HttpGet("throw")]
+        public IActionResult Throw(string message)
+        {
+            throw new ApplicationException(message ?? "Test Error in Values Controller");
         }
     }
 }

@@ -15,6 +15,7 @@ using WebApplication1.Interfaces.Services;
 using WebApplication1.Logger;
 using WebApplication1.Services.Data;
 using WebApplication1.Services.Services;
+using WebApplication1.WebAPI.Infrastructure.Middleware;
 
 namespace WebApplication1.WebAPI
 {
@@ -124,6 +125,8 @@ namespace WebApplication1.WebAPI
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<ErrorHandlingMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

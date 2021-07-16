@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace WebApplication1.Infrastructure.Middleware
+namespace WebApplication1.WebAPI.Infrastructure.Middleware
 {
     public class ErrorHandlingMiddleware
     {

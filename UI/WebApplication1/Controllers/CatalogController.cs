@@ -16,10 +16,12 @@ namespace WebApplication1.Controllers
         private readonly Mapper _mapperProductToView = new (new MapperConfiguration(c => c.CreateMap<Product, ProductWebModel>()
             .ForMember("Section", o => o.MapFrom(p => p.Section.Name))
             .ForMember("Brand", o => o.MapFrom(p => p.Brand.Name))));
+        
         public CatalogController(IProductData productData)
         {
             _productData = productData;
         }
+
         public IActionResult Index(int? brandId, int? sectionId, int page = 1)
         {
             var filter = new ProductFilter

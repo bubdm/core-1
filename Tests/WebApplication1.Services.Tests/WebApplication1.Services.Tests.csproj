@@ -13,4 +13,9 @@
     <PackageReference Include="coverlet.collector" Version="3.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\WebApplication1.Domain\WebApplication1.Domain.csproj" />
+    <ProjectReference Include="..\..\Services\WebApplication1.Services\WebApplication1.Services.csproj" />
+  </ItemGroup>
+
 </Project>

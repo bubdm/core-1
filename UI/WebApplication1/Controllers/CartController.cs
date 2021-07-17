@@ -1,8 +1,6 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebApplication1.Domain.Entities;
 using WebApplication1.Domain.WebModel;
 using WebApplication1.Interfaces.Services;
 
@@ -43,7 +41,7 @@ namespace WebApplication1.Controllers
         }
 
         [Authorize, ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckOut(OrderWebModel model, [FromServices] IOrderService orderService)
+        public async Task<IActionResult> CheckOut(OrderWebModel model)
         {
             if (!ModelState.IsValid)
                 return View(nameof(Index),

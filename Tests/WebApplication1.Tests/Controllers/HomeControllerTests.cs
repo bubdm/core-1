@@ -97,7 +97,5 @@ namespace WebApplication1.Tests.Controllers
 
             Assert.AreEqual(expectedString, exception.Message);
         }
-
-
     }
 }

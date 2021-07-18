@@ -1,0 +1,90 @@
+﻿@model WebApplication1.Domain.WebModel.Admin.IndexProductEditViewModel
+@{
+    ViewBag.Title = "Редактирование каталога товаров";
+}
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+
+    @if (@Model.Products.FirstOrDefault() is { } first)
+    {
+        <div class="row form-group">
+            <p>
+                <a asp-action="Create" class="btn btn-primary">Создать</a>
+            </p>
+        </div>
+        <form method="get">
+            <div class="form-inline form-group">
+                <label class="control-label">Фильтр по названию:</label>
+                <input name="name" class="form-control" />
+
+                <input type="submit" value="Фильр" class="btn btn-default" />
+            </div>
+        </form>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>№</th>
+                    <th>
+                        <product-edit-sort action="Index" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current" property="@Model.SortViewModel.NameSort">
+                            <label asp-for="@first.Name" class="btn"></label>
+                        </product-edit-sort>
+                    </th>
+                    <th>
+                        <product-edit-sort action="Index" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current" property="@Model.SortViewModel.BrandSort">
+                            <label asp-for="@first.BrandName" class="btn"></label>
+                        </product-edit-sort>
+                    </th>
+                    <th>
+                        <product-edit-sort action="Index" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current" property="@Model.SortViewModel.SectionSort">
+                            <label asp-for="@first.SectionName" class="btn"></label>
+                        </product-edit-sort>
+                    </th>
+                    <th>
+                        <product-edit-sort action="Index" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current" property="@Model.SortViewModel.OrderSort">
+                            <label asp-for="@first.Order" class="btn"></label>
+                        </product-edit-sort>
+                    </th>
+                    <th><label asp-for="@first.ImageUrl"></label></th>
+                    <th>
+                        <product-edit-sort action="Index" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current" property="@Model.SortViewModel.PriceSort">
+                            <label asp-for="@first.Price" class="btn"></label>
+                        </product-edit-sort>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model.Products)
+                {
+                    <tr>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@product?.Id"><i class="glyphicon glyphicon-edit"></i></a>
+                        </td>
+                        <td>@product?.Id</td>
+                        <td>@product?.Name</td>
+                        <td>@product.BrandName</td>
+                        <td>@product.SectionName</td>
+                        <td>@product.Order</td>
+                        <td>
+                            <img src="~/images/home/@product.ImageUrl" width="90" alt="@product.Name" />
+                        </td>
+                        <td>@product.Price.ToString("C")</td>
+                        <td>
+                            <a asp-action="Delete" asp-route-id="@product.Id"><i class="glyphicon glyphicon-trash text-danger"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <page-link page-model="Model.PageViewModel" 
+                   page-action="Index" 
+                   page-url-name="@(Model.FilterViewModel.FilterName)" 
+                   page-url-sortorder="@(Model.SortViewModel.Current)"></page-link>
+    }
+</div>
+
+
+

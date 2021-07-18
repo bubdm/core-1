@@ -8,6 +8,6 @@ namespace WebApplication1.Interfaces.Services
         void Minus(int id);
         void Remove(int id);
         void Clear();
-        CartWebModel GetViewModel();
+        CartWebModel GetWebModel();
     }
 }

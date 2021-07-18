@@ -1,54 +1,30 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using WebApplication1.Domain.Model;
 using WebApplication1.Domain.Entities;
+using WebApplication1.Domain.Model;
 using WebApplication1.Domain.WebModel;
 using WebApplication1.Interfaces.Services;
 
 namespace WebApplication1.Services.Services
 {
-    public class InCookiesCartService : ICartService
+    public class CartService : ICartService
     {
-        private readonly IHttpContextAccessor _ContextAccessor;
-        private readonly IProductData _ProductData;
-        private readonly string _cartName;
+        private readonly ICartStore _cartStore;
+        private readonly IProductData _productData;
         private readonly Mapper _mapperProductToView = new (new MapperConfiguration(c => c.CreateMap<Product, ProductWebModel>()
             .ForMember("Section", o => o.MapFrom(p => p.Section.Name))
             .ForMember("Brand", o => o.MapFrom(p => p.Brand.Name))));
 
-        private Cart Cart
+        public CartService(ICartStore cartStore, IProductData productData)
         {
-            get
-            {
-                var context = _ContextAccessor.HttpContext;
-                if (!context!.Request.Cookies.ContainsKey(_cartName))
-                {
-                    var cart = new Cart();
-                    context.Response.Cookies.Append(_cartName, JsonConvert.SerializeObject(cart));
-                    return cart;
-                }
-                return JsonConvert.DeserializeObject<Cart>(context.Request.Cookies[_cartName]);
-            }
-            set => _ContextAccessor.HttpContext!.Response.Cookies.Append(_cartName, JsonConvert.SerializeObject(value));
-        }
-
-        public InCookiesCartService(IHttpContextAccessor contextAccessor, IProductData productData)
-        {
-            _ContextAccessor = contextAccessor;
-            _ProductData = productData;
-
-            var user = _ContextAccessor.HttpContext!.User;
-            var userName = user!.Identity!.IsAuthenticated ? $"-{user.Identity.Name}" : null;
-
-            _cartName = $"WebStore.Cart{userName}";
+            _cartStore = cartStore;
+            _productData = productData;
         }
 
         public void Add(int id)
         {
-            var cart = Cart;
+            var cart = _cartStore.Cart;
 
             var item = cart.Items.FirstOrDefault(c => c.ProductId == id);
             if (item is null)
@@ -56,12 +32,12 @@ namespace WebApplication1.Services.Services
             else
                 item.Quantity++;
 
-            Cart = cart;
+            _cartStore.Cart = cart;
         }
 
         public void Minus(int id)
         {
-            var cart = Cart;
+            var cart = _cartStore.Cart;
 
             var item = cart.Items.FirstOrDefault(c => c.ProductId == id);
             if (item is null) return;
@@ -72,35 +48,37 @@ namespace WebApplication1.Services.Services
             if (item.Quantity <= 0)
                 cart.Items.Remove(item);
 
-            Cart = cart;
+            _cartStore.Cart = cart;
         }
 
         public void Remove(int id)
         {
-            var cart = Cart;
+            var cart = _cartStore.Cart;
 
             var item = cart.Items.FirstOrDefault(c => c.ProductId == id);
             if (item is null) return;
 
             cart.Items.Remove(item);
 
-            Cart = cart;
+            _cartStore.Cart = cart;
         }
 
         public void Clear()
         {
-            var cart = Cart;
+            var cart = _cartStore.Cart;
 
             cart.Items.Clear();
 
-            Cart = cart;
+            _cartStore.Cart = cart;
         }
 
         public CartWebModel GetWebModel()
         {
-            var products = _ProductData.GetProducts(new ProductFilter
+            var cart = _cartStore.Cart;
+
+            var products = _productData.GetProducts(new ProductFilter
             {
-                Ids = Cart.Items.Select(item => item.ProductId).ToArray()
+                Ids = cart.Items.Select(item => item.ProductId).ToArray()
             });
 
             var productViews = _mapperProductToView
@@ -108,7 +86,7 @@ namespace WebApplication1.Services.Services
 
             return new CartWebModel
             {
-                Items = Cart.Items
+                Items = cart.Items
                     .Where(p => productViews.ContainsKey(p.ProductId))
                     .Select(p => (productViews[p.ProductId], p.Quantity, productViews[p.ProductId].Price * p.Quantity))
             };

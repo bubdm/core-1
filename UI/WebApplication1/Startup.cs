@@ -67,8 +67,10 @@ namespace WebApplication1
 
                 options.SlidingExpiration = true;
             });
-
-            services.AddScoped<ICartService, InCookiesCartService>();
+            
+            //services.AddScoped<ICartService, InCookiesCartService>();
+            services.AddScoped<ICartService, CartService>();
+            services.AddScoped<ICartStore, InCookiesCartStore>();
 
             services.AddHttpClient("Application1API", c => c.BaseAddress = new Uri(Configuration["WebAPI"]))
                 .AddTypedClient<IValuesService, ValuesClient>()

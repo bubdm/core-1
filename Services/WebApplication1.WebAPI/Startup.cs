@@ -78,8 +78,6 @@ namespace WebApplication1.WebAPI
 
                 options.SlidingExpiration = true;
             });
-
-            services.AddScoped<ICartService, InCookiesCartService>();
             
             services.AddScoped<IPersonsData, SqlPersonsData>();
             services.AddScoped<IProductData, SqlProductData>();

@@ -56,7 +56,7 @@ namespace WebApplication1.Tests.Controllers
 
             var cartServiceMock = new Mock<ICartService>();
             cartServiceMock
-                .Setup(c => c.GetViewModel())
+                .Setup(c => c.GetWebModel())
                 .Returns(new CartWebModel
                 {
                     Items = new [] { ( new ProductWebModel

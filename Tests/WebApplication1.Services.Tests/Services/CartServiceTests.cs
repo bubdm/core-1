@@ -1,8 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Moq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WebApplication1.Domain.Entities;
+using WebApplication1.Domain.Model;
 using WebApplication1.Domain.WebModel;
+using WebApplication1.Interfaces.Services;
+using WebApplication1.Services.Services;
 
 namespace WebApplication1.Services.Tests.Services
 {
@@ -10,6 +14,9 @@ namespace WebApplication1.Services.Tests.Services
     public class CartServiceTests
     {
         private Cart _cart;
+        private Mock<IProductData> _productDataMock;
+        private Mock<ICartStore> _cartStoreMock;
+        private ICartService _cartService;
 
         [TestInitialize]
         public void Initialize()
@@ -23,6 +30,27 @@ namespace WebApplication1.Services.Tests.Services
                     new CartItem(){ProductId = 3, Quantity = 3}
                 }
             };
+
+            _productDataMock = new Mock<IProductData>();
+            _productDataMock
+                .Setup(p => p.GetProducts(It.IsAny<ProductFilter>()))
+                .Returns(Enumerable.Range(1, 5).Select(i => new Product
+                {
+                    Id = i,
+                    Name = $"Product {i}",
+                    Price = 1.1m * i,
+                    Order = i,
+                    ImageUrl = $"image_{i}.jpg",
+                    BrandId = i,
+                    Brand = new Brand{Id = i, Name = $"Тестовый бренд {i}", Order = i},
+                    SectionId = i,
+                    Section = new Section{Id = i, Name = $"Категория {i}", Order = i},
+                }));
+
+            _cartStoreMock = new Mock<ICartStore>();
+            _cartStoreMock.Setup(c => c.Cart).Returns(_cart);
+
+            _cartService = new CartService(_cartStoreMock.Object, _productDataMock.Object);
         }
 
         [TestMethod]

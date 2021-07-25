@@ -93,10 +93,9 @@ namespace WebApplication1.WebAPI.IntegrationTests.Controllers
             testContext!.Persons.AddRange(
                 Enumerable.Range(1, expectedCount).Select(i => new Person
                 {
-                    Id = i,
-                    LastName = "Ivanov",
-                    FirstName = "Ivan",
-                    Patronymic = "Ivanovich",
+                    LastName = $"Ivanov_{i}",
+                    FirstName = $"Ivan_{i}",
+                    Patronymic = $"Ivanovich_{i}",
                 }));
             testContext!.SaveChanges();
             HttpClient httpClient = webHost.CreateClient();
@@ -138,10 +137,9 @@ namespace WebApplication1.WebAPI.IntegrationTests.Controllers
             testContext!.Persons.AddRange(
                 Enumerable.Range(1, 3).Select(i => new Person
                 {
-                    Id = i,
-                    LastName = "Ivanov",
-                    FirstName = "Ivan",
-                    Patronymic = "Ivanovich",
+                    LastName = $"Ivanov_{i}",
+                    FirstName = $"Ivan_{i}",
+                    Patronymic = $"Ivanovich_{i}",
                 }));
             testContext!.SaveChanges();
             HttpClient httpClient = webHost.CreateClient();

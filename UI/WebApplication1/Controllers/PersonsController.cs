@@ -21,6 +21,7 @@ namespace WebApplication1.Controllers
             _PersonsData = personsData;
         }
         
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View(_PersonsData.GetAll());

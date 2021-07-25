@@ -48,7 +48,7 @@ namespace WebApplication1.WebAPI.IntegrationTests.Controllers
                         services.AddTransient(_ => personsDataMock.Object);
                     });
                 });
-            HttpClient httpClient = webHost.CreateClient();
+            var httpClient = webHost.CreateClient();
 
             var response = httpClient.GetAsync("api/persons").Result;
 

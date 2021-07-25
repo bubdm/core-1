@@ -28,9 +28,15 @@ namespace WebApplication1.Services.Data
             _roleManager = roleManager;
             _logger = Logger;
         }
+        public WebStoreDBInitializer()
+        {
+        }
 
         public void Init()
         {
+            if (_context is null)
+                return;
+
             if (_context.Database.GetPendingMigrations().Any())
                 _context.Database.Migrate();
             

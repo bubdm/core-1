@@ -13,7 +13,7 @@ namespace WebApplication1.Components
         {
             _productData = productData;
         }
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(string SectionId)
         {
             var all = _productData.GetSections();
 

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using WebApplication1.Domain.Entities;
+﻿using WebApplication1.Domain.Entities;
 
 namespace WebApplication1.Domain.WebModel
 {

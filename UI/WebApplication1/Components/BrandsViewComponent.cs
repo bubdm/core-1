@@ -13,7 +13,11 @@ namespace WebApplication1.Components
         {
             _productData = productData;
         }
-        public IViewComponentResult Invoke(string BrandId) => View(GetBrands());
+        public IViewComponentResult Invoke(string BrandId)
+        {
+            ViewBag.BrandId = int.TryParse(BrandId, out var id) ? id : (int?) null;
+            return View(GetBrands());
+        }
 
         private IEnumerable<BrandWebModel> GetBrands() => _productData
             .GetBrands().OrderBy(b => b.Order)

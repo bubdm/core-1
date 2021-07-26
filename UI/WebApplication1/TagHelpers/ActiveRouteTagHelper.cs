@@ -36,14 +36,35 @@ namespace WebApplication1.TagHelpers
 
         private bool IsActive()
         {
+            var routeValues = ViewContext.RouteData.Values;
 
+            var currentController = routeValues["controller"]?.ToString();
+            var currentAction = routeValues["action"]?.ToString();
+
+            if (!string.IsNullOrEmpty(Controller) && !string.Equals(Controller, currentController, StringComparison.OrdinalIgnoreCase))
+                return false;
+            if (!string.IsNullOrEmpty(Action) && !string.Equals(Action, currentAction, StringComparison.OrdinalIgnoreCase))
+                return false;
+
+            foreach (var (key, value) in RouteValues)
+                if (!routeValues.ContainsKey(key) || routeValues[key]?.ToString() != value)
+                    return false;
 
             return true;
         }
 
         private static void MakeActive(TagHelperOutput output)
         {
+            var classAttribute = output.Attributes.FirstOrDefault(a => a.Name == "class");
 
+            if (classAttribute is null)
+                output.Attributes.Add("class", "active");
+            else
+            {
+                if (classAttribute.Value.ToString()?.Contains("active") ?? false)
+                    return;
+                output.Attributes.SetAttribute("class", classAttribute.Value + " active");
+            }
         }
     }
 }

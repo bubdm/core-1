@@ -15,9 +15,13 @@ namespace WebApplication1.Components
         }
         public IViewComponentResult Invoke(string SectionId)
         {
+            var sectionId = int.TryParse(SectionId, out var id) ? id : (int?)null;
+            int? parentSectionId = null;
+
             var all = _productData.GetSections();
 
             var parents = all.Where(s => s.ParentId == null);
+            
             var parentsViews = parents.Select(p => new SectionWebModel
             {
                 Id = p.Id,
@@ -30,6 +34,9 @@ namespace WebApplication1.Components
                 var childs = all.Where(p => p.ParentId == parentView.Id);
                 foreach (var child in childs)
                 {
+                    if (child.Id == sectionId)
+                        parentSectionId = child.ParentId;
+
                     parentView.ChildSections.Add(new SectionWebModel
                     {
                         Id = child.Id,
@@ -42,7 +49,10 @@ namespace WebApplication1.Components
             }
 
             parentsViews.Sort((a, b) => Comparer<int>.Default.Compare(a.Order, b.Order));
-            
+
+            ViewBag.SectionId = sectionId;
+            ViewBag.ParentSectionId = parentSectionId;
+
             return View(parentsViews);
         }
     }

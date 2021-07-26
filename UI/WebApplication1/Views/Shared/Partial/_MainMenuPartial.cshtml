@@ -1,8 +1,8 @@
 ﻿<div class="mainmenu pull-left">
     <ul class="nav navbar-nav collapse navbar-collapse">
-        <li><a asp-controller="Home" asp-action="Index" class="active">Home</a></li>
+        <li><a asp-controller="Home" asp-action="Index" class="@IsActive("Home")">Home</a></li>
         <li class="dropdown">
-            <a href="#">Магазин<i class="fa fa-angle-down"></i></a>
+            <a href="#" class="@IsActive("Catalog")">Магазин<i class="fa fa-angle-down"></i></a>
             <ul role="menu" class="sub-menu">
                 <li><a asp-controller="Catalog" asp-action="Index">Каталог</a></li>
                 <li><a href="product-details.html">О товаре</a></li>
@@ -12,7 +12,7 @@
             </ul>
         </li>
         <li class="dropdown">
-            <a href="#">Блог<i class="fa fa-angle-down"></i></a>
+            <a href="#" class="@IsActive("Home", "Blog")">Блог<i class="fa fa-angle-down"></i></a>
             <ul role="menu" class="sub-menu">
                 <li><a asp-controller="Home" asp-action="Blog">Список блогов</a></li>
                 <li><a href="blog-single.html">Блог магазина</a></li>
@@ -20,7 +20,17 @@
         </li>
         <li><a href="404.html">404</a></li>
         <li><a href="contact-us.html">Контакты</a></li>
-        <li><a asp-controller="Persons" asp-action="Index">Сотрудники</a></li>
-        <li><a asp-controller="WebAPI" asp-action="Index">WebAPIInfo</a></li>
+        <li><a asp-controller="Persons" asp-action="Index" class="@IsActive("Persons")">Сотрудники</a></li>
+        <li><a asp-controller="WebAPI" asp-action="Index" class="@IsActive("WebAPI")">WebAPIInfo</a></li>
     </ul>
 </div>
+
+@functions
+{
+    string IsActive(string controller, string action = "Index") =>
+        Equals(ViewContext.RouteData.Values["Controller"], controller) &&
+        Equals(ViewContext.RouteData.Values["Action"], action)
+            ? "active" 
+            : null;
+
+}

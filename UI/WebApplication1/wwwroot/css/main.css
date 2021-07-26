@@ -2518,6 +2518,6 @@ h2.title {
     color: #FE980F;
 }
 
-.panel-body ul li.active, .brands-name ul li.active {
+.panel-body ul li.active, .brands-name ul li.active, .panel-default div h4.active {
     text-decoration: underline;
 }

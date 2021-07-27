@@ -2,8 +2,11 @@
 
 <div class="breadcrumbs">
     <ol class="breadcrumb">
-        <li><a asp-controller="Home" asp-action="Index">Главная</a></li>
-        <li class="active"><a asp-controller="Catalog" asp-action="Index">Каталог</a></li>
+        @if (Model.Controller is { } controller)
+        {
+            <li><a asp-controller="Home" asp-action="Index">Главная</a></li>
+            <li class="active"><a asp-controller="@controller" asp-action="Index">@Model.ControllerText</a></li>
+        }
         @if (Model.Section is not null)
         {
             if (Model.Section.Parent != null)

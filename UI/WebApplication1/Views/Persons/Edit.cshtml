@@ -5,6 +5,8 @@
 }
 <div class="container">
 
+    <vc:bread-crumbs />
+
     <h1>@ViewBag.Title</h1>
 
     <h4>Сотрудник</h4>
@@ -13,8 +15,8 @@
         <div class="col-md-4">
             <form asp-action="Edit">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                
-                <input type="hidden" asp-for="Id"/>
+
+                <input type="hidden" asp-for="Id" />
 
                 <div class="form-group">
                     <label asp-for="LastName" class="control-label"></label>

@@ -8,10 +8,13 @@
 
 
 <div class="container">
+
+    <vc:bread-crumbs />
+
     <h1>@ViewBag.Title</h1>
 
-    <p >
-         <a asp-controller="Home" asp-action="Index" class="btn btn-default">На главную</a>
+    <p>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-default">На главную</a>
     </p>
     @if (User.IsInRole(Role.Administrators))
     {
@@ -22,49 +25,49 @@
 
     <table class="table">
         <thead>
-        <tr>
-            <th>№</th>
-            <th>Фамилия</th>
-            <th>Имя</th>
-            <th>Отчетство</th>
-            <th>Возраст</th>
-            <th></th>
-            @if (User.IsInRole(Role.Administrators))
-            {
-                <th></th>
-                <th></th>
-            }
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var person in Model)
-        {
             <tr>
-                <td>@person.Id</td>
-                <td>@person.LastName</td>
-                <td>@person.FirstName</td>
-                <td>@person.Patronymic</td>
-                <td>@person.Age</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@person.Id" class="btn btn-default">
-                        <i class="fa fa-info"></i>
-                    </a>
-                </td>
+                <th>№</th>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Отчетство</th>
+                <th>Возраст</th>
+                <th></th>
                 @if (User.IsInRole(Role.Administrators))
                 {
-                    <td>
-                        <a asp-controller="Persons" asp-action="Edit" asp-route-id="@person.Id" class="btn btn-default">
-                            <i class="fa fa-edit"></i>
-                        </a>
-                    </td>
-                    <td>
-                        <a asp-controller="Persons" asp-action="Delete" asp-route-id="@person.Id" class="btn btn-danger">
-                            <i class="fa fa-trash-o"></i>
-                        </a>
-                    </td>
+                    <th></th>
+                    <th></th>
                 }
             </tr>
-        }
+        </thead>
+        <tbody>
+            @foreach (var person in Model)
+            {
+                <tr>
+                    <td>@person.Id</td>
+                    <td>@person.LastName</td>
+                    <td>@person.FirstName</td>
+                    <td>@person.Patronymic</td>
+                    <td>@person.Age</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@person.Id" class="btn btn-default">
+                            <i class="fa fa-info"></i>
+                        </a>
+                    </td>
+                    @if (User.IsInRole(Role.Administrators))
+                    {
+                        <td>
+                            <a asp-controller="Persons" asp-action="Edit" asp-route-id="@person.Id" class="btn btn-default">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a asp-controller="Persons" asp-action="Delete" asp-route-id="@person.Id" class="btn btn-danger">
+                                <i class="fa fa-trash-o"></i>
+                            </a>
+                        </td>
+                    }
+                </tr>
+            }
         </tbody>
     </table>
 </div>

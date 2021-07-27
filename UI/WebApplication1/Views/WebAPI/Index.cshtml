@@ -4,22 +4,25 @@
 }
 
 <div class="container">
+
+    <vc:bread-crumbs/>
+
     <table class="table">
         <thead>
-            <tr>
-                <th>№</th>
-                <th>Значение</th>
-            </tr>
+        <tr>
+            <th>№</th>
+            <th>Значение</th>
+        </tr>
         </thead>
         <tbody>
-            @{ var i = 1; }
-            @foreach (var value in Model)
-            {
-                <tr>
-                    <td>@(i++)</td>
-                    <td>@value</td>
-                </tr>
-            }
+        @{ var i = 1; }
+        @foreach (var value in Model)
+        {
+            <tr>
+                <td>@(i++)</td>
+                <td>@value</td>
+            </tr>
+        }
         </tbody>
     </table>
 </div>

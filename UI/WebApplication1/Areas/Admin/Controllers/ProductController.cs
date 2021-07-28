@@ -78,7 +78,7 @@ namespace WebApplication1.Areas.Admin.Controllers
             {
                 FilterViewModel = new ProductEditFilterViewModel(name),
                 SortViewModel = new ProductEditSortViewModel(sortOrder),
-                PageViewModel = new PageViewModel(productsPage.TotalCount, page, pageSize),
+                PageViewModel = new PageWebModel(productsPage.TotalCount, page, pageSize),
                 Products = _mapperProductToView.Map<IEnumerable<EditProductWebModel>>(products.ToList()),
             };
             return View(webModel);

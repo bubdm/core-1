@@ -37,9 +37,8 @@ namespace WebApplication1.Controllers
                 Page = page,
                 PageSize = pageSize,
             };
-            var productsPage = _productData.GetProducts(filter);
-            var products = productsPage.Products;
-            
+            var (products, productCount) = _productData.GetProducts(filter);
+
             //var count = products!.Count();
             //products = products.Skip((page - 1) * pageSize).Take(pageSize);
 
@@ -47,7 +46,7 @@ namespace WebApplication1.Controllers
             {
                 BrandId = brandId,
                 SectionId = sectionId,
-                PageViewModel = new PageViewModel(productsPage.TotalCount, page, pageSize ?? 6),
+                PageWebModel = new PageWebModel(productCount, page, pageSize ?? 0),
                 Products = _mapperProductToView
                     .Map<IEnumerable<ProductWebModel>>(products.OrderBy(p => p.Order)),
             });

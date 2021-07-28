@@ -12,13 +12,15 @@ namespace WebApplication1.TagHelpers
     {
         private readonly IUrlHelperFactory _UrlHelperFactory;
 
-        public PageViewModel PageModel { get; set; }
+        public PageWebModel PageModel { get; set; }
+
         public string PageAction { get; set; }
 
         public PageLinkTagHelper(IUrlHelperFactory urlHelperFactory)
         {
             _UrlHelperFactory = urlHelperFactory;
         }
+
         [ViewContext, HtmlAttributeNotBound]
         public ViewContext ViewContext { get; set; }
 
@@ -33,11 +35,11 @@ namespace WebApplication1.TagHelpers
             var tag = new TagBuilder("ul");
             tag.AddCssClass("pagination");
 
-            var currentItem = CreateTag(PageModel.PageNumber, urlHelper);
+            var currentItem = CreateTag(PageModel.Page, urlHelper);
 
             if (PageModel.HasPreviousPage)
             {
-                var prevItem = CreateTag(PageModel.PageNumber - 1, urlHelper);
+                var prevItem = CreateTag(PageModel.Page - 1, urlHelper);
                 tag.InnerHtml.AppendHtml(prevItem);
             }
 
@@ -45,7 +47,7 @@ namespace WebApplication1.TagHelpers
 
             if (PageModel.HasNextPage)
             {
-                var nextItem = CreateTag(PageModel.PageNumber + 1, urlHelper);
+                var nextItem = CreateTag(PageModel.Page + 1, urlHelper);
                 tag.InnerHtml.AppendHtml(nextItem);
             }
 
@@ -55,7 +57,7 @@ namespace WebApplication1.TagHelpers
         {
             TagBuilder item = new TagBuilder("li");
             TagBuilder link = new TagBuilder("a");
-            if (pageNumber == this.PageModel.PageNumber)
+            if (pageNumber == PageModel.Page)
             {
                 item.AddCssClass("active");
             }

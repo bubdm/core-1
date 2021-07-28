@@ -43,8 +43,9 @@ namespace WebApplication1.Tests.Controllers
                     }),
                     TotalCount = expCountProducts,
                 });
-            var configurationStub = Mock.Of<IConfiguration>();
-            var controller = new CatalogController(productDataMock.Object, configurationStub);
+            var configurationMock = new Mock<IConfiguration>();
+            configurationMock.Setup(c => c["CatalogPageSize"]).Returns("6");
+            var controller = new CatalogController(productDataMock.Object, configurationMock.Object);
 
             var result = controller.Index(null, null);
 
@@ -54,9 +55,9 @@ namespace WebApplication1.Tests.Controllers
             var catalogWebModel = (CatalogWebModel) viewResult.Model;
             Assert.AreEqual(null, catalogWebModel.BrandId);
             Assert.AreEqual(null, catalogWebModel.SectionId);
-            var pageModel = catalogWebModel.PageViewModel;
-            Assert.IsInstanceOfType(pageModel, typeof(PageViewModel));
-            Assert.AreEqual(1, pageModel.PageNumber);
+            var pageModel = catalogWebModel.PageWebModel;
+            Assert.IsInstanceOfType(pageModel, typeof(PageWebModel));
+            Assert.AreEqual(1, pageModel.Page);
             Assert.AreEqual(1, pageModel.TotalPages);
             var products = catalogWebModel.Products;
             Assert.AreEqual(expCountProducts, products.Count());

@@ -14,6 +14,7 @@
         $(".cart_quantity_up").click(Cart.plusItemInCart);
         $(".cart_quantity_down").click(Cart.minusItemFromCart);
         $(".cart_quantity_delete").click(Cart.removeItemFromCart);
+        $(".cart_items_clear").click(Cart.cleatItemsInCart);
     },
 
     addToCart: function (event) {
@@ -65,7 +66,7 @@
                 let count = parseInt($(".cart_quantity_input", tr).val());
                 if (count > 1) {
                     $(".cart_quantity_input", tr).val(count - 1);
-                    Cart.refreshPrice();
+                    Cart.refreshPrice(tr);
                 } else {
                     tr.remove();
                     Cart.refreshTotalPrice();
@@ -92,6 +93,21 @@
                 Cart.refreshCartView();
             }).fail(function() {
                 console.log("removeItemFromCart fail");
+            });
+    },
+
+    cleatItemsInCart: function() {
+        event.preventDefault();
+
+        $.get(Cart._properties.clearCartLink)
+            .done(function() {
+                $(".cart_total_price").closest("tr").each(function() {
+                    this.remove();
+                });
+                Cart.refreshTotalPrice();
+                Cart.refreshCartView();
+            }).fail(function() {
+                console.log("cleatItemsInCart fail");
             });
     },
 

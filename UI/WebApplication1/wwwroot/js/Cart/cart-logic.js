@@ -13,14 +13,14 @@
         $(".add-to-cart").click(Cart.addToCart);
         $(".cart_quantity_up").click(Cart.plusItemInCart);
         $(".cart_quantity_down").click(Cart.minusItemFromCart);
-
+        $(".cart_quantity_delete").click(Cart.removeItemFromCart);
     },
 
     addToCart: function (event) {
         event.preventDefault();
 
         let button = $(this);
-        const id = button.data("id");
+        let id = button.data("id");
 
         $.get(Cart._properties.addToCartLink + "/" + id)
             .done(function (text) {
@@ -36,7 +36,7 @@
         event.preventDefault();
 
         let button = $(this);
-        const id = button.data("id");
+        let id = button.data("id");
 
         var tr = button.closest("tr");
 
@@ -56,7 +56,7 @@
         event.preventDefault();
 
         let button = $(this);
-        const id = button.data("id");
+        let id = button.data("id");
 
         var tr = button.closest("tr");
 
@@ -71,10 +71,28 @@
                     Cart.refreshTotalPrice();
                 }
                 Cart.refreshCartView();
-            }).fail(function() {
+            })
+            .fail(function() {
                 console.log("minusItemFromCart fail");
             });
+    },
 
+    removeItemFromCart: function() {
+        event.preventDefault();
+
+        let button = $(this);
+        let id = button.data("id");
+
+        var tr = button.closest("tr");
+
+        $.get(Cart._properties.removeFromCartLink + "/" + id)
+            .done(function() {
+                tr.remove();
+                Cart.refreshTotalPrice();
+                Cart.refreshCartView();
+            }).fail(function() {
+                console.log("removeItemFromCart fail");
+            });
     },
 
     showToolTip: function (button, message) {

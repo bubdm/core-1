@@ -46,6 +46,9 @@ namespace WebApplication1.IntegrationTests.Controllers
                                 })
                             );
                         services.AddTransient(_ => personsDataMock.Object);
+                        var delDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IProductData));
+                        services.Remove(delDescriptor);
+                        services.AddTransient(_ => Mock.Of<IProductData>());
                     });
                 });
             var httpClient = webHost.CreateClient();
@@ -81,6 +84,9 @@ namespace WebApplication1.IntegrationTests.Controllers
                         var client = new PersonsClient(new HttpClient(mockMessageHandler.Object) { BaseAddress = new Uri("http://localost/") });
 
                         services.AddTransient<IPersonsData>(_ => client);
+                        var delDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IProductData));
+                        services.Remove(delDescriptor);
+                        services.AddTransient(_ => Mock.Of<IProductData>());
                     });
                 });
             var httpClient = webHost.CreateClient();

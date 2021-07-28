@@ -79,7 +79,7 @@ namespace WebApplication1.Services.Services
             var products = _productData.GetProducts(new ProductFilter
             {
                 Ids = cart.Items.Select(item => item.ProductId).ToArray()
-            });
+            })?.Products;
 
             var productViews = _mapperProductToView
                 .Map<IEnumerable<ProductWebModel>>(products).ToDictionary(p => p.Id);

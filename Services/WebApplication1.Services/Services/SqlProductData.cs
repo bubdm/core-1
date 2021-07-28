@@ -34,7 +34,7 @@ namespace WebApplication1.Services.Services
                 .Include(b => b.Products).FirstOrDefault(b => b.Id == id);
         }
 
-        public IEnumerable<Product> GetProducts(ProductFilter productFilter = null)
+        public ProductsPage GetProducts(ProductFilter productFilter = null)
         {
             IQueryable<Product> query = _context.Products
                 .Include(p => p.Section)
@@ -50,8 +50,19 @@ namespace WebApplication1.Services.Services
                 if (productFilter?.BrandId is { } brandId)
                     query = query.Where(q => q.BrandId == brandId);
             }
+            var productCount = query.Count();
+
+            if (productFilter is {PageSize: > 0 and var pageSize, Page: > 0 and var pageNumber})
+                query = query
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize);
+
             _logger.LogInformation($"Запрос SQL: {query.ToQueryString()}");
-            return query;
+            return new ProductsPage()
+            {
+                Products = query.AsEnumerable(),
+                TotalCount = productCount,
+            };
         }
 
         public Product GetProductById(int id) => _context.Products

@@ -22,7 +22,7 @@ namespace WebApplication1.Controllers.API
                 .Select(s => new SitemapNode(Url.Action("Index", "Catalog", new { SectionId = s.Id }))));
             nodes.AddRange(productData.GetBrands()
                 .Select(b => new SitemapNode(Url.Action("Index", "Catalog", new {BrandId = b.Id}))));
-            nodes.AddRange(productData.GetProducts()
+            nodes.AddRange(productData.GetProducts().Products
                 .Select(p => new SitemapNode(Url.Action("Details", "Catalog", new {p.Id}))));
             return new SitemapProvider().CreateSitemap(new SitemapModel(nodes));
         }

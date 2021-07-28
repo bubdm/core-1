@@ -24,7 +24,7 @@ namespace WebApplication1.Controllers
         public IActionResult Index([FromServices] IProductData productData)
         {
             var products = _mapperProductToView
-                .Map<IEnumerable<ProductWebModel>>(productData.GetProducts().Take(6));
+                .Map<IEnumerable<ProductWebModel>>(productData.GetProducts().Products.Take(6));
             ViewBag.Products = products;
             return View();
         }

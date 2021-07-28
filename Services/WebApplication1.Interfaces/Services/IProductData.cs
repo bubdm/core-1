@@ -15,7 +15,7 @@ namespace WebApplication1.Interfaces.Services
         /// <summary> Один бренд </summary>
         Brand GetBrand(int id);
         /// <summary> Все товары </summary>
-        IEnumerable<Product> GetProducts(ProductFilter productFilter = null);
+        ProductsPage GetProducts(ProductFilter productFilter = null);
         /// <summary> Один продукт по ид </summary>
         Product GetProductById(int id);
         /// <summary> Добавить продукт </summary>

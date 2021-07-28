@@ -85,14 +85,25 @@ namespace WebApplication1.Services.Services
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Product> GetProducts(ProductFilter productFilter = null)
+        public ProductsPage GetProducts(ProductFilter productFilter = null)
         {
             IEnumerable<Product> query = _Products;
             if (productFilter?.SectionId is { } sectionId) 
                 query = query.Where(p => p.SectionId == sectionId);
             if (productFilter?.BrandId is { } brandId)
                 query = query.Where(p => p.BrandId == brandId);
-            return query;
+            var totalCount = query.Count();
+
+            if (productFilter is {PageSize: > 0 and var pageSize, Page: > 0 and var pageNumber})
+                query = query
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize);
+
+            return new ProductsPage
+            {
+                Products = query.AsEnumerable(),
+                TotalCount = totalCount,
+            };
         }
 
         public Product GetProductById(int id) => _Products.SingleOrDefault(p => p.Id == id);

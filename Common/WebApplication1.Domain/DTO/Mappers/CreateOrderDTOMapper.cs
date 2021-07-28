@@ -19,7 +19,7 @@ namespace WebApplication1.Domain.DTO.Mappers
         {
             return new CartWebModel()
             {
-                Items = items.Select(p => (new ProductWebModel{Id = p.ProductId}, p.Quantity, p.Price * p.Quantity )),
+                Items = items.Select(p => (new ProductWebModel{Id = p.ProductId}, p.Quantity )),
             };
         }
     }

@@ -88,7 +88,7 @@ namespace WebApplication1.Services.Services
             {
                 Items = cart.Items
                     .Where(p => productViews.ContainsKey(p.ProductId))
-                    .Select(p => (productViews[p.ProductId], p.Quantity, productViews[p.ProductId].Price * p.Quantity))
+                    .Select(p => (productViews[p.ProductId], p.Quantity)),
             };
         }
     }

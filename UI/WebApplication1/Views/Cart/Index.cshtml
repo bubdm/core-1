@@ -21,7 +21,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach (var (product, quantity, sum) in Model.Cart.Items)
+                @foreach (var (product, quantity) in Model.Cart.Items)
                 {
                     <tr>
                         <td class="cart_product">

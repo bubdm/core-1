@@ -67,7 +67,7 @@ namespace WebApplication1.Tests.Controllers
                         Brand = "Test Brand",
                         Section = "Test Section",
                         ImageUrl = expImageName,
-                    }, expProductCount, expProductPrice * expProductCount ) }
+                    }, expProductCount ) }
                 });
             var orderServiceMock = new Mock<IOrderService>();
             orderServiceMock

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
+using WebApplication1.Domain.DTO.Mappers;
 using WebApplication1.Domain.Model;
 using WebApplication1.Domain.Entities;
 using WebApplication1.Domain.WebModel;
@@ -39,9 +40,6 @@ namespace WebApplication1.Controllers
             };
             var (products, productCount) = _productData.GetProducts(filter);
 
-            //var count = products!.Count();
-            //products = products.Skip((page - 1) * pageSize).Take(pageSize);
-
             return View(new CatalogWebModel
             {
                 BrandId = brandId,
@@ -60,6 +58,24 @@ namespace WebApplication1.Controllers
 
             return View(_mapperProductToView
                 .Map<ProductWebModel>(product));
+        }
+
+        public IActionResult GetFeaturedItems(int? BrandId, int? SectionId, int Page = 1, int? PageSize = null)
+        {
+            return PartialView("Partial/_ProductsPartial", GetProducts(BrandId, SectionId, Page, PageSize));
+        }
+
+        private IEnumerable<ProductWebModel> GetProducts(int? BrandId, int? SectionId, int Page, int? PageSize)
+        {
+            var filter = new ProductFilter
+            {
+                BrandId = BrandId,
+                SectionId = SectionId,
+                Page = Page,
+                PageSize = PageSize ?? _configuration.GetValue("", 6),
+            };
+            var result = _productData.GetProducts(filter).Products.OrderBy(p => p.Order);
+            return _mapperProductToView.Map<IEnumerable<ProductWebModel>>(result);
         }
     }
 }

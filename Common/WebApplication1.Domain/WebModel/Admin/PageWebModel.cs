@@ -12,7 +12,6 @@ namespace WebApplication1.Domain.WebModel.Admin
             Page = page;
             PageSize = pageSize;
             TotalItems = count;
-            //TotalPages = (int) Math.Ceiling(count / (double)pageSize);
         }
         public int TotalPages => PageSize == 0 ? 0 : (int) Math.Ceiling((double) TotalItems / PageSize);
         public bool HasPreviousPage => Page > 1;

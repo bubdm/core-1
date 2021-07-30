@@ -19,11 +19,14 @@
                     <partial name="Partial/_ProductsPartial" model="Model.Products"/>
                 </div>
 
-                <page-link page-model="Model.PageWebModel"
-                           page-action="Index"
-                           page-url-BrandId="@Model.BrandId"
-                           page-url-SectionId="@Model.SectionId"
-                           page-url-PageSize="@Context.Request.Query["PageSize"]"></page-link>
+                <div id="catalog-pagination-container">
+                    @*<page-link page-model="Model.PageWebModel"
+                               page-action="Index"
+                               page-url-BrandId="@Model.BrandId"
+                               page-url-SectionId="@Model.SectionId"
+                               page-url-PageSize="@Context.Request.Query["PageSize"]"></page-link>*@
+                    <partial name="Partial/_CatalogPaginationPartial" model="Model"/>
+                </div>
             </div>
         </div>
     </div>
@@ -35,7 +38,8 @@
     <script>
         $(function () {
             Catalog.init({
-                getViewLink: "@Url.Action("GetFeaturedItems","Catalog")"
+                getViewLink: "@Url.Action("GetFeaturedItems","Catalog")",
+                getCatalogPagination: "@Url.Action("GetCatalogPagination", "Catalog")"
             });
         })
     </script>

@@ -27,9 +27,42 @@ namespace WebApplication1.Controllers
             _configuration = configuration;
         }
 
-        public IActionResult Index(int? brandId, int? sectionId, int page = 1, int? PageSize = null)
+        public IActionResult Index(int? brandId, int? sectionId, int page = 1)
         {
-            var pageSize = PageSize ?? (int.TryParse(_configuration["CatalogPageSize"], out var value) ? value : null);
+            var model = GetCatalogWebModel(brandId, sectionId, page);
+            return View(model);
+        }
+
+        public IActionResult Details(int id)
+        {
+            var product = _productData.GetProductById(id);
+            if (product is null)
+                return NotFound();
+            return View(_mapperProductToView
+                .Map<ProductWebModel>(product));
+        }
+
+        #region Web-API
+
+        public IActionResult GetFeaturedItems(int? BrandId, int? SectionId, int Page = 1)
+        {
+            var products = GetProducts(BrandId, SectionId, Page);
+            return PartialView("Partial/_ProductsPartial", products);
+        }
+
+        public IActionResult GetCatalogPagination(int? BrandId, int? SectionId, int Page = 1)
+        {
+            var model = GetCatalogWebModel(BrandId, SectionId, Page);
+            return PartialView("Partial/_CatalogPaginationPartial", model);
+        }
+
+        #endregion
+
+        #region Вспомогательные
+
+        private CatalogWebModel GetCatalogWebModel(int? brandId, int? sectionId, int page)
+        {
+            int? pageSize = (int.TryParse(_configuration["CatalogPageSize"], out var value) ? value : null);
 
             var filter = new ProductFilter
             {
@@ -40,42 +73,30 @@ namespace WebApplication1.Controllers
             };
             var (products, productCount) = _productData.GetProducts(filter);
 
-            return View(new CatalogWebModel
+            var model = new CatalogWebModel
             {
                 BrandId = brandId,
                 SectionId = sectionId,
                 PageWebModel = new PageWebModel(productCount, page, pageSize ?? 0),
                 Products = _mapperProductToView
                     .Map<IEnumerable<ProductWebModel>>(products.OrderBy(p => p.Order)),
-            });
+            };
+            return model;
         }
 
-        public IActionResult Details(int id)
-        {
-            var product = _productData.GetProductById(id);
-            if (product is null)
-                return NotFound();
-
-            return View(_mapperProductToView
-                .Map<ProductWebModel>(product));
-        }
-
-        public IActionResult GetFeaturedItems(int? BrandId, int? SectionId, int Page = 1, int? PageSize = null)
-        {
-            return PartialView("Partial/_ProductsPartial", GetProducts(BrandId, SectionId, Page, PageSize));
-        }
-
-        private IEnumerable<ProductWebModel> GetProducts(int? BrandId, int? SectionId, int Page, int? PageSize)
+        private IEnumerable<ProductWebModel> GetProducts(int? BrandId, int? SectionId, int Page)
         {
             var filter = new ProductFilter
             {
                 BrandId = BrandId,
                 SectionId = SectionId,
                 Page = Page,
-                PageSize = PageSize ?? _configuration.GetValue("", 6),
+                PageSize = _configuration.GetValue("CatalogPageSize", 6),
             };
             var result = _productData.GetProducts(filter).Products.OrderBy(p => p.Order);
             return _mapperProductToView.Map<IEnumerable<ProductWebModel>>(result);
         }
+
+        #endregion
     }
 }

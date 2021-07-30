@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -57,6 +58,7 @@ namespace WebApplication1.TagHelpers
         {
             TagBuilder item = new TagBuilder("li");
             TagBuilder link = new TagBuilder("a");
+
             if (pageNumber == PageModel.Page)
             {
                 item.AddCssClass("active");
@@ -66,6 +68,10 @@ namespace WebApplication1.TagHelpers
                 PageUrlValues["page"] = pageNumber;
                 link.Attributes["href"] = urlHelper.Action(PageAction, PageUrlValues);
             }
+
+            foreach (var (key, value) in PageUrlValues.Where(v => v.Value is not null))
+                link.MergeAttribute($"data-{key}", value.ToString());
+
             item.AddCssClass("page-item");
             link.AddCssClass("page-link");
             link.InnerHtml.Append(pageNumber.ToString());

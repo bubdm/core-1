@@ -11,6 +11,7 @@
         $.extend(Cart._properties, properties);
 
         $(".add-to-cart").click(Cart.addToCart);
+
         $(".cart_quantity_up").click(Cart.plusItemInCart);
         $(".cart_quantity_down").click(Cart.minusItemFromCart);
         $(".cart_quantity_delete").click(Cart.removeItemFromCart);

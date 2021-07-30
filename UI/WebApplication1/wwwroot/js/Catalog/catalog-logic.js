@@ -34,6 +34,7 @@ Catalog = {
             $.get(Catalog._properties.getViewLink + "?" + query)
                 .done(function (catalogHtml) {
                     container.html(catalogHtml);
+                    $(".add-to-cart").click(Cart.addToCart);
                     container.LoadingOverlay("hide");
 
                     $.get(Catalog._properties.getCatalogPagination + "?" + query)
@@ -51,5 +52,4 @@ Catalog = {
                 });
         }        
     }
-
 }

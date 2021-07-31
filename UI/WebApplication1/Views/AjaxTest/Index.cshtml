@@ -51,6 +51,23 @@
             <div id="panel-js"></div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-4" id="vue-app">
+            <h4>Использование Vue.js</h4>
+
+            <button v-on:click="loadTestAjaxMessage" class="btn btn-default">Загрузить</button>
+
+            <div v-if="seen">
+                <h5>Представление Frontend фреймворка</h5>
+                <p>Сообщение: {{ message }} </p>
+                <p>Время на сервере: {{ serverTime }}</p>
+            </div>
+        </div>
+    </div>
+
+
+
+
 </div>
 
 @section Scripts
@@ -85,6 +102,38 @@
                 });
 
         });
-
     </script>
+
+    <!-- development version vuejs, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+    
+    @*Исплользование Vie.js*@
+<script>
+
+        let AjaxTestVueApp = {
+            data() {
+                return {
+                    message: 'Привет Vue!',
+                    serverTime: '',
+                    seen: false,
+                }
+            },
+            methods: {
+                loadTestAjaxMessage() {
+
+                    $.get("@Url.Action("GetJSON", "AjaxTest")", { id: 42, msg: "HelloWorldFromJsom", delay: "1000" })
+                        .done(data => {
+                            console.log("AJAX-request to server success");
+                            this.message = data.message;
+                            this.serverTime = data.serverTime;
+                            this.seen = true;
+                        });
+
+
+                }
+            }
+        }
+
+        let vm = Vue.createApp(AjaxTestVueApp).mount('#vue-app')
+</script>
 }

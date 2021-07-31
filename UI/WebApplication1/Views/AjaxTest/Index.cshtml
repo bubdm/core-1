@@ -54,12 +54,10 @@
     <div class="row">
         <div class="col-md-4">
             <h4>Фреймворк Angular</h4>
-            
         </div>
-        
+
         <div class="col-md-4">
             <h4>Фреймворк React.js</h4>
-            
         </div>
         
         <div class="col-md-4" id="vue-app">
@@ -70,13 +68,21 @@
             <span v-if="wait">
                 <i class="fa fa-spinner fa-spin"></i>
             </span>
-
+              
             <div v-if="seen">
                 <h5>Представление фреймворка Vue.js</h5>
                 <p>Сообщение: {{ message }} </p>
                 <p>Время на сервере: {{ serverTime }}</p>
             </div>
         </div>
+    </div>
+    <div class="row">
+        <a class="btn btn-default"
+           data-ajax="true"
+           data-ajax-url="api/console/clear">Очистить консоль</a>
+        <a class="btn btn-default"
+           data-ajax="true"
+           data-ajax-url="api/console/writeline/?text=HelloWorld">Добавить текст в консоль</a>
     </div>
 
 

@@ -6,6 +6,6 @@ namespace WebApplication1.Hubs
     public class ChatHub : Hub
     {
         public async Task SendMessage(string Message) => 
-            await Clients.Others.SendAsync("MessageFromClient", Message);
+            await Clients.All.SendAsync("MessageFromClient", Message);
     }
 }

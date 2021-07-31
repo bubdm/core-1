@@ -37,5 +37,7 @@ namespace WebApplication1.Controllers
                 ServerTime = DateTime.Now
             });
         }
+
+        public IActionResult SignalRChat() => View();
     }
 }

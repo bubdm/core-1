@@ -109,31 +109,26 @@
     
     @*Исплользование Vie.js*@
 <script>
-
-        let AjaxTestVueApp = {
-            data() {
-                return {
-                    message: 'Привет Vue!',
-                    serverTime: '',
-                    seen: false,
-                }
-            },
-            methods: {
-                loadTestAjaxMessage() {
-
-                    $.get("@Url.Action("GetJSON", "AjaxTest")", { id: 42, msg: "HelloWorldFromJsom", delay: "1000" })
-                        .done(data => {
-                            console.log("AJAX-request to server success");
-                            this.message = data.message;
-                            this.serverTime = data.serverTime;
-                            this.seen = true;
-                        });
-
-
-                }
+    let AjaxTestVueApp = {
+        data() {
+            return {
+                message: 'Привет Vue!',
+                serverTime: '',
+                seen: false,
+            }
+        },
+        methods: {
+            loadTestAjaxMessage() {
+                $.get("@Url.Action("GetJSON", "AjaxTest")", { id: 42, msg: "HelloWorldFromJsom", delay: "1000" })
+                    .done(data => {
+                        console.log("AJAX-request to server success");
+                        this.message = data.message;
+                        this.serverTime = data.serverTime;
+                        this.seen = true;
+                    });
             }
         }
-
-        let vm = Vue.createApp(AjaxTestVueApp).mount('#vue-app')
+    };
+    let vm = Vue.createApp(AjaxTestVueApp).mount('#vue-app');
 </script>
 }

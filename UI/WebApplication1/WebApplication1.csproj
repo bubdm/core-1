@@ -16,17 +16,22 @@
   <ItemGroup>
     <Compile Remove="Areas\Admin\Models\**" />
     <Compile Remove="Areas\Admin\WebModels\**" />
+    <Compile Remove="Models\**" />
     <Content Remove="Areas\Admin\Models\**" />
     <Content Remove="Areas\Admin\WebModels\**" />
+    <Content Remove="Models\**" />
     <EmbeddedResource Remove="Areas\Admin\Models\**" />
     <EmbeddedResource Remove="Areas\Admin\WebModels\**" />
+    <EmbeddedResource Remove="Models\**" />
     <None Remove="Areas\Admin\Models\**" />
     <None Remove="Areas\Admin\WebModels\**" />
+    <None Remove="Models\**" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -37,6 +42,7 @@
     <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1" />
     <PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0" />
     <PackageReference Include="Serilog.Sinks.Seq" Version="5.0.1" />
+    <PackageReference Include="SimpleMvcSitemap" Version="4.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,7 +57,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>

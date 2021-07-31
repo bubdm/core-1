@@ -21,7 +21,10 @@ namespace WebApplication1.Tests.Controllers
             var configurationStub = Mock.Of<IConfiguration>();
             var productDataMock = new Mock<IProductData>();
             productDataMock.Setup(s => s.GetProducts(It.IsAny<ProductFilter>()))
-                .Returns(Enumerable.Empty<Product>());
+                .Returns(new ProductsPage
+                {
+                    Products = Enumerable.Empty<Product>(),
+                });
             var controller = new HomeController(configurationStub);
 
             var result = controller.Index(productDataMock.Object);

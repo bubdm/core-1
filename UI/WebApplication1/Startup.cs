@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using WebApplication1.Domain.Identity;
+using WebApplication1.Hubs;
 using WebApplication1.Infrastructure.Conventions;
 using WebApplication1.Infrastructure.Middleware;
 using WebApplication1.Interfaces.Services;
@@ -80,6 +81,8 @@ namespace WebApplication1
 
             services.AddControllersWithViews(opt => opt.Conventions.Add(new TestControllerConvention()))
                 .AddRazorRuntimeCompilation();
+
+            services.AddSignalR();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory log/*, IServiceProvider service*/)
         {
@@ -113,6 +116,8 @@ namespace WebApplication1
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<ChatHub>("/chat");
+
                 endpoints.MapGet("/hello", async context =>
                 {
                     await context.Response.WriteAsync($"Hello World, {Configuration["Hello"]}!");

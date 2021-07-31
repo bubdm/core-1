@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebApplication1.Domain.WebModel
 {
@@ -6,6 +7,7 @@ namespace WebApplication1.Domain.WebModel
     {
         [Required]
         [Display(Name = "Имя пользователя")]
+        [Remote("IsNameFree","Account")]
         public string UserName { get; set; }
 
         [Required]

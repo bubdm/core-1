@@ -60,5 +60,38 @@ namespace WebApplication1.Controllers
             ViewBag.Name = (await _OrderService.GetOrderById(id)).Name;
             return View();
         }
+
+        #region Web-API
+
+        public IActionResult GetCartView()
+        {
+            return ViewComponent("Cart");
+        }
+
+        public IActionResult ApiAdd(int id)
+        {
+            _CartService.Add(id);
+            return Json(new { id, message = $"Этот товар был добавлен в корзину (id = {id})" }); ;
+        }
+
+        public IActionResult ApiMinus(int id)
+        {
+            _CartService.Minus(id);
+            return Json(new { id, message = $"Этот товар убавлен на еденицу (id = {id})" });
+        }
+
+        public IActionResult ApiRemove(int id)
+        {
+            _CartService.Remove(id);
+            return Json(new { id, message = $"Этот товар удален из корзины (id = {id})" });
+        }
+
+        public IActionResult ApiClear()
+        {
+            _CartService.Clear();
+            return Ok();
+        }
+
+        #endregion
     }
 }

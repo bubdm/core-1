@@ -1,0 +1,40 @@
+﻿@model WebApplication1.Domain.WebModel.BreadCrumbsWebModel
+
+<div class="breadcrumbs">
+    <ol class="breadcrumb">
+        @if (Model.Controller is { } controller)
+        {
+            <li><a asp-controller="Home" asp-action="Index">Главная</a></li>
+            <li class="active"><a asp-controller="@controller" asp-action="Index">@Model.ControllerText</a></li>
+        }
+        @if (Model.Section is not null)
+        {
+            if (Model.Section.Parent != null)
+            {
+                <li>
+                    <a asp-controller="Catalog" asp-action="Index" asp-route-SectionId="@Model.Section.Parent.Id">
+                        @Model.Section.Parent.Name
+                    </a>
+                </li>
+            }
+            <li>
+                <a asp-controller="Catalog" asp-action="Index" asp-route-SectionId="@Model.Section.Id">
+                    @Model.Section.Name
+                </a>
+            </li>
+        }
+        @if (Model.Brand is not null)
+        {
+            <li>
+                <a asp-controller="Catalog" asp-action="Index" asp-route-BrandId="@Model.Brand.Id">
+                    @Model.Brand.Name
+                </a>
+            </li>
+        }
+        @if (Model.Product is not null)
+        {
+            <li>@Model.Product</li>
+        }
+    </ol>
+</div>
+

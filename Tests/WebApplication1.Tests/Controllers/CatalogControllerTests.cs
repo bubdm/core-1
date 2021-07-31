@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using WebApplication1.Controllers;
@@ -28,17 +29,23 @@ namespace WebApplication1.Tests.Controllers
             var productDataMock = new Mock<IProductData>();
             productDataMock
                 .Setup(p => p.GetProducts(It.IsAny<ProductFilter>()))
-                .Returns<ProductFilter>(p => Enumerable.Range(1, expCountProducts).Select(id => new Product
+                .Returns<ProductFilter>(p => new ProductsPage
                 {
-                    Id = id,
-                    Name = $"Product {id}",
-                    Order = 1,
-                    Price = 100 * id,
-                    ImageUrl = $"image_{id}.jpg",
-                    Brand = new Brand{Id = 1, Name = "Brand", Order = 1},
-                    Section = new Section{Id = 1, Name = "Section", Order = 1},
-                }));
-            var controller = new CatalogController(productDataMock.Object);
+                    Products = Enumerable.Range(1, expCountProducts).Select(id => new Product
+                    {
+                        Id = id,
+                        Name = $"Product {id}",
+                        Order = 1,
+                        Price = 100 * id,
+                        ImageUrl = $"image_{id}.jpg",
+                        Brand = new Brand{Id = 1, Name = "Brand", Order = 1},
+                        Section = new Section{Id = 1, Name = "Section", Order = 1},
+                    }),
+                    TotalCount = expCountProducts,
+                });
+            var configurationMock = new Mock<IConfiguration>();
+            configurationMock.Setup(c => c["CatalogPageSize"]).Returns("6");
+            var controller = new CatalogController(productDataMock.Object, configurationMock.Object);
 
             var result = controller.Index(null, null);
 
@@ -48,9 +55,9 @@ namespace WebApplication1.Tests.Controllers
             var catalogWebModel = (CatalogWebModel) viewResult.Model;
             Assert.AreEqual(null, catalogWebModel.BrandId);
             Assert.AreEqual(null, catalogWebModel.SectionId);
-            var pageModel = catalogWebModel.PageViewModel;
-            Assert.IsInstanceOfType(pageModel, typeof(PageViewModel));
-            Assert.AreEqual(1, pageModel.PageNumber);
+            var pageModel = catalogWebModel.PageWebModel;
+            Assert.IsInstanceOfType(pageModel, typeof(PageWebModel));
+            Assert.AreEqual(1, pageModel.Page);
             Assert.AreEqual(1, pageModel.TotalPages);
             var products = catalogWebModel.Products;
             Assert.AreEqual(expCountProducts, products.Count());
@@ -87,7 +94,8 @@ namespace WebApplication1.Tests.Controllers
                     Brand = new Brand{Id = 1, Name = "Brand", Order = 1},
                     Section = new Section{Id = 1, Name = "Section", Order = 1},
                 });
-            var controller = new CatalogController(productDataMock.Object);
+            var configurationStub = Mock.Of<IConfiguration>();
+            var controller = new CatalogController(productDataMock.Object, configurationStub);
 
             var result = controller.Details(expectedId);
             
@@ -110,7 +118,8 @@ namespace WebApplication1.Tests.Controllers
             productDataMock
                 .Setup(p => p.GetProductById(It.IsAny<int>()))
                 .Returns((Product) null);
-            var controller = new CatalogController(productDataMock.Object);
+            var configurationStub = Mock.Of<IConfiguration>();
+            var controller = new CatalogController(productDataMock.Object, configurationStub);
 
             var result = controller.Details(1);
 

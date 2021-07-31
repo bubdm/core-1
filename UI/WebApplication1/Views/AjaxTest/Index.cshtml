@@ -1,0 +1,158 @@
+﻿@{
+    ViewBag.Title = "Тестирование ненавязчивого Ajax";
+}
+
+<div class="container">
+    <h1>@ViewBag.Title</h1>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Рендеринг на стороне сервера</h4>
+
+            <a class="btn btn-default"
+               data-ajax="true"
+               data-ajax-url="@Url.Action("GetHTML", "AjaxTest", new { id = 42, msg = "HelloWorldFromHtml", delay = "1000" })"
+               data-ajax-loading="#spinner-server"
+               data-ajax-update="#panel-server">Загрузить</a>
+
+            <span id="spinner-server" style="display: none">
+                <i class="fa fa-spinner fa-spin"></i>
+            </span>
+
+            <div id="panel-server"></div>
+        </div>
+
+        <div class="col-md-4">
+            <h4>Рендеринг на стороне клиента</h4>
+
+            <a class="btn btn-default"
+               data-ajax="true"
+               data-ajax-url="@Url.Action("GetJSON", "AjaxTest", new { id = 42, msg = "HelloWorldFromJsom", delay = "1000" })"
+               data-ajax-loading="#spinner-client"
+               data-ajax-success="OnJSONLoaded">Загрузить</a>
+
+            <span id="spinner-client" style="display: none">
+                <i class="fa fa-spinner fa-spin"></i>
+            </span>
+
+            <div id="panel-client"></div>
+        </div>
+
+        <div class="col-md-4">
+            <h4>Ручное формирование разметки</h4>
+
+            <a class="btn btn-default" id="load-data-button">Загрузить</a>
+
+            <span id="spinner-js" style="display: none">
+                <i class="fa fa-spinner fa-spin"></i>
+            </span>
+
+            <div id="panel-js"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Фреймворк Angular</h4>
+        </div>
+
+        <div class="col-md-4">
+            <h4>Фреймворк React.js</h4>
+        </div>
+        
+        <div class="col-md-4" id="vue-app">
+            <h4>Фреймворк Vue.js</h4>
+
+            <button v-on:click="loadTestAjaxMessage" class="btn btn-default">Загрузить</button>
+            
+            <span v-if="wait">
+                <i class="fa fa-spinner fa-spin"></i>
+            </span>
+              
+            <div v-if="seen">
+                <h5>Представление фреймворка Vue.js</h5>
+                <p>Сообщение: {{ message }} </p>
+                <p>Время на сервере: {{ serverTime }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <a class="btn btn-default"
+           data-ajax="true"
+           data-ajax-url="api/console/clear">Очистить консоль</a>
+        <a class="btn btn-default"
+           data-ajax="true"
+           data-ajax-url="api/console/writeline/?text=HelloWorld">Добавить текст в консоль</a>
+    </div>
+
+
+
+
+</div>
+
+@section Scripts
+{
+    <script>
+
+        OnJSONLoaded = data => {
+            let panel = $("#panel-client");
+            panel.empty();
+            panel.append("<h5>Представление AJAX на клиенте</h5>");
+            panel.append("<p>msg: " + data.message + "</p>");
+            panel.append("<p>Server time: " + data.serverTime + "</p>");
+        }
+
+        $("#load-data-button").click(e => {
+            e.preventDefault();
+
+            let spinner = $("#spinner-js");
+            spinner.removeAttr("style");
+
+            $.get("@Url.Action("GetJSON", "AjaxTest")", { id: 42, msg: "HelloWorldFromJsom", delay: "1000" })
+                .done(data => {
+                    console.log("AJAX-request to server success");
+
+                    let panel = $("#panel-js");
+                    panel.empty();
+                    panel.append("<h5>Представление AJAX вручную</h5>");
+                    panel.append("<p>msg: " + data.message + "</p>");
+                    panel.append("<p>Server time: " + data.serverTime + "</p>");
+
+                    spinner.css("display", "none");
+                });
+
+        });
+    </script>
+
+    <!-- development version vuejs, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+    
+    @*Исплользование Vie.js*@
+    <script>
+        let AjaxTestVueApp = {
+            data() {
+                return {
+                    message: '',
+                    serverTime: '',
+                    seen: false,
+                    wait: false
+                }
+            },
+            methods: {
+                loadTestAjaxMessage() {
+                    this.wait = true;
+                    $.get("@Url.Action("GetJSON", "AjaxTest")", { id: 42, msg: "HelloWorldFromJsom", delay: "1000" })
+                        .done(data => {
+                            this.message = data.message;
+                            this.serverTime = data.serverTime;
+                            this.wait = false;
+                            this.seen = true;
+                        }).fail(() => {
+                            console.log("AJAX-request to server fail");
+                        });
+                }
+            }
+        };
+        let vm = Vue.createApp(AjaxTestVueApp).mount('#vue-app');
+    </script>
+}

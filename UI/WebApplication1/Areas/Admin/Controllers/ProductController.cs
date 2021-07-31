@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApplication1.Domain.Entities;
 using WebApplication1.Domain.Identity;
+using WebApplication1.Domain.Model;
 using WebApplication1.Domain.WebModel;
 using WebApplication1.Domain.WebModel.Admin;
 using WebApplication1.Interfaces.Services;
@@ -42,7 +43,14 @@ namespace WebApplication1.Areas.Admin.Controllers
 
         public IActionResult Index(string name, int page = 1, ProductEditSortState sortOrder = ProductEditSortState.NameAsc)
         {
-            var products = _ProductData.GetProducts();
+            int pageSize = 6;
+            var filter = new ProductFilter
+            {
+                Page = page,
+                PageSize = pageSize,
+            };
+            var productsPage = _ProductData.GetProducts(filter);
+            var products = productsPage.Products;
 
             if (!String.IsNullOrEmpty(name))
             {
@@ -63,15 +71,14 @@ namespace WebApplication1.Areas.Admin.Controllers
                 _ => products.OrderBy(p => p.Name),
             };
 
-            int pageSize = 6;
-            var count = products!.Count();
-            products = products.Skip((page - 1) * pageSize).Take(pageSize);
+            //var count = products!.Count();
+            //products = products.Skip((page - 1) * pageSize).Take(pageSize);
 
             var webModel = new IndexProductEditViewModel
             {
                 FilterViewModel = new ProductEditFilterViewModel(name),
                 SortViewModel = new ProductEditSortViewModel(sortOrder),
-                PageViewModel = new PageViewModel(count, page, pageSize),
+                PageViewModel = new PageWebModel(productsPage.TotalCount, page, pageSize),
                 Products = _mapperProductToView.Map<IEnumerable<EditProductWebModel>>(products.ToList()),
             };
             return View(webModel);

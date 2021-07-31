@@ -79,7 +79,7 @@ namespace WebApplication1.Services.Services
             var products = _productData.GetProducts(new ProductFilter
             {
                 Ids = cart.Items.Select(item => item.ProductId).ToArray()
-            });
+            })?.Products;
 
             var productViews = _mapperProductToView
                 .Map<IEnumerable<ProductWebModel>>(products).ToDictionary(p => p.Id);
@@ -88,7 +88,7 @@ namespace WebApplication1.Services.Services
             {
                 Items = cart.Items
                     .Where(p => productViews.ContainsKey(p.ProductId))
-                    .Select(p => (productViews[p.ProductId], p.Quantity, productViews[p.ProductId].Price * p.Quantity))
+                    .Select(p => (productViews[p.ProductId], p.Quantity)),
             };
         }
     }

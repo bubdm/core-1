@@ -30,10 +30,10 @@ namespace WebApplication1.WebAPI.Clients.Products
         {
             return Get<BrandDTO>($"{Address}/brands/{id}").FromDTO();
         }
-        public IEnumerable<Product> GetProducts(ProductFilter productFilter = null)
+        public ProductsPage GetProducts(ProductFilter productFilter = null)
         {
             var response = Post($"{Address}/get", productFilter ?? new ProductFilter());
-            var products =  response.Content.ReadFromJsonAsync<IEnumerable<ProductDTO>>().Result;
+            var products =  response.Content.ReadFromJsonAsync<ProductPageDTO>().Result;
             return products.FromDTO();
         }
         public Product GetProductById(int id)

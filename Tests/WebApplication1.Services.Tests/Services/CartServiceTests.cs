@@ -35,18 +35,22 @@ namespace WebApplication1.Services.Tests.Services
             _productDataMock = new Mock<IProductData>();
             _productDataMock
                 .Setup(p => p.GetProducts(It.IsAny<ProductFilter>()))
-                .Returns(Enumerable.Range(1, 5).Select(i => new Product
+                .Returns(new ProductsPage
                 {
-                    Id = i,
-                    Name = $"Product {i}",
-                    Price = 1.1m * i,
-                    Order = i,
-                    ImageUrl = $"image_{i}.jpg",
-                    BrandId = i,
-                    Brand = new Brand{Id = i, Name = $"Тестовый бренд {i}", Order = i},
-                    SectionId = i,
-                    Section = new Section{Id = i, Name = $"Категория {i}", Order = i},
-                }));
+                    Products = Enumerable.Range(1, 5).Select(i => new Product
+                    {
+                        Id = i,
+                        Name = $"Product {i}",
+                        Price = 1.1m * i,
+                        Order = i,
+                        ImageUrl = $"image_{i}.jpg",
+                        BrandId = i,
+                        Brand = new Brand{Id = i, Name = $"Тестовый бренд {i}", Order = i},
+                        SectionId = i,
+                        Section = new Section{Id = i, Name = $"Категория {i}", Order = i},
+                    }),
+                    TotalCount = 5,
+                });
 
             _cartStoreMock = new Mock<ICartStore>();
             _cartStoreMock.Setup(c => c.Cart).Returns(_cart);
@@ -71,9 +75,9 @@ namespace WebApplication1.Services.Tests.Services
             const int expectedCount = 3;
             var cartWebModel = new CartWebModel
             {
-                Items = new List<(ProductWebModel Product, int Quantity, decimal Sum)>{
-                    new (new ProductWebModel { Id = 1, Name = "Product 1", Price = 0.5m }, 1, 0.5m),
-                    new (new ProductWebModel { Id = 2, Name = "Product 2", Price = 1.5m }, 2, 3m)
+                Items = new List<(ProductWebModel Product, int Quantity)>{
+                    new (new ProductWebModel { Id = 1, Name = "Product 1", Price = 0.5m }, 1),
+                    new (new ProductWebModel { Id = 2, Name = "Product 2", Price = 1.5m }, 2)
                 }
             };
 
@@ -87,9 +91,9 @@ namespace WebApplication1.Services.Tests.Services
         {
             var cartWebModel = new CartWebModel
             {
-                Items = new List<(ProductWebModel Product, int Quantity, decimal Sum)>{
-                    new (new ProductWebModel { Id = 1, Name = "Product 1", Price = 0.5m }, 1, 0.5m),
-                    new (new ProductWebModel { Id = 2, Name = "Product 2", Price = 1.5m }, 2, 3m)
+                Items = new List<(ProductWebModel Product, int Quantity)>{
+                    new (new ProductWebModel { Id = 1, Name = "Product 1", Price = 0.5m }, 1),
+                    new (new ProductWebModel { Id = 2, Name = "Product 2", Price = 1.5m }, 2)
                 }
             };
             decimal expectedTotalPrice = cartWebModel.Items.Sum(i => i.Quantity * i.Product.Price);

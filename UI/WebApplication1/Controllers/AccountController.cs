@@ -128,5 +128,16 @@ namespace WebApplication1.Controllers
             #endregion
             return View();
         }
+
+        #region Web-API
+
+        [AllowAnonymous]
+        public async Task<IActionResult> IsNameFree(string UserName)
+        {
+            var user = await _userManager.FindByNameAsync(UserName);
+            return Json(user is null ? "true" : "Пользователь с таким имененм уже существует");
+        }
+
+        #endregion
     }
 }

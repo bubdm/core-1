@@ -1,0 +1,47 @@
+﻿@page "/persons"
+@using WebApplication1Blazor.Models
+@using System.Diagnostics
+
+@inject HttpClient http
+@code
+{
+    public Person[] persons = Array.Empty<Person>();
+}
+
+<h3>Persons</h3>
+
+@if (persons is null)
+{
+    <p>Загрузка данных ...</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Отчество</th>
+                <th>Возраст</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var person in persons)
+            {
+                <tr>
+                    <td>@person.LastName</td>
+                    <td>@person.FirstName</td>
+                    <td>@person.Patronymic</td>
+                    <td>@person.Age</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        persons = await http.GetFromJsonAsync<Person[]>("persons/detall");
+    }
+}

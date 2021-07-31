@@ -1,4 +1,7 @@
-﻿using System.Diagnostics;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -96,6 +99,13 @@ namespace WebApplication1.Controllers
                 return BadRequest();
             _PersonsData.Delete(id);
             return RedirectToAction("Index");
+        }
+
+        [AllowAnonymous]
+        public async Task<IEnumerable<Person>> GetAll()
+        {
+            await Task.Delay(2000);
+            return _PersonsData.GetAll();
         }
     }
 }

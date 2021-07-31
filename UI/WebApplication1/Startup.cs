@@ -136,7 +136,10 @@ namespace WebApplication1
                 endpoints.MapDefaultControllerRoute();
 
                 endpoints.MapFallbackToFile("blazor.html");
+                //endpoints.MapFallbackToFile("/blazor/{*path:nonfile}", "blazor.html");
             });
+
+
         }
     }
 }

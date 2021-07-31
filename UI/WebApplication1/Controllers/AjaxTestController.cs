@@ -14,7 +14,7 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public async Task<IActionResult> GetHTML(int? id, string msg, int Delay = 2000)
+        public async Task<IActionResult> GetHTML(int? id, string msg, int Delay = 1000)
         {
             await Task.Delay(Delay);
 
@@ -24,6 +24,18 @@ namespace WebApplication1.Controllers
                     Id = id ?? 1,
                     Message = msg,
                 });
+        }
+
+        public async Task<IActionResult> GetJSON(int? id, string msg, int Delay = 1000)
+        {
+            await Task.Delay(Delay);
+
+            return Json(new
+            {
+                Id = id ?? 1,
+                Message = $"Response (id:{id ?? 1}): {msg ?? "<null>"}",
+                ServerTime = DateTime.Now
+            });
         }
     }
 }

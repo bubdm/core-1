@@ -52,13 +52,27 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-md-4">
+            <h4>Фреймворк Angular</h4>
+            
+        </div>
+        
+        <div class="col-md-4">
+            <h4>Фреймворк React.js</h4>
+            
+        </div>
+        
         <div class="col-md-4" id="vue-app">
-            <h4>Использование Vue.js</h4>
+            <h4>Фреймворк Vue.js</h4>
 
             <button v-on:click="loadTestAjaxMessage" class="btn btn-default">Загрузить</button>
+            
+            <span v-if="wait">
+                <i class="fa fa-spinner fa-spin"></i>
+            </span>
 
             <div v-if="seen">
-                <h5>Представление Frontend фреймворка</h5>
+                <h5>Представление фреймворка Vue.js</h5>
                 <p>Сообщение: {{ message }} </p>
                 <p>Время на сервере: {{ serverTime }}</p>
             </div>
@@ -108,27 +122,31 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
     
     @*Исплользование Vie.js*@
-<script>
-    let AjaxTestVueApp = {
-        data() {
-            return {
-                message: 'Привет Vue!',
-                serverTime: '',
-                seen: false,
+    <script>
+        let AjaxTestVueApp = {
+            data() {
+                return {
+                    message: '',
+                    serverTime: '',
+                    seen: false,
+                    wait: false
+                }
+            },
+            methods: {
+                loadTestAjaxMessage() {
+                    this.wait = true;
+                    $.get("@Url.Action("GetJSON", "AjaxTest")", { id: 42, msg: "HelloWorldFromJsom", delay: "1000" })
+                        .done(data => {
+                            this.message = data.message;
+                            this.serverTime = data.serverTime;
+                            this.wait = false;
+                            this.seen = true;
+                        }).fail(() => {
+                            console.log("AJAX-request to server fail");
+                        });
+                }
             }
-        },
-        methods: {
-            loadTestAjaxMessage() {
-                $.get("@Url.Action("GetJSON", "AjaxTest")", { id: 42, msg: "HelloWorldFromJsom", delay: "1000" })
-                    .done(data => {
-                        console.log("AJAX-request to server success");
-                        this.message = data.message;
-                        this.serverTime = data.serverTime;
-                        this.seen = true;
-                    });
-            }
-        }
-    };
-    let vm = Vue.createApp(AjaxTestVueApp).mount('#vue-app');
-</script>
+        };
+        let vm = Vue.createApp(AjaxTestVueApp).mount('#vue-app');
+    </script>
 }

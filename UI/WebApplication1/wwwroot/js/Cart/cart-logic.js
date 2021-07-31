@@ -25,16 +25,16 @@
         let id = button.data("id");
 
         $.get(Cart._properties.addToCartLink + "/" + id)
-            .done(function (text) {
+            .done(text => {
                 Cart.showToolTip(button, text.message);
                 Cart.refreshCartView();
             })
-            .fail(function () {
+            .fail( () => {
                 console.log("addToCart fail");
             });
     },
 
-    plusItemInCart: function () {
+    plusItemInCart: function (event) {
         event.preventDefault();
 
         let button = $(this);
@@ -43,13 +43,13 @@
         var tr = button.closest("tr");
 
         $.get(Cart._properties.addToCartLink + "/" + id)
-            .done(function () {
+            .done( () => {
                 let count = parseInt($(".cart_quantity_input", tr).val());
                 $(".cart_quantity_input", tr).val(count + 1);
                 Cart.refreshPrice(tr);
                 Cart.refreshCartView();
             })
-            .fail(function () {
+            .fail( () => {
                 console.log("plusItemInCart fail");
             });
     },
@@ -63,7 +63,7 @@
         var tr = button.closest("tr");
 
         $.get(Cart._properties.minusFromCartLink + "/" + id)
-            .done(function() {
+            .done(() => {
                 let count = parseInt($(".cart_quantity_input", tr).val());
                 if (count > 1) {
                     $(".cart_quantity_input", tr).val(count - 1);
@@ -74,7 +74,7 @@
                 }
                 Cart.refreshCartView();
             })
-            .fail(function() {
+            .fail( () => {
                 console.log("minusItemFromCart fail");
             });
     },
@@ -88,11 +88,11 @@
         var tr = button.closest("tr");
 
         $.get(Cart._properties.removeFromCartLink + "/" + id)
-            .done(function() {
+            .done( () => {
                 tr.remove();
                 Cart.refreshTotalPrice();
                 Cart.refreshCartView();
-            }).fail(function() {
+            }).fail( () => {
                 console.log("removeItemFromCart fail");
             });
     },
@@ -101,20 +101,20 @@
         event.preventDefault();
 
         $.get(Cart._properties.clearCartLink)
-            .done(function() {
+            .done( () => {
                 $(".cart_total_price").closest("tr").each(function() {
                     this.remove();
                 });
                 Cart.refreshTotalPrice();
                 Cart.refreshCartView();
-            }).fail(function() {
+            }).fail( () => {
                 console.log("cleatItemsInCart fail");
             });
     },
 
     showToolTip: function (button, message) {
         button.tooltip({ title: message }).tooltip("show");
-        setTimeout(function () {
+        setTimeout( () => {
             button.tooltip("destroy");
         }, 1000);
     },
@@ -122,10 +122,10 @@
     refreshCartView: function () {
         var container = $("#cart-container");
         $.get(Cart._properties.getCartViewLink)
-            .done(function (cartHtml) {
+            .done( cartHtml => {
                 container.html(cartHtml);
             })
-            .fail(function () {
+            .fail( () => {
                 console.log("refreshCartView fail");
             });
     },

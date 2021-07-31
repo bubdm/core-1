@@ -38,15 +38,15 @@ Catalog = {
                     container.LoadingOverlay("hide");
 
                     $.get(Catalog._properties.getCatalogPagination + "?" + query)
-                        .done(function (paginationHtml) {
+                        .done(paginationHtml => {
                             let pagination = $("#catalog-pagination-container");
                             pagination.html(paginationHtml);
                             $(".pagination li a").click(Catalog.clickOnPage);
-                        }).fail(function () {
+                        }).fail( () => {
                             console.log("getCatalogPagination fail");
                         });
 
-                }).fail(function () {
+                }).fail( () => {
                     container.LoadingOverlay("hide");
                     console.log("clickOnPage fail");
                 });

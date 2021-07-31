@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApplication1.Domain.WebModel.AjaxTest;
 
 namespace WebApplication1.Controllers
 {
@@ -11,6 +12,18 @@ namespace WebApplication1.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public async Task<IActionResult> GetHTML(int? id, string msg, int Delay = 2000)
+        {
+            await Task.Delay(Delay);
+
+            return PartialView("Partial/_TestDataViewPartial", 
+                new AjaxTestDataWebModel
+                {
+                    Id = id ?? 1,
+                    Message = msg,
+                });
         }
     }
 }

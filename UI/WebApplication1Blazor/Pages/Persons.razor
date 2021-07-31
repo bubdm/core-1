@@ -42,7 +42,6 @@ else
 @code {
     protected override async Task OnInitializedAsync()
     {
-        Debug.WriteLine(http.BaseAddress);
-        persons = await http.GetFromJsonAsync<Person[]>("persons/detall");
+        persons = await http.GetFromJsonAsync<Person[]>("persons/getall");
     }
 }

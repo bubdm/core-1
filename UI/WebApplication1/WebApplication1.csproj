@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="5.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.7">
@@ -53,6 +54,7 @@
     <ProjectReference Include="..\..\Services\WebApplication1.Interfaces\WebApplication1.Interfaces.csproj" />
     <ProjectReference Include="..\..\Services\WebApplication1.Services\WebApplication1.Services.csproj" />
     <ProjectReference Include="..\..\Services\WebApplication1.WebAPI.Clients\WebApplication1.WebAPI.Clients.csproj" />
+    <ProjectReference Include="..\WebApplication1Blazor\WebApplication1Blazor.csproj" />
   </ItemGroup>
 
   <ItemGroup>

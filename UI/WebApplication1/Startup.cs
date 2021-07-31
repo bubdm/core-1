@@ -83,6 +83,8 @@ namespace WebApplication1
                 .AddRazorRuntimeCompilation();
 
             services.AddSignalR();
+
+            services.AddRazorPages();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory log/*, IServiceProvider service*/)
         {
@@ -91,7 +93,10 @@ namespace WebApplication1
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseWebAssemblyDebugging();
             }
+
+            app.UseBlazorFrameworkFiles();
 
             app.UseStaticFiles();
 
@@ -129,6 +134,8 @@ namespace WebApplication1
                 );
 
                 endpoints.MapDefaultControllerRoute();
+
+                endpoints.MapFallbackToFile("blazor.html");
             });
         }
     }

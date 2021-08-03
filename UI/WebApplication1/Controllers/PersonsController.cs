@@ -27,7 +27,7 @@ namespace WebApplication1.Controllers
         {
             return View(_PersonsData.GetAll());
         }
-        
+
         public IActionResult Details(int id)
         {
             var person = _PersonsData.Get(id);

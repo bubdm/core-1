@@ -38,7 +38,8 @@ namespace WebApplication1.Services.Services
         {
             IQueryable<Product> query = _context.Products
                 .Include(p => p.Section)
-                .Include(p => p.Brand);
+                .Include(p => p.Brand)
+                .Where(p => !p.IsDelete);
             if (productFilter?.Ids?.Length > 0)
             {
                 query = query.Where(p => productFilter.Ids.Contains(p.Id));
@@ -101,8 +102,11 @@ namespace WebApplication1.Services.Services
 
         public bool Delete(int id)
         {
-            if (GetProductById(id) is not { } person) return false;
-            _context.Remove(person);
+            if (GetProductById(id) is { } person)
+                person.IsDelete = true; //установка флага удаления товара
+            else
+                return false;
+            //_context.Remove(person);
             _context.SaveChanges();
             return true;
         }

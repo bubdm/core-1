@@ -20,5 +20,7 @@ namespace WebApplication1.Domain.Entities
 
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
+        /// <summary> Товар удален из актуальных данных </summary>
+        public bool IsDelete { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿@{
+﻿@using WebApplication1.Blazor
+@{
     ViewBag.Title = "Тестирование ненавязчивого Ajax";
 }
 
@@ -76,6 +77,15 @@
             </div>
         </div>
     </div>
+    
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Использование Blazor Server</h4>
+            
+            <component type="typeof(AjaxTestSampleBlazor)" render-mode="Server"/>
+        </div>
+    </div>
+
     <div class="row">
         <a class="btn btn-default"
            data-ajax="true"

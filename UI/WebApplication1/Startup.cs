@@ -83,6 +83,8 @@ namespace WebApplication1
                 .AddRazorRuntimeCompilation();
 
             services.AddSignalR();
+
+            services.AddServerSideBlazor();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory log/*, IServiceProvider service*/)
         {
@@ -129,6 +131,8 @@ namespace WebApplication1
                 );
 
                 endpoints.MapDefaultControllerRoute();
+
+                endpoints.MapBlazorHub();
             });
         }
     }

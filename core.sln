@@ -37,7 +37,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication1.Services.Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication1.WebAPI.IntegrationTests", "Tests\WebApplication1.WebAPI.IntegrationTests\WebApplication1.WebAPI.IntegrationTests.csproj", "{036170FA-E572-4BF2-BD79-666C6E79F6DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1.IntegrationTests", "Tests\WebApplication1.IntegrationTests\WebApplication1.IntegrationTests.csproj", "{BCA1186D-215E-4AB5-AFCB-B41F18967699}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication1.IntegrationTests", "Tests\WebApplication1.IntegrationTests\WebApplication1.IntegrationTests.csproj", "{BCA1186D-215E-4AB5-AFCB-B41F18967699}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

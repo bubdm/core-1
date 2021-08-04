@@ -70,5 +70,11 @@ namespace WebApplication1.WebAPI.Controllers
             var result = _ProductData.Delete(id);
             return result ? Ok(true) : NotFound(false);
         }
+
+        [HttpGet("keywords")]
+        public IActionResult GetKeywords() => Ok(_ProductData.GetKeywords().ToDto());
+
+        [HttpGet("keywords/{id}")]
+        public IActionResult GetKeyword(int id) => Ok(_ProductData.GetKeyword(id).ToDto());
     }
 }

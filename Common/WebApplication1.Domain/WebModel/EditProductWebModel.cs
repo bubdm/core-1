@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
+using WebApplication1.Domain.Entities;
 
 namespace WebApplication1.Domain.WebModel
 {
@@ -37,5 +39,8 @@ namespace WebApplication1.Domain.WebModel
 
         [Display(Name = "Бренд")]
         public string BrandName { get; set; }
+
+        [Display(Name = "Ключевые слова")]
+        public ICollection<int> Keywords { get; set; }
     }
 }

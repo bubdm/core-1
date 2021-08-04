@@ -121,5 +121,15 @@ namespace WebApplication1.Services.Services
         {
             throw new NotImplementedException();
         }
+
+        public IEnumerable<Keyword> GetKeywords()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Keyword GetKeyword(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

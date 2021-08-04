@@ -55,5 +55,13 @@ namespace WebApplication1.WebAPI.Clients.Products
             var result = Delete($"{Address}/{id}").IsSuccessStatusCode;
             return result;
         }
+        public IEnumerable<Keyword> GetKeywords()
+        {
+            return Get<IEnumerable<KeywordDTO>>($"{Address}/keywords").FromDto();
+        }
+        public Keyword GetKeyword(int id)
+        {
+            return Get<KeywordDTO>($"{Address}/keywords/{id}").FromDto();
+        }
     }
 }

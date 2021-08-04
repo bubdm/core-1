@@ -107,5 +107,12 @@ namespace WebApplication1.Services.Services
             _context.SaveChanges();
             return true;
         }
+
+        public IEnumerable<Keyword> GetKeywords() => _context.Keywords.Include(k => k.Products);
+        public Keyword GetKeyword(int id)
+        {
+            return _context.Keywords
+                .Include(k => k.Products).FirstOrDefault(k => k.Id == id);
+        }
     }
 }

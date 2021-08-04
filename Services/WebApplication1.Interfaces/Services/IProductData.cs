@@ -24,5 +24,9 @@ namespace WebApplication1.Interfaces.Services
         void Update(Product product);
         /// <summary> Удалить продукт </summary>
         bool Delete(int id);
+        /// <summary> Все ключевые слова </summary>
+        IEnumerable<Keyword> GetKeywords();
+        /// <summary> Одно ключевое слово </summary>
+        Keyword GetKeyword(int id);
     }
 }

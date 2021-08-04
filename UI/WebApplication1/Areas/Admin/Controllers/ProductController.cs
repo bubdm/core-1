@@ -14,6 +14,7 @@ using WebApplication1.Domain.Identity;
 using WebApplication1.Domain.Model;
 using WebApplication1.Domain.WebModel;
 using WebApplication1.Domain.WebModel.Admin;
+using WebApplication1.Domain.WebModel.Mappers;
 using WebApplication1.Interfaces.Services;
 
 namespace WebApplication1.Areas.Admin.Controllers
@@ -25,20 +26,11 @@ namespace WebApplication1.Areas.Admin.Controllers
         private readonly IProductData _ProductData;
         private readonly IWebHostEnvironment _AppEnvironment;
 
-        private readonly Mapper _mapperProductToView =
-            new(new MapperConfiguration(c => c.CreateMap<Product, EditProductWebModel>()            
-                .ForMember("SectionName", o => o.MapFrom(p => p.Section.Name))
-                .ForMember("BrandName", o => o.MapFrom(p => p.Brand.Name))));
-        private readonly Mapper _mapperProductFromView;
 
         public ProductController(IProductData productData, IWebHostEnvironment appEnvironment)
         {
             _ProductData = productData;
             _AppEnvironment = appEnvironment;
-            //TODO: нужно попробовать реализовать только создание моделей с идентификаторами
-            _mapperProductFromView = new(new MapperConfiguration(c => c.CreateMap<EditProductWebModel, Product>()
-                .ForMember("Section", o => o.MapFrom(p => _ProductData.GetSection((int)p.SectionId)))
-                .ForMember("Brand", o=>o.MapFrom(p => _ProductData.GetBrand((int)p.BrandId)))));
         }
 
         public IActionResult Index(string name, int page = 1, ProductEditSortState sortOrder = ProductEditSortState.NameAsc)
@@ -71,15 +63,13 @@ namespace WebApplication1.Areas.Admin.Controllers
                 _ => products.OrderBy(p => p.Name),
             };
 
-            //var count = products!.Count();
-            //products = products.Skip((page - 1) * pageSize).Take(pageSize);
-
             var webModel = new IndexProductEditViewModel
             {
                 FilterViewModel = new ProductEditFilterViewModel(name),
                 SortViewModel = new ProductEditSortViewModel(sortOrder),
                 PageViewModel = new PageWebModel(productsPage.TotalCount, page, pageSize),
-                Products = _mapperProductToView.Map<IEnumerable<EditProductWebModel>>(products.ToList()),
+                //Products = _mapperProductToView.Map<IEnumerable<EditProductWebModel>>(products.ToList()),
+                Products = products.ToWeb(),
             };
             return View(webModel);
         }
@@ -99,7 +89,7 @@ namespace WebApplication1.Areas.Admin.Controllers
             {
                 ViewBag.Sections = new SelectList(_ProductData.GetSections(), "Id", "Name");
                 ViewBag.Brands = new SelectList(_ProductData.GetBrands(), "Id", "Name");
-                return View(_mapperProductToView.Map<EditProductWebModel>(product));
+                return View(product.ToWeb());
             }
             return NotFound();
         }
@@ -117,7 +107,7 @@ namespace WebApplication1.Areas.Admin.Controllers
                 return View(model);
             }
 
-            var product = _mapperProductFromView.Map<Product>(model);
+            var product = model.FromWeb();
 
             if (uploadedFile is not null)
             {
@@ -141,7 +131,7 @@ namespace WebApplication1.Areas.Admin.Controllers
                 return BadRequest();
             if (_ProductData.GetProductById(id) is { } product)
             {
-                return View(_mapperProductToView.Map<EditProductWebModel>(product));
+                return View(product.ToWeb());
             }
             return NotFound();
         }

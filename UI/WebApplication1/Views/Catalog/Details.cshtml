@@ -75,6 +75,7 @@
                             <p><b>Состояние:</b> Новое</p>
                             <p><b>Категория:</b> @Model.Section</p>
                             <p><b>Бренд:</b> @Model.Brand</p>
+                            <p><b>Ключевые слова:</b> @foreach(var word in @Model.Keywords) { <span>@word</span> }</p>
                             <a href=""><img src="~/images/product-details/share.png" class="share img-responsive" alt="" /></a>
                         </div><!--/product-information-->
                     </div>

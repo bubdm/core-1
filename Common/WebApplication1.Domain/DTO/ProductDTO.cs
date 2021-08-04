@@ -1,4 +1,6 @@
-﻿namespace WebApplication1.Domain.DTO
+﻿using System.Collections.Generic;
+
+namespace WebApplication1.Domain.DTO
 {
     public class ProductDTO
     {
@@ -9,5 +11,6 @@
         public BrandDTO Brand { get; set; }
         public string ImageUrl { get; set; }
         public decimal Price { get; set; }
+        public IEnumerable<KeywordDTO> Keywords { get; set; }
     }
 }

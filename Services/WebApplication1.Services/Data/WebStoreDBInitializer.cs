@@ -70,6 +70,16 @@ namespace WebApplication1.Services.Data
                 throw;
             }
 
+            try
+            {
+                InitKeywords();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Ошибка в инициализации ключевых слов товаров");
+                throw;
+            }
+
         }
 
         private void InitProducts()
@@ -166,6 +176,32 @@ namespace WebApplication1.Services.Data
             _context.SaveChanges();
         }
 
+        private void InitKeywords()
+        {
+            if (_context.Keywords.Any())
+            {
+                _logger.LogInformation("В бд уже есть ключевые слова");
+                return;
+            }
+            _context.Keywords.AddRange(_keywords);
+            _context.SaveChanges();
+            AddKeywordsToProducts();
+        }
+
+        private void AddKeywordsToProducts()
+        {
+            var one = _context.Products.Find(1);
+            one.Keywords.Add(_context.Keywords.Find(1));
+            var two = _context.Products.Find(2);
+            two.Keywords.Add(_context.Keywords.Find(1));
+            two.Keywords.Add(_context.Keywords.Find(2));
+            var three = _context.Products.Find(3);
+            three.Keywords.Add(_context.Keywords.Find(1));
+            three.Keywords.Add(_context.Keywords.Find(2));
+            three.Keywords.Add(_context.Keywords.Find(3));
+            _context.SaveChanges();
+        }
+
         #region Стремные данные без базы данных
 
         private readonly IEnumerable<Section> _Sections = new[]
@@ -234,6 +270,10 @@ namespace WebApplication1.Services.Data
             Age = p + 20,
             Birthday = new DateTime(1980 + p, 1, 1),
             CountChildren = p,
+        }).ToList();
+        private readonly ICollection<Keyword> _keywords = Enumerable.Range(1, 6).Select(k => new Keyword
+        {
+            Word = $"ключ{k}",
         }).ToList();
 
         #endregion

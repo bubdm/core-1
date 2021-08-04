@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using WebApplication1.Domain.Entities.Base;
 using WebApplication1.Domain.Entities.Base.Interfaces;
 
@@ -20,5 +21,7 @@ namespace WebApplication1.Domain.Entities
 
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
+
+        public ICollection<Keyword> Keywords { get; set; } = new List<Keyword>();
     }
 }

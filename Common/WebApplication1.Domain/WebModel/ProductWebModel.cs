@@ -1,4 +1,7 @@
-﻿namespace WebApplication1.Domain.WebModel
+﻿using System.Collections.Generic;
+using WebApplication1.Domain.DTO;
+
+namespace WebApplication1.Domain.WebModel
 {
     public class ProductWebModel
     {
@@ -8,5 +11,6 @@
         public string ImageUrl { get; set; }
         public string Section { get; set; }
         public string Brand { get; set; }
+        public ICollection<string> Keywords { get; set; }
     }
 }

@@ -16,6 +16,8 @@ namespace WebApplication1.Dal.Context
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
 
+        public DbSet<Keyword> Keywords { get; set; }
+
         public Application1Context(DbContextOptions<Application1Context> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder builder)

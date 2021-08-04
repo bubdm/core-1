@@ -19,8 +19,10 @@ namespace WebApplication1.Controllers
 
         private readonly Mapper _mapperProductToView = new (new MapperConfiguration(c => c.CreateMap<Product, ProductWebModel>()
             .ForMember("Section", o => o.MapFrom(p => p.Section.Name))
-            .ForMember("Brand", o => o.MapFrom(p => p.Brand.Name))));
-        
+            .ForMember("Brand", o => o.MapFrom(p => p.Brand.Name))
+            .ForMember("Keywords", o => o.MapFrom(p => p.Keywords.Select(k => k.Word)))
+        ));
+
         public CatalogController(IProductData productData, IConfiguration configuration)
         {
             _productData = productData;

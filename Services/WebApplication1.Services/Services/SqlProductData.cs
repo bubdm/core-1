@@ -68,6 +68,7 @@ namespace WebApplication1.Services.Services
         public Product GetProductById(int id) => _context.Products
             .Include(p => p.Section)
             .Include(p => p.Brand)
+            .Include(p => p.Keywords)
             .SingleOrDefault(p => p.Id == id);
 
         public int Add(Product product)

@@ -13,9 +13,13 @@ namespace WebApplication1.Controllers
     public class HomeController : Controller
     {
         private readonly IConfiguration _Configuration;
+
         private readonly Mapper _mapperProductToView = new (new MapperConfiguration(c => c.CreateMap<Product, ProductWebModel>()
             .ForMember("Section", o => o.MapFrom(p => p.Section.Name))
-            .ForMember("Brand", o => o.MapFrom(p => p.Brand.Name))));
+            .ForMember("Brand", o => o.MapFrom(p => p.Brand.Name))
+            .ForMember("Keywords", o => o.MapFrom(p => p.Keywords.Select(k => k.Word)))
+        ));
+
         public HomeController(IConfiguration Configuration)
         {
             _Configuration = Configuration;

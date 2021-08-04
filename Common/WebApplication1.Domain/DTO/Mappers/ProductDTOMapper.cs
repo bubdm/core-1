@@ -19,6 +19,7 @@ namespace WebApplication1.Domain.DTO.Mappers
                     Section = product.Section.ToDTO(),
                     ImageUrl = product.ImageUrl,
                     Price = product.Price,
+                    Keywords = product.Keywords.Select(k => k.ToDto()),
                 };
         }
         public static Product FromDTO(this ProductDTO product)
@@ -34,6 +35,7 @@ namespace WebApplication1.Domain.DTO.Mappers
                     Section = product.Section.FromDTO(),
                     ImageUrl = product.ImageUrl,
                     Price = product.Price,
+                    Keywords = product.Keywords.Select(k => k.FromDto()).ToList(),
                 };
         }
         public static IEnumerable<ProductDTO> ToDTO(this IEnumerable<Product> products) => products.Select(ToDTO);

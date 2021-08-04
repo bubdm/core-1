@@ -89,6 +89,7 @@ namespace WebApplication1.Areas.Admin.Controllers
             {
                 ViewBag.Sections = new SelectList(_ProductData.GetSections(), "Id", "Name");
                 ViewBag.Brands = new SelectList(_ProductData.GetBrands(), "Id", "Name");
+                ViewBag.Keywords = new SelectList(_ProductData.GetKeywords(), "Id", "Word");
                 return View(product.ToWeb());
             }
             return NotFound();

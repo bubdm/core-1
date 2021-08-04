@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using WebApplication1.Domain.Entities;
 
@@ -26,6 +27,9 @@ namespace WebApplication1.Domain.WebModel.Mappers
         }
         public static Product FromWeb(this EditProductWebModel product)
         {
+            var keywords = (product.Keywords is null)
+                ? Array.Empty<Keyword>()
+                : product.Keywords?.Select(k => new Keyword {Id = k});
             return product is null
                 ? null
                 : new Product
@@ -39,7 +43,7 @@ namespace WebApplication1.Domain.WebModel.Mappers
                     Section = new Section {Id = (int) product.SectionId},
                     BrandId = (int)product.BrandId,
                     Brand = new Brand {Id = (int) product.BrandId},
-                    Keywords = product.Keywords.Select(k => new Keyword {Id = k}).ToList(),
+                    Keywords = keywords.ToList(),
                 };
         }
         public static IEnumerable<EditProductWebModel> ToWeb(this IEnumerable<Product> products) => products.Select(ToWeb);

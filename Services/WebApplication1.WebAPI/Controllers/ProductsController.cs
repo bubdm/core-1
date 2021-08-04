@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Domain.DTO;
 using WebApplication1.Domain.DTO.Mappers;
 using WebApplication1.Domain.Model;
@@ -48,6 +49,7 @@ namespace WebApplication1.WebAPI.Controllers
             prod.Section = null;
             prod.BrandId = prod.Brand?.Id;
             prod.Brand = null;
+            prod.Keywords = prod.Keywords.Select(k => _ProductData.GetKeyword(k.Id)).ToList();
             var id = _ProductData.Add(prod);
             return Ok(id);
         }
@@ -60,6 +62,7 @@ namespace WebApplication1.WebAPI.Controllers
             prod.Section = null;
             prod.BrandId = prod.Brand?.Id;
             prod.Brand = null;
+            prod.Keywords = prod.Keywords.Select(k => _ProductData.GetKeyword(k.Id)).ToList();
             _ProductData.Update(prod);
             return Ok();
         }

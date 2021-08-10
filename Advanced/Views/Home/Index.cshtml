@@ -1,39 +1,9 @@
-﻿@model Advanced.Controllers.PersonsWebModel
+﻿@using Advanced.Blazor
+@model Advanced.Controllers.PersonsWebModel
 @{
     ViewBag.Title = "Работники";
 }
 
 <h4 class="text-center">@ViewBag.Title</h4>
 
-<table class="table table-sm table-bordered table-striped">
-    <thead>
-    <tr>
-        <th>№</th><th>Имя</th><th>Отдел</th><th>Локация</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var p in Model.Persons)
-    {
-        <tr class="@Model.GetClass(p.Location.City)">
-            <td>@p.PersonId</td>
-            <td>@p.SurName, @p.FirstName</td>
-            <td>@p.Department.Name</td>
-            <td>@p.Location.City, @p.Location.State</td>
-        </tr>
-    }
-    </tbody>
-</table>
-
-<form asp-action="Index" method="get">
-    <div class="form-group">
-        <label for="selectedCity">Город</label>
-        <select name="selectedCity" class="form-control">
-            <option disabled selected>Выбери город</option>
-            @foreach (var city in Model.Cities)
-            {
-                <option selected="@(city == Model.SelectedCity)">@city</option>
-            }
-        </select>
-    </div>
-    <button class="btn btn-primary" type="submit">Выбрать</button>
-</form>
+<component type="typeof(PeopleList)" render-mode="Server"/>

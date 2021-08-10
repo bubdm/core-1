@@ -1,0 +1,19 @@
+﻿<div class="m-2 p-2 border">
+    <button class="btn btn-primary" @onclick="IncrementCounter">Увеличить</button>
+    <span class="p-2">Значение счетчика: @Counter</span>
+    <button class="btn btn-primary" @onclick="DecrementCounter">Уменьшить</button>
+</div>
+
+@code {
+    public int Counter { get; set; }
+
+    public void IncrementCounter(MouseEventArgs e)
+    {
+        Counter++;
+    }
+
+    public void DecrementCounter(MouseEventArgs e)
+    {
+        Counter--;
+    }
+}

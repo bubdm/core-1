@@ -1,0 +1,10 @@
+﻿@page "/pages/blazor"
+@using Advanced.Blazor
+
+@{
+    ViewBag.Title = "Блазор страница";
+}
+
+<h4 class="text-center">@ViewBag.Title</h4>
+
+<component type="typeof(Events)" render-mode="Server"/>

@@ -1,10 +1,73 @@
-﻿@page
+﻿@page "/pages"
+@using Advanced.Models
+@using Microsoft.EntityFrameworkCore
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Работники";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h4 class="text-center">@ViewBag.Title</h4>
+
+<table class="table table-sm table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>№</th>
+        <th>Имя</th>
+        <th>Отдел</th>
+        <th>Локация</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var p in Model.Persons)
+    {
+        <tr class="@Model.GetClass(p.Location.City)">
+            <td>@p.PersonId</td>
+            <td>@p.SurName, @p.FirstName</td>
+            <td>@p.Department.Name</td>
+            <td>@p.Location.City, @p.Location.State</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<form asp-action="Index" method="get">
+    <div class="form-group">
+        <label for="selectedCity">Город</label>
+        <select name="selectedCity" class="form-control">
+            <option disabled selected>Выбери город</option>
+            @foreach (var city in Model.Cities)
+            {
+                <option selected="@(city == Model.SelectedCity)">@city</option>
+            }
+        </select>
+    </div>
+    <button class="btn btn-primary" type="submit">Выбрать</button>
+</form>
+
+@functions
+{
+    public class IndexModel : PageModel
+    {
+        private readonly DataContext _context;
+
+        public IndexModel(DataContext context)
+        {
+            _context = context;
+        }
+
+        public IEnumerable<Person> Persons { get; set; }
+        public IEnumerable<string> Cities { get; set; }
+
+        [FromQuery]
+        public string SelectedCity { get; set; }
+
+        public void OnGet()
+        {
+            Persons = _context.Persons.Include(p => p.Department).Include(p => p.Location);
+            Cities = _context.Locations.Select(l => l.City).Distinct();
+        }
+
+        public string GetClass(string city) =>
+            SelectedCity == city ? "bg-info text-white" : "";
+    }
+}

@@ -9,7 +9,9 @@
                 Увеличить @(i + 1)
             </button>
             <span class="p-2">Значение счетчика: @GetCounter(i)</span>
-            <button class="btn btn-dark" @onclick="@(() => DecrementCounter(local))">Уменьшить @(i + 1)</button>
+            <button class="btn btn-dark" 
+                    @onclick="@(() => DecrementCounter(local))"
+                    @onclick:preventDefault="true">Уменьшить @(i + 1)</button>
             <button class="btn btn-info"
                     @onclick="@(() => Counters.Remove(local))"
                     @onclick:preventDefault="true">

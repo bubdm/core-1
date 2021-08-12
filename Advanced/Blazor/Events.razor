@@ -1,13 +1,23 @@
-﻿@for (int i = 0; i < ElementCount; i++)
-{
-    int local = i;
-    <div class="m-2 p-2 border">
-        <button class="btn btn-primary" @onclick="@(() => IncrementCounter(local))">Увеличить @(i + 1)</button>
-        <span class="p-2">Значение счетчика: @GetCounter(i)</span>
-        <button class="btn btn-dark" @onclick="@(() => DecrementCounter(local))">Уменьшить @(i + 1)</button>
-        <button class="btn btn-info" @onclick="@(() => Counters.Remove(local))">Сброс</button>
-    </div>
-}
+﻿<form action="/pages/blazor" method="get">
+    @for (int i = 0; i < ElementCount; i++)
+    {
+        int local = i;
+        <div class="m-2 p-2 border">
+            <button class="btn btn-primary"
+                    @onclick="@(() => IncrementCounter(local))"
+                    @onclick:preventDefault="true">
+                Увеличить @(i + 1)
+            </button>
+            <span class="p-2">Значение счетчика: @GetCounter(i)</span>
+            <button class="btn btn-dark" @onclick="@(() => DecrementCounter(local))">Уменьшить @(i + 1)</button>
+            <button class="btn btn-info"
+                    @onclick="@(() => Counters.Remove(local))"
+                    @onclick:preventDefault="true">
+                Сброс
+            </button>
+        </div>
+    }
+</form>
 
 @code {
     public int ElementCount { get; set; } = 5;
@@ -22,4 +32,5 @@
 
     public void DecrementCounter(int index) =>
         Counters[index] = GetCounter(index) - 1;
+
 }

@@ -1,0 +1,13 @@
+﻿<button class="btn btn-primary"
+        @onclick="@(() => Ascending = !Ascending)">
+    Изменить порядок
+</button>
+
+<ul class="list-group my-red">
+    @foreach (var name in (Ascending) ? Names.OrderBy(n => n) : Names.OrderByDescending(n => n))
+    {
+        <li class="list-group-item">@name</li>
+    }
+</ul>
+
+

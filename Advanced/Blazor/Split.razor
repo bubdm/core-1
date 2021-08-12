@@ -3,10 +3,10 @@
     Изменить порядок
 </button>
 
-<ul class="list-group my-red">
+<ul class="list-group">
     @foreach (var name in (Ascending) ? Names.OrderBy(n => n) : Names.OrderByDescending(n => n))
     {
-        <li class="list-group-item">@name</li>
+        <li class="list-group-item my-red">@name</li>
     }
 </ul>
 

@@ -1,11 +1,37 @@
-﻿<div class="form-group">
+﻿@using System.Globalization
+@code {
+    public string City { get; set; } = "Пенза";
+    public DateTime Time { get; set; } = DateTime.Parse("2021/02/01 09:50");
+    public CultureInfo Culture { get; set; } = CultureInfo.GetCultureInfo("en-us");
+}
+
+<div class="form-group">
     <label>Город:</label>
-    <input class="form-control" @bind="City"/>
+    <input class="form-control" @bind-value="City"
+           @bind-value:event="oninput" />
 </div>
 <div class="p-2" mb-2>Значение города: @City</div>
 <button class="btn btn-primary" @onclick="@(() => City = "Москва")">Москва</button>
 <button class="btn btn-primary" @onclick="@(() => City = "Питер")">Питер</button>
 
-@code {
-    public string City { get; set; } = "Пенза";
+<div class="form-group mt-2">
+    <label>Время:</label>
+    <input class="form-control my-1" @bind="Time" @bind:culture="Culture" @bind:format="dd MMM yyyy"/>
+    <input class="form-control my-1" @bind="Time" @bind:culture="Culture"/>
+    <input class="form-control" type="date" @bind="Time" />
+</div>
+<div class="p-2 mb-2">Значение времени: @Time</div>
+<div class="form-group">
+    <label>Культура:</label>
+    <select class="form-control" @bind="Culture">
+        <option value="@CultureInfo.GetCultureInfo("en-us")">en-us</option>
+        <option value="@CultureInfo.GetCultureInfo("en-gb")">en-gb</option>
+        <option value="@CultureInfo.GetCultureInfo("fr-fr")">fr-fr</option>
+        <option value="@CultureInfo.GetCultureInfo("ru-ru")">ru-ru</option>
+    </select>
+</div>
+
+@code
+{
+
 }

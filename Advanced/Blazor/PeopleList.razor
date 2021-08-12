@@ -1,4 +1,15 @@
-﻿<table class="table table-sm table-bordered table-striped">
+﻿@code
+{
+    [Inject]
+    public DataContext Context { get; set; }
+
+    public IEnumerable<Person> Persons => Context.Persons.Include(p => p.Department).Include(p => p.Location);
+
+    public IEnumerable<string> Cities => Context.Locations.Select(l => l.City);
+    public string SelectedCity { get; set; }
+}
+
+<table class="table table-sm table-bordered table-striped">
     <thead>
         <tr>
             <th>№</th>
@@ -32,15 +43,6 @@
 </div>
 
 @code {
-    [Inject]
-    public DataContext Context { get; set; }
-
-    public IEnumerable<Person> Persons => Context.Persons.Include(p => p.Department).Include(p => p.Location);
-
-    public IEnumerable<string> Cities => Context.Locations.Select(l => l.City);
-    public string SelectedCity { get; set; }
-
     public string GetClass(string city) =>
         SelectedCity == city ? "bg-info text-white" : "";
-
 }

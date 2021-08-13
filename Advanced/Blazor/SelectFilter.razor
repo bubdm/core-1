@@ -1,0 +1,18 @@
+﻿<div class="form-group">
+    <label for="select-@Title">@Title</label>
+    <select name="select-@Title" class="form-control" @bind="SelectedValue">
+        <option disabled selected>Выбери @Title</option>
+        @foreach (var val in Values)
+        {
+            <option value="@val" selected="@(val == SelectedValue)">@val</option>
+        }
+    </select>
+</div>
+
+@code {
+    [Parameter]
+    public IEnumerable<string> Values { get; set; } = Enumerable.Empty<string>();
+    public string SelectedValue { get; set; }
+    [Parameter]
+    public string Title { get; set; } = "Подсказка";
+}

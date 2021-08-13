@@ -31,16 +31,7 @@
     </tbody>
 </table>
 
-<div class="form-group">
-    <label for="selectedCity">Город</label>
-    <select name="selectedCity" class="form-control" @bind="SelectedCity">
-        <option disabled selected>Выбери город</option>
-        @foreach (var city in Cities)
-        {
-            <option value="@city" selected="@(city == SelectedCity)">@city</option>
-        }
-    </select>
-</div>
+<SelectFilter Values="@Cities" Title="Город"/>
 
 @code {
     public string GetClass(string city) =>

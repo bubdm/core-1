@@ -39,14 +39,16 @@
     </tbody>
 </table>
 
-<SelectFilter Values="@Cities" Title="@SelectTitle" CustomEvent="@HandleCustom"/>
+<SelectFilter Values="@Cities" Title="@SelectTitle" @bind-SelectedValue="SelectedCity"/>
+<button class="btn btn-primary" @onclick="@(() => SelectedCity = "Пенза")">Выбрать Пензу</button>
+
 
 @code {
     public string GetClass(string city) =>
         SelectedCity == city ? "bg-info text-white" : "";
 
-    public void HandleCustom(string newValue)
-    {
-        SelectedCity = newValue;
-    }
+    //public void HandleCustom(string newValue)
+    //{
+    //    SelectedCity = newValue;
+    //}
 }

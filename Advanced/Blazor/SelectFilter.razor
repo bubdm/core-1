@@ -1,6 +1,6 @@
 ﻿<div class="form-group">
     <label for="select-@Title">@Title</label>
-    <select name="select-@Title" class="form-control" @bind="SelectedValue">
+    <select name="select-@Title" class="form-control" @onchange="HandleSelect" value="@SelectedValue">
         <option disabled selected>Выбери @Title</option>
         @foreach (var val in Values)
         {
@@ -15,4 +15,12 @@
     public string SelectedValue { get; set; }
     [Parameter]
     public string Title { get; set; } = "Подсказка";
+
+    [Parameter]
+    public EventCallback<string> CustomEvent { get; set; }
+    public async Task HandleSelect(ChangeEventArgs e)
+    {
+        SelectedValue = e.Value as string;
+        await CustomEvent.InvokeAsync(SelectedValue);
+    }
 }

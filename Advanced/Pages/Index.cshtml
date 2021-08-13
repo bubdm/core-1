@@ -10,4 +10,4 @@
 <a asp-controller="Home" asp-action="Index" class="btn btn-dark">На главную HomeController</a>
 <a asp-page="Blazor" class="btn btn-dark">Блазор</a>
 
-<component type="typeof(PeopleList)" render-mode="Server"/>
+<component type="typeof(PeopleList)" render-mode="Server" param-itemcount="5" param-selecttitle="@("Локация")"/>
